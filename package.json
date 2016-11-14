@@ -1,7 +1,7 @@
 {
   "name": "react-native-ui-toolbox",
   "version": "0.0.1",
-  "description": "Just another react native ui toolbox.",
+  "description": "Just another collection of react native ui components.",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

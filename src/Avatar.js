@@ -33,15 +33,13 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   Avatar: {
-    // NOTE: Temp fix for android not supporting overflow hidden.
-    height: 100 - 2 * 2,
-    width: 100 - 2 * 2,
-    borderRadius: (100 - 2 * 2) / 2,
+    height: 100,
+    width: 100,
+    borderRadius: 100 / 2,
   },
 });
 
 export default class Avatar extends Component {
-
   render() {
     const image = this.props.AvatarUrl.length === 0 ? (
       <Icon

@@ -1,0 +1,27 @@
+{
+  "name": "react-native-ui-toolbox",
+  "version": "0.0.1",
+  "description": "Just another react native ui toolbox.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react-native",
+    "ui",
+    "components",
+    "toolkit",
+    "toolbox",
+    "kit",
+    "ui-kit"
+  ],
+  "author": "Philip Chen <lsps9150414@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^3.10.0",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.7.0"
+  }
+}

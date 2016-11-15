@@ -8,7 +8,7 @@ import React, {
   PropTypes,
 } from 'react';
 
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const propTypes = {
   AvatarUrl: PropTypes.string.isRequired,
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    backgroundColor: 'white',
+    backgroundColor: '#555',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 20,
@@ -44,7 +44,7 @@ export default class Avatar extends Component {
     const image = this.props.AvatarUrl.length === 0 ? (
       <Icon
         style={{ backgroundColor: 'transparent' }}
-        name={'user'} size={50} color={'black'}
+        name={'person'} size={80} color={'#fff'}
       />
     ) : (
       <Image

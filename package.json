@@ -1,6 +1,6 @@
 {
   "name": "react-native-ui-toolbox",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Just another collection of react native ui components.",
   "main": "src/index.js",
   "scripts": {

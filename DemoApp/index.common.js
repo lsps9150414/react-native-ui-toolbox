@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import React, { Component } from 'react';
 
-import Avatar from 'react-native-ui-toolbox';
+import { Avatar } from 'react-native-ui-toolbox';
 
 export default class ReactNativeUiToolboxDemoApp extends Component {
   render() {

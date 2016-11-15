@@ -17,7 +17,7 @@
   ],
   "author": "Philip Chen <lsps9150414@gmail.com>",
   "license": "MIT",
-  "peerDependencies": {
+  "dependencies": {
     "react-native-vector-icons": "^3.0.0"
   },
   "devDependencies": {

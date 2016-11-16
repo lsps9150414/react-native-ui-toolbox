@@ -9,6 +9,7 @@ import React, {
   PropTypes,
 } from 'react';
 
+import { DEFAULT_COLORS } from './constants/colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const propTypes = {
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
     width: defaultProps.size,
     height: defaultProps.size,
     borderRadius: defaultProps.size / 2,
-    backgroundColor: '#555',
+    backgroundColor: DEFAULT_COLORS[3].toHexString(),
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',

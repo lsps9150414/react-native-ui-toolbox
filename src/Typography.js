@@ -3,6 +3,7 @@ import React, {
   PropTypes,
 } from 'react';
 
+import { DEFAULT_COLORS } from './constants/colors';
 import {
   Text,
 } from 'react-native';
@@ -77,18 +78,9 @@ const propTypes = {
   }),
 };
 
-const defaultProps = {
-  // theme: {
-  //   color: '#000',
-  //   fontSizeBase: 12,
-  //   fontStyle: 'normal',
-  //   fontWeight: 'normal',
-  //   textDecorationLine: 'none',
-  // },
-};
+const defaultProps = {};
 
 const defaultTheme = {
-  color: '#000',
   fontSizeBase: 12,
   fontStyle: 'normal',
   fontWeight: 'normal',
@@ -105,7 +97,7 @@ export class Heading extends Component {
         style={[
           // Default
           {
-            color: defaultTheme.color,
+            color: DEFAULT_COLORS[0].toHexString(),
             fontSize: defaultTheme.fontSizeBase * 2,
             fontStyle: defaultTheme.fontStyle,
             fontWeight: defaultTheme.fontWeight,
@@ -153,7 +145,7 @@ export class Title extends Component {
         style={[
           // Default
           {
-            color: defaultTheme.color,
+            color: DEFAULT_COLORS[1].toHexString(),
             fontSize: defaultTheme.fontSizeBase * 1.5,
             fontStyle: defaultTheme.fontStyle,
             fontWeight: defaultTheme.fontWeight,
@@ -201,7 +193,7 @@ export class Subtitle extends Component {
         style={[
           // Default
           {
-            color: defaultTheme.color,
+            color: DEFAULT_COLORS[2].toHexString(),
             fontSize: defaultTheme.fontSizeBase * 1.2,
             fontStyle: defaultTheme.fontStyle,
             fontWeight: defaultTheme.fontWeight,
@@ -249,7 +241,7 @@ export class BodyText extends Component {
         style={[
           // Default
           {
-            color: defaultTheme.color,
+            color: DEFAULT_COLORS[3].toHexString(),
             fontSize: defaultTheme.fontSizeBase,
             fontStyle: defaultTheme.fontStyle,
             fontWeight: defaultTheme.fontWeight,

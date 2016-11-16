@@ -16,9 +16,11 @@
     "ui-kit"
   ],
   "author": "Philip Chen <lsps9150414@gmail.com>",
+  "repository": "https://github.com/lsps9150414/react-native-ui-toolbox",
   "license": "MIT",
   "dependencies": {
-    "react-native-vector-icons": "^3.0.0"
+    "react-native-vector-icons": "^3.0.0",
+    "tinycolor2": "^1.4.1"
   },
   "devDependencies": {
     "eslint": "^3.10.0",

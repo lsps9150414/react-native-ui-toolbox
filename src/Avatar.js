@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const propTypes = {
   style: View.propTypes.style,
-  source: PropTypes.string.isRequired,
+  source: PropTypes.object.isRequired,
   size: PropTypes.number,
   onPress: PropTypes.func,
 };
@@ -45,17 +45,16 @@ export default class Avatar extends Component {
       width: this.props.size, height: this.props.size, borderRadius: this.props.size / 2,
     } : null;
     const containerStyles = [styles.container, customedSize, this.props.style];
-
-    const display = !this.props.source ? (
-      <Icon
-        style={{ backgroundColor: 'transparent' }}
-        name={'person'} size={this.props.size * 0.8} color={'#fff'}
-      />
-    ) : (
+    const display = (this.props.source && this.props.source.uri) ? (
       <Image
         source={this.props.source}
         style={[styles.avatar, customedSize]}
         resizeMode={'cover'}
+      />
+    ) : (
+      <Icon
+        style={{ backgroundColor: 'transparent' }}
+        name={'person'} size={this.props.size * 0.8} color={'#fff'}
       />
     );
 

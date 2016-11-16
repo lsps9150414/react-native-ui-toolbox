@@ -15,6 +15,7 @@ const textShadowOffsetPropTypes = PropTypes.shape({ width: PropTypes.number, hei
 
 const propTypes = {
   children: PropTypes.string.isRequired,
+  style: Text.propTypes.style,
   theme: PropTypes.shape({
     // Color
     color: PropTypes.string,
@@ -124,6 +125,8 @@ export class Heading extends Component {
           theme.textShadowColorHeading && { textShadowColor: theme.textShadowColorHeading },
           theme.textShadowOffsetHeading && { textShadowOffset: theme.textShadowOffsetHeading },
           theme.textShadowRadiusHeading && { textShadowRadius: theme.textShadowRadiusHeading },
+          // Custom
+          this.props.style,
         ]}
       >
         {this.props.children}
@@ -172,6 +175,8 @@ export class Title extends Component {
           theme.textShadowColorTitle && { textShadowColor: theme.textShadowColorTitle },
           theme.textShadowOffsetTitle && { textShadowOffset: theme.textShadowOffsetTitle },
           theme.textShadowRadiusTitle && { textShadowRadius: theme.textShadowRadiusTitle },
+          // Custom
+          this.props.style,
         ]}
       >
         {this.props.children}
@@ -220,6 +225,8 @@ export class Subtitle extends Component {
           theme.textShadowColorSubtitle && { textShadowColor: theme.textShadowColorSubtitle },
           theme.textShadowOffsetSubtitle && { textShadowOffset: theme.textShadowOffsetSubtitle },
           theme.textShadowRadiusSubtitle && { textShadowRadius: theme.textShadowRadiusSubtitle },
+          // Custom
+          this.props.style,
         ]}
       >
         {this.props.children}
@@ -268,6 +275,8 @@ export class BodyText extends Component {
           theme.textShadowColorBodyText && { textShadowColor: theme.textShadowColorBodyText },
           theme.textShadowOffsetBodyText && { textShadowOffset: theme.textShadowOffsetBodyText },
           theme.textShadowRadiusBodyText && { textShadowRadius: theme.textShadowRadiusBodyText },
+          // Custom
+          this.props.style,
         ]}
       >
         {this.props.children}

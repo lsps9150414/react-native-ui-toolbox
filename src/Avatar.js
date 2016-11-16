@@ -1,6 +1,7 @@
 import {
   Image,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import React, {
@@ -11,53 +12,66 @@ import React, {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const propTypes = {
-  AvatarUrl: PropTypes.string.isRequired,
+  style: View.propTypes.style,
+  source: PropTypes.string.isRequired,
+  size: PropTypes.number,
+  onPress: PropTypes.func,
 };
 
-const defaultProps = {};
+const defaultProps = {
+  size: 100,
+};
 
 const styles = StyleSheet.create({
-  AvatarAreaContainer: {
-    height: 160,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  AvatarContainer: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+  container: {
+    width: defaultProps.size,
+    height: defaultProps.size,
+    borderRadius: defaultProps.size / 2,
     backgroundColor: '#555',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 20,
     overflow: 'hidden',
   },
-  Avatar: {
-    height: 100,
-    width: 100,
-    borderRadius: 100 / 2,
+  avatar: {
+    height: defaultProps.size,
+    width: defaultProps.size,
+    borderRadius: defaultProps.size / 2,
   },
 });
 
 export default class Avatar extends Component {
   render() {
-    const image = this.props.AvatarUrl.length === 0 ? (
+    const customedSize = this.props.size ? {
+      width: this.props.size, height: this.props.size, borderRadius: this.props.size / 2,
+    } : null;
+    const containerStyles = [styles.container, customedSize, this.props.style];
+
+    const display = !this.props.source ? (
       <Icon
         style={{ backgroundColor: 'transparent' }}
-        name={'person'} size={80} color={'#fff'}
+        name={'person'} size={this.props.size * 0.8} color={'#fff'}
       />
     ) : (
       <Image
-        source={{ uri: this.props.AvatarUrl }}
-        style={styles.Avatar}
+        source={this.props.source}
+        style={[styles.avatar, customedSize]}
         resizeMode={'cover'}
       />
     );
+
+    if (this.props.onPress) {
+      return (
+        <TouchableOpacity
+          {...this.props}
+          style={containerStyles}
+        >
+          {display}
+        </TouchableOpacity>
+      );
+    }
     return (
-      <View style={styles.AvatarAreaContainer}>
-        <View style={styles.AvatarContainer}>
-          {image}
-        </View>
+      <View style={containerStyles}>
+        {display}
       </View>
     );
   }

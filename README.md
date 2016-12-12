@@ -10,6 +10,11 @@ Just another collection of react native ui components.
   - [x] BodyText
 
 ## Roadmap
+- [ ] Inputs (with validation, custom state styles)
+  - [ ] TextInput
+  - [ ] Picker
+  - [ ] datePicker (migrate from react-native-easy-form)
+- [ ] Avatar Editor
 
 ## Installation
 Inside your project:

@@ -1,4 +1,5 @@
+import _InputHOC from './InputHOC';
 import _TextInput from './TextInput';
-import InputHOC from './InputHOC';
 
-export const TextInput = InputHOC(_TextInput);
+export const InputHOC = _InputHOC;
+export const TextInput = _InputHOC(_TextInput);

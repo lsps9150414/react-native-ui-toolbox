@@ -1,6 +1,6 @@
 import Avatar from './Avatar';
 import { BodyText, Heading, Subtitle, Title } from './Typography';
-import { TextInput } from './formInputs';
+import { InputHOC, TextInput } from './formInputs';
 
 export {
   Avatar,
@@ -9,4 +9,5 @@ export {
   Subtitle,
   BodyText,
   TextInput,
+  InputHOC,
 };

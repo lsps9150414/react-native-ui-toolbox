@@ -3,6 +3,7 @@ import React, {
   PropTypes,
 } from 'react';
 import {
+  StyleSheet,
   Text,
   View,
 } from 'react-native';
@@ -10,10 +11,13 @@ import {
 /* eslint-disable react/no-unused-prop-types */
 const propTypes = {
   containerStyle: View.propTypes.style,
+  errorContainerStyle: View.propTypes.style,
+  errorText: PropTypes.string,
+  errorTextStyle: View.propTypes.style,
   inputStyle: Text.propTypes.style,
   invalidContainerStyle: View.propTypes.style,
   invalidInputStyle: Text.propTypes.style,
-  onFocus: PropTypes.func,
+  onChange: PropTypes.func,
   validator: PropTypes.func,
   validContainerStyle: View.propTypes.style,
   validInputStyle: Text.propTypes.style,
@@ -22,6 +26,15 @@ const propTypes = {
 /* eslint-enable react/no-unused-prop-types */
 
 const defaultProps = {};
+
+const styles = StyleSheet.create({
+  errorContainer: {
+    marginHorizontal: 20,
+  },
+  errorText: {
+    color: '#ff0000',
+  },
+});
 
 export default (InnerComponent) => {
   class InputHOC extends Component {
@@ -60,8 +73,8 @@ export default (InnerComponent) => {
       };
     }
     handleOnFocus() {
-      if (this.props.onFocus) {
-        this.props.onFocus();
+      if (this.props.onChange) {
+        this.props.onChange();
       }
       if (!this.state.touched) {
         this.setState({ touched: true });
@@ -73,14 +86,27 @@ export default (InnerComponent) => {
         containerStyle,
         inputStyle,
       } = this.getValidationStyles(this.state.touched, this.props.validator, this.props.value);
+      const displayError =
+        this.props.errorText && this.props.validator &&
+        !this.props.validator(this.props.value) && this.state.touched;
 
       return (
-        <InnerComponent
-          {...this.props}
-          onFocus={this.handleOnFocus}
-          containerStyle={containerStyle}
-          inputStyle={inputStyle}
-        />
+        <View>
+          <InnerComponent
+            {...this.props}
+            onChange={this.handleOnFocus}
+            containerStyle={containerStyle}
+            inputStyle={inputStyle}
+            touched={this.state.touched}
+          />
+          {displayError && (
+            <View style={[styles.errorContainer, this.props.errorContainerStyle]}>
+              <Text style={[styles.errorText, this.props.errorTextStyle]}>
+                {this.props.errorText}
+              </Text>
+            </View>
+          )}
+        </View>
       );
     }
 

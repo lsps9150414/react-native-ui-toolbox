@@ -1,16 +1,16 @@
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import React, {
+  Component,
+  PropTypes,
+} from 'react';
 import {
   Image,
   StyleSheet,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {
-  Component,
-  PropTypes,
-} from 'react';
 
 import { DEFAULT_COLORS } from './constants/colors';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const propTypes = {
   style: View.propTypes.style,

@@ -1,6 +1,6 @@
-import { BodyText, Heading, Subtitle, Title } from './Typography';
-
 import Avatar from './Avatar';
+import { BodyText, Heading, Subtitle, Title } from './Typography';
+import { TextInput } from './formInputs';
 
 export {
   Avatar,
@@ -8,4 +8,5 @@ export {
   Title,
   Subtitle,
   BodyText,
+  TextInput,
 };

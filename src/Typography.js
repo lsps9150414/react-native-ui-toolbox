@@ -2,11 +2,11 @@ import React, {
   Component,
   PropTypes,
 } from 'react';
-
-import { DEFAULT_COLORS } from './constants/colors';
 import {
   Text,
 } from 'react-native';
+
+import { DEFAULT_COLORS } from './constants/colors';
 
 const fontStylePropTypes = PropTypes.oneOf(['normal', 'italic']);
 const fontWeightPropTypes = PropTypes.oneOf(['normal', 'bold', '100', '200', '300', '400', '500', '600', '700', '800', '900']);

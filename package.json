@@ -19,8 +19,13 @@
   "repository": "https://github.com/lsps9150414/react-native-ui-toolbox",
   "license": "MIT",
   "dependencies": {
+    "react-native-elements": "^0.7.1",
     "react-native-vector-icons": "^3.0.0",
     "tinycolor2": "^1.4.1"
+  },
+  "peerDependeincies": {
+    "react": "^15.3.2",
+    "react-native": "^0.33.0"
   },
   "devDependencies": {
     "eslint": "^3.10.0",
@@ -28,5 +33,11 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.7.0"
+  },
+  "importSort": {
+    ".js, .jsx, .es6, .es": {
+      "parser": "babylon",
+      "style": "renke"
+    }
   }
 }

@@ -17,10 +17,13 @@ const propTypes = {
   inputStyle: Text.propTypes.style,
   invalidContainerStyle: View.propTypes.style,
   invalidInputStyle: Text.propTypes.style,
+  invalidUnderlineColorAndroid: PropTypes.string,
   onChange: PropTypes.func,
+  underlineColorAndroid: PropTypes.string,
   validator: PropTypes.func,
   validContainerStyle: View.propTypes.style,
   validInputStyle: Text.propTypes.style,
+  validUnderlineColorAndroid: PropTypes.string,
   value: PropTypes.any,
 };
 /* eslint-enable react/no-unused-prop-types */
@@ -48,28 +51,36 @@ export default (InnerComponent) => {
     }
 
     getValidationStyles(touched, validator, value) {
+      /* eslint-disable max-len */
       const defaultContainerStyle = this.props.containerStyle;
       const defaultInputStyle = this.props.inputStyle;
-      const validContainerStyle = this.props.validContainerStyle || defaultContainerStyle;
-      const validInputStyle = this.props.validInputStyle || defaultInputStyle;
+      const defaultUnderlineColorAndroid = this.props.underlineColorAndroid;
       const invalidContainerStyle = this.props.invalidContainerStyle || defaultContainerStyle;
       const invalidInputStyle = this.props.invalidInputStyle || defaultInputStyle;
+      const invalidUnderlineColorAndroid = this.props.invalidUnderlineColorAndroid || defaultUnderlineColorAndroid;
+      const validContainerStyle = this.props.validContainerStyle || defaultContainerStyle;
+      const validInputStyle = this.props.validInputStyle || defaultInputStyle;
+      const validUnderlineColorAndroid = this.props.validUnderlineColorAndroid || defaultUnderlineColorAndroid;
+      /* eslint-enable max-len */
 
       if (touched) {
         if (typeof validator === 'function' && validator(value)) {
           return {
             containerStyle: validContainerStyle,
             inputStyle: validInputStyle,
+            underlineColorAndroid: defaultUnderlineColorAndroid,
           };
         }
         return {
           containerStyle: invalidContainerStyle,
           inputStyle: invalidInputStyle,
+          underlineColorAndroid: invalidUnderlineColorAndroid,
         };
       }
       return {
         containerStyle: defaultContainerStyle,
         inputStyle: defaultInputStyle,
+        underlineColorAndroid: validUnderlineColorAndroid,
       };
     }
     handleOnFocus() {
@@ -85,6 +96,7 @@ export default (InnerComponent) => {
       const {
         containerStyle,
         inputStyle,
+        underlineColorAndroid,
       } = this.getValidationStyles(this.state.touched, this.props.validator, this.props.value);
       const displayError =
         this.props.errorText && this.props.validator &&
@@ -94,10 +106,11 @@ export default (InnerComponent) => {
         <View>
           <InnerComponent
             {...this.props}
-            onChange={this.handleOnFocus}
             containerStyle={containerStyle}
             inputStyle={inputStyle}
+            onChange={this.handleOnFocus}
             touched={this.state.touched}
+            underlineColorAndroid={underlineColorAndroid}
           />
           {displayError && (
             <View style={[styles.errorContainer, this.props.errorContainerStyle]}>

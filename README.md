@@ -11,9 +11,10 @@ Just another collection of react native ui components.
 
 ## Roadmap
 - [ ] Inputs (with validation, custom state styles)
-  - [ ] TextInput
+  - [x] TextInput
   - [ ] Picker
   - [ ] datePicker (migrate from react-native-easy-form)
+  - [ ] inline error icon & customizable error block
 - [ ] Avatar Editor
 
 ## Installation

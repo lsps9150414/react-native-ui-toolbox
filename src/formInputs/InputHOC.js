@@ -103,7 +103,7 @@ export default (InnerComponent) => {
         !this.props.validator(this.props.value) && this.state.touched;
 
       return (
-        <View>
+        <View style={{ alignSelf: 'stretch' }}>
           <InnerComponent
             {...this.props}
             containerStyle={containerStyle}

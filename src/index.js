@@ -1,13 +1,14 @@
 import Avatar from './Avatar';
 import { BodyText, Heading, Subtitle, Title } from './Typography';
-import { InputHOC, TextInput } from './formInputs';
+import { DatePicker, InputHOC, TextInput } from './formInputs';
 
 export {
   Avatar,
-  Heading,
-  Title,
-  Subtitle,
   BodyText,
-  TextInput,
+  DatePicker,
+  Heading,
   InputHOC,
+  Subtitle,
+  TextInput,
+  Title,
 };

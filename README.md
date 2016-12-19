@@ -1,5 +1,5 @@
 # react-native-ui-toolbox
-Just another collection of **Cross Platform** React Native UI Components.
+Just another collection of **cross platform** React Native UI components.
 > Extended from react-native-community's [`react-native-elements`](https://github.com/react-native-community/react-native-elements)
 
 ## Demo

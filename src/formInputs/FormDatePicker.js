@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
-import { fieldContainer } from './styles';
+import { fieldContainer, touchableContainer } from './styles';
 
 const propTypes = {
   date: PropTypes.object,
@@ -46,13 +46,7 @@ const styles = StyleSheet.create({
     ...fieldContainer,
   },
   touchableContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    ...Platform.select({
-      android: {
-        paddingHorizontal: 4,
-      },
-    }),
+    ...touchableContainer,
   },
   text: {
     ...Platform.select({

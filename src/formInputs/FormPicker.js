@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
+import { fieldContainer, touchableContainer } from './styles';
 
 const propTypes = {
   items: PropTypes.arrayOf(PropTypes.shape({
@@ -25,6 +26,7 @@ const propTypes = {
   confirmBtnText: PropTypes.string, /* ios */
   containerStyle: View.propTypes.style,
   touchableContainerStyle: View.propTypes.style,
+  pickerStyleAndroid: View.propTypes.style, /* android */
   inputStyle: Text.propTypes.style,
 };
 
@@ -37,8 +39,12 @@ const defaultProps = {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'rgba(255,255,255,0.8)',
-    marginHorizontal: 16,
+    ...fieldContainer,
+    // backgroundColor: 'rgba(255,255,255,0.8)',
+    // marginHorizontal: 16,
+  },
+  touchableContainer: {
+    ...touchableContainer,
   },
 });
 
@@ -81,6 +87,7 @@ export default class FormPicker extends Component {
   }
   androidRenderPicker = () => (
     <Picker
+      style={this.props.pickerStyleAndroid}
       selectedValue={this.state.selectedValue}
       onValueChange={this.androidHandleValueChange}
       prompt={'propmt'}

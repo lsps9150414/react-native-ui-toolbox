@@ -10,3 +10,13 @@ export const fieldContainer = {
     },
   }),
 };
+
+export const touchableContainer = {
+  flex: 1,
+  justifyContent: 'center',
+  ...Platform.select({
+    android: {
+      paddingHorizontal: 4,
+    },
+  }),
+};

@@ -17,6 +17,9 @@ import {
   View,
 } from 'react-native';
 
+import { DEFAULT_COLORS } from '../constants/colors';
+import { fieldContainer } from './styles';
+
 const MODAL_CONTROL_BAR_HEIGHT = 50;
 const MODAL_CONTENT_HEIGHT = MODAL_CONTROL_BAR_HEIGHT + 220;
 const MODAL_ANIMATION_CONFIG = {
@@ -25,8 +28,8 @@ const MODAL_ANIMATION_CONFIG = {
 };
 
 const propTypes = {
-  cancelBtnText: PropTypes.string,
-  confirmBtnText: PropTypes.string,
+  cancelBtnText: PropTypes.string, /* ios */
+  confirmBtnText: PropTypes.string, /* ios */
   containerStyle: View.propTypes.style,
   touchableContainerStyle: View.propTypes.style,
   date: PropTypes.object,
@@ -47,12 +50,7 @@ const defaultProps = {
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 15,
-    ...Platform.select({
-      ios: {
-        marginHorizontal: 20,
-      },
-    }),
+    ...fieldContainer,
   },
   touchableContainer: {
     flex: 1,
@@ -92,7 +90,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   controlButtonText: {
-    color: 'blue',
   },
   datePicker: {
   },
@@ -174,7 +171,7 @@ export default class IosDatePicker extends Component {
       <Text
         style={[
           styles.controlButtonText,
-          { color: 'blue', fontWeight: 'bold' },
+          { color: DEFAULT_COLORS[3].toHexString(), fontWeight: 'bold' },
         ]}
       >
         {Boolean(this.props.confirmBtnText) && this.props.confirmBtnText}

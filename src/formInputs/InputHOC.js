@@ -3,12 +3,14 @@ import React, {
   PropTypes,
 } from 'react';
 import {
+  Platform,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
 
 import { DEFAULT_COLORS } from '../constants/colors';
+import { fieldContainer } from './styles';
 
 const propTypes = {
   value: PropTypes.any,
@@ -42,7 +44,12 @@ const styles = StyleSheet.create({
     color: DEFAULT_COLORS[3].toHexString(),
   },
   errorContainer: {
-    marginHorizontal: 20,
+    ...fieldContainer,
+    ...Platform.select({
+      android: {
+        paddingHorizontal: 4,
+      },
+    }),
   },
   errorText: {
     color: '#ff0000',

@@ -20,7 +20,6 @@ const propTypes = {
   containerStyle: View.propTypes.style,
   validContainerStyle: View.propTypes.style,
   invalidContainerStyle: View.propTypes.style,
-  touchableContainerStyle: View.propTypes.style,
 
   inputStyle: Text.propTypes.style,
   validInputStyle: Text.propTypes.style,
@@ -42,6 +41,7 @@ const styles = StyleSheet.create({
   },
   input: {
     color: DEFAULT_COLORS[3].toHexString(),
+    fontSize: 16,
   },
   errorContainer: {
     ...fieldContainer,
@@ -116,7 +116,6 @@ export default (InnerComponent) => {
             {...this.props}
             containerStyle={[styles.container, containerStyle]}
             inputStyle={[styles.input, inputStyle]}
-            touchableContainerStyle={this.props.touchableContainerStyle}
             onChange={this.handleOnFocus}
             touched={this.state.touched}
             underlineColorAndroid={'transparent'}

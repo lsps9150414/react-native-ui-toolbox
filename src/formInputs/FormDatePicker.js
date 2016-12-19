@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
-import { fieldContainer, touchableContainer } from './styles';
+import { fieldContainer, innerContainer } from './styles';
 
 const propTypes = {
   date: PropTypes.object,
@@ -45,15 +45,10 @@ const styles = StyleSheet.create({
   container: {
     ...fieldContainer,
   },
-  touchableContainer: {
-    ...touchableContainer,
+  innerContainer: {
+    ...innerContainer,
   },
   text: {
-    ...Platform.select({
-      ios: {
-        fontSize: 16,
-      },
-    }),
   },
   datePicker: {
   },
@@ -140,7 +135,7 @@ export default class FormDatePicker extends Component {
         style={[styles.container, this.props.containerStyle]}
       >
         <TouchableOpacity
-          style={[styles.touchableContainer, this.props.touchableContainerStyle]}
+          style={[styles.innerContainer, this.props.touchableContainerStyle]}
           onPress={this.openPicker}
         >
           <Text style={[styles.text, this.props.inputStyle]}>

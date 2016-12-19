@@ -4,10 +4,13 @@ import React, {
 } from 'react';
 import { FormInput } from 'react-native-elements';
 import {
+  Platform,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
+
+import { innerContainer } from './styles';
 
 const propTypes = {
   value: PropTypes.string.isRequired,
@@ -19,7 +22,7 @@ const defaultProps = {};
 
 const styles = StyleSheet.create({
   inputStyle: {
-    flex: 1,
+    ...innerContainer,
   },
 });
 

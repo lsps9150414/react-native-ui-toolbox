@@ -9,7 +9,6 @@ import {
   Animated,
   DatePickerAndroid,
   DatePickerIOS,
-  Modal,
   Platform,
   StyleSheet,
   Text,
@@ -17,35 +16,29 @@ import {
   View,
 } from 'react-native';
 
-import { DEFAULT_COLORS } from '../constants/colors';
+import ModalContainer from './ModalContainer';
 import { fieldContainer } from './styles';
 
-const MODAL_CONTROL_BAR_HEIGHT = 50;
-const MODAL_CONTENT_HEIGHT = MODAL_CONTROL_BAR_HEIGHT + 220;
-const MODAL_ANIMATION_CONFIG = {
-  toValue: MODAL_CONTENT_HEIGHT,
-  duration: 300,
-};
-
 const propTypes = {
+  date: PropTypes.object,
+  maxDate: PropTypes.object,
+  minDate: PropTypes.object,
+  onDateChange: PropTypes.func,
+
   cancelBtnText: PropTypes.string, /* ios */
   confirmBtnText: PropTypes.string, /* ios */
   containerStyle: View.propTypes.style,
   touchableContainerStyle: View.propTypes.style,
-  date: PropTypes.object,
-  format: PropTypes.string,
   inputStyle: Text.propTypes.style,
+
+  format: PropTypes.string,
   locale: PropTypes.string,
-  maxDate: PropTypes.object,
-  minDate: PropTypes.object,
-  onDateChange: PropTypes.func.isRequired,
 };
 
 const defaultProps = {
   date: new Date(),
   format: 'Y-M-D (dd)',
   locale: 'en',
-  onDateChange: () => { console.warn('Please provide onDateChange.'); },
 };
 
 const styles = StyleSheet.create({
@@ -68,29 +61,6 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  modalContainer: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'flex-end',
-  },
-  modalContentContainer: {
-    backgroundColor: '#fff',
-    height: MODAL_CONTENT_HEIGHT,
-  },
-  controlBar: {
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    justifyContent: 'space-between',
-    height: MODAL_CONTROL_BAR_HEIGHT,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: '#ccc',
-  },
-  controlButton: {
-    justifyContent: 'center',
-    paddingHorizontal: 16,
-  },
-  controlButtonText: {
-  },
   datePicker: {
   },
 });
@@ -101,8 +71,7 @@ export default class FormDatePicker extends Component {
     this.state = {
       momentDate: moment(props.date),
       tempDate: props.date,
-      modalVisible: false,
-      animatedHeight: new Animated.Value(0),
+      iosModalVisible: false,
     };
     this.platformIOS = Platform.OS === 'ios';
   }
@@ -129,62 +98,22 @@ export default class FormDatePicker extends Component {
       console.warn('Error');
     }
   }
-  iosOpenModal = () => {
-    this.setState({ modalVisible: true });
-    Animated.timing(this.state.animatedHeight, MODAL_ANIMATION_CONFIG).start();
-  }
-  iosCloseIOSModal = () => {
-    this.setState({ modalVisible: false, animatedHeight: new Animated.Value(0) });
-  }
 
-  iosCancel = () => {
-    this.iosCloseIOSModal();
+  iosOpenModal = () => { this.setState({ iosModalVisible: true }); }
+  iosCloseModal = () => { this.setState({ iosModalVisible: false }); }
+  iosHandleModalCancel = () => {
+    this.iosCloseModal();
     this.setState({ tempDate: this.state.momentDate.toDate() });
   }
-  iosConfirm = () => {
-    this.iosCloseIOSModal();
+  iosHandleModalConfirm = () => {
+    this.iosCloseModal();
     this.setState({ momentDate: moment(this.state.tempDate) },
-      () => { this.props.onDateChange(this.state.momentDate.toDate()); });
+      () => {
+        if (typeof this.props.onDateChange === 'function') {
+          this.props.onDateChange(this.state.momentDate.toDate());
+        }
+      });
   }
-
-  iosRenderCancelButton = () => (
-    <TouchableOpacity
-      style={[styles.controlButton]}
-      onPress={this.iosCancel}
-    >
-      <Text
-        style={[
-          styles.controlButtonText,
-          { color: 'red' },
-        ]}
-      >
-        {Boolean(this.props.cancelBtnText) && this.props.cancelBtnText}
-        {!this.props.cancelBtnText && 'Cancel'}
-      </Text>
-    </TouchableOpacity>
-  )
-  iosRenderConfirmButton = () => (
-    <TouchableOpacity
-      style={[styles.controlButton]}
-      onPress={this.iosConfirm}
-    >
-      <Text
-        style={[
-          styles.controlButtonText,
-          { color: DEFAULT_COLORS[3].toHexString(), fontWeight: 'bold' },
-        ]}
-      >
-        {Boolean(this.props.confirmBtnText) && this.props.confirmBtnText}
-        {!this.props.confirmBtnText && 'Confirm'}
-      </Text>
-    </TouchableOpacity>
-  )
-  iosRenderControlBar = () => (
-    <View style={styles.controlBar}>
-      {this.iosRenderCancelButton()}
-      {this.iosRenderConfirmButton()}
-    </View>
-  )
   iosOnTempDateChange = (date) => { this.setState({ tempDate: date }); }
   iosRenderDatePicker = () => (
     <DatePickerIOS
@@ -197,24 +126,14 @@ export default class FormDatePicker extends Component {
     />
   );
   iosRenderModal = () => (
-    <Modal
-      visible={this.state.modalVisible}
-      transparent
-      animationType={'fade'}
-      onRequestClose={() => { console.log('Modal has been closed.'); }}
-    >
-      <View style={[styles.modalContainer]}>
-        <Animated.View
-          style={[
-            styles.modalContentContainer,
-            { height: this.state.animatedHeight },
-          ]}
-        >
-          {this.iosRenderControlBar()}
-          {this.iosRenderDatePicker()}
-        </Animated.View>
-      </View>
-    </Modal>
+    <ModalContainer
+      cancelBtnText={this.props.cancelBtnText}
+      confirmBtnText={this.props.confirmBtnText}
+      onCancel={this.iosHandleModalCancel}
+      onConfirm={this.iosHandleModalConfirm}
+      renderContent={this.iosRenderDatePicker}
+      visible={this.state.iosModalVisible}
+    />
   )
 
   render() {
@@ -227,9 +146,7 @@ export default class FormDatePicker extends Component {
           style={[styles.touchableContainer, this.props.touchableContainerStyle]}
           onPress={this.openPicker}
         >
-          <Text
-            style={[styles.text, this.props.inputStyle]}
-          >
+          <Text style={[styles.text, this.props.inputStyle]}>
             {this.state.momentDate.format(this.props.format)}
           </Text>
         </TouchableOpacity>

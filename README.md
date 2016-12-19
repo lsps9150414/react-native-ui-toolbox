@@ -3,19 +3,20 @@ Just another collection of react native ui components.
 
 ## Included
 - [x] Avatar
-- [x] Typography
+- Typography
   - [x] Heading
   - [x] Title
   - [x] Subtitle
   - [x] BodyText
+- formInputs
+  - [x] FormTextInput
+  - [x] FormDatePicker
 
 ## Roadmap
 - components
   - [ ] Inputs (with validation, custom state styles)
-    - [x] TextInput
-    - [x] datePicker
-    - [ ] TextBox
-    - [ ] Picker
+    - [ ] FormPicker
+    - [ ] FormTextBox
     - [ ] feature: inline error icon & customizable error block
   - [ ] Avatar with editor
 - Style
@@ -42,9 +43,11 @@ npm install react-native-ui-toolbox --save
 > Also recevies all `TextInput` props
 
 | prop | default | type | description | note |
-| ---- | ---- | ----| ---- | ---- |
+| ---- | ---- | ---- | ---- | ---- |
 | containerStyle | none | `View` style | styling for field's container | |
 | inputStyle | none | `Text` style | styling for field's text. | |
+| value | string | ---- | ---- | ---- |
+| onChangeText | function | ---- | ---- | ---- |
 
 
 ## FormPicker
@@ -53,10 +56,12 @@ npm install react-native-ui-toolbox --save
 > Also recevies all `Picker` props
 
 | prop | default | type | description | note |
-| ---- | ---- | ----| ---- | ---- |
+| ---- | ---- | ---- | ---- | ---- |
 | `android:` pickerStyleAndroid | none | `Picker` style | styling for Android's Picker | Use this instead of inputStyle. |
 | containerStyle | none | `View` style | styling for field's container | |
 | inputStyle | none | `Text` style | styling for field's text. | `android:` Use `pickerStyleAndroid` instead of this. |
+| items | demo data | array of `{ label: [string], value: [string\number] }` | picker items | |
+| onValueChange | function | ---- | ---- | ---- |
 
 
 ## FormDatePicker
@@ -65,9 +70,16 @@ npm install react-native-ui-toolbox --save
 > Also recevies all `DatePicker` props
 
 | prop | default | type | description | note |
-| ---- | ---- | ----| ---- | ---- |
+| ---- | ---- | ---- | ---- | ---- |
 | containerStyle | none | `View` style | styling for field's container | |
 | inputStyle | none | `Text` style | styling for field's text. | |
+| date | date | ---- | ---- | ---- |
+| minDate | date | ---- | ---- | ---- |
+| maxDate | date | ---- | ---- | ---- |
+| onDateChange | function | ---- | ---- | ---- |
+| `ios:` cancelBtnText | string | ---- | ---- | ---- |
+| `ios:` confirmBtnText | string | ---- | ---- | ---- |
+| locale | locale string | ---- | ---- | ---- |
 
 
 ## Theme

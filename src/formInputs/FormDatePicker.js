@@ -73,6 +73,12 @@ export default class FormDatePicker extends Component {
   updateDate = (date) => {
     this.setState({ momentDate: moment(date), iosTempDate: date });
   }
+
+  handleDateChange = () => {
+    if (typeof this.props.onDateChange === 'function') {
+      this.props.onDateChange(this.state.momentDate.toDate());
+    }
+  }
   openPicker = () => {
     if (Platform.OS === 'ios') { this.iosOpenModal(); } else { this.androidShowPicker(); }
   }
@@ -84,7 +90,7 @@ export default class FormDatePicker extends Component {
         maxDate: this.props.maxDate,
       });
       if (action === DatePickerAndroid.dateSetAction) {
-        this.setState({ momentDate: moment(new Date(year, month, day)) });
+        this.setState({ momentDate: moment(new Date(year, month, day)) }, this.handleDateChange);
       }
     } catch ({ code, message }) {
       console.warn('Error');
@@ -99,12 +105,7 @@ export default class FormDatePicker extends Component {
   }
   iosHandleModalConfirm = () => {
     this.iosCloseModal();
-    this.setState({ momentDate: moment(this.state.iosTempDate) },
-      () => {
-        if (typeof this.props.onDateChange === 'function') {
-          this.props.onDateChange(this.state.momentDate.toDate());
-        }
-      });
+    this.setState({ momentDate: moment(this.state.iosTempDate) }, this.handleDateChange);
   }
   iosHandleTempDateChange = (date) => { this.setState({ iosTempDate: date }); }
   iosRenderDatePicker = () => (

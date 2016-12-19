@@ -13,8 +13,9 @@ Just another collection of react native ui components.
 - components
   - [ ] Inputs (with validation, custom state styles)
     - [x] TextInput
+    - [x] datePicker
+    - [ ] TextBox
     - [ ] Picker
-    - [ ] datePicker (migrate from react-native-easy-form)
     - [ ] feature: inline error icon & customizable error block
   - [ ] Avatar with editor
 - Style
@@ -27,15 +28,49 @@ Inside your project:
 npm install react-native-ui-toolbox --save
 ```
 
-## API
-### Avatar
-### Typography
+# API
+## Avatar
+## Typography
 - Heading
 - Title
 - Subtitle
 - BodyText
 
-#### Theme
+## FormTextInput
+### FormTextInput props
+
+> Also recevies all `TextInput` props
+
+| prop | default | type | description | note |
+| ---- | ---- | ----| ---- | ---- |
+| containerStyle | none | `View` style | styling for field's container | |
+| inputStyle | none | `Text` style | styling for field's text. | |
+
+
+## FormPicker
+### FormPicker props
+
+> Also recevies all `Picker` props
+
+| prop | default | type | description | note |
+| ---- | ---- | ----| ---- | ---- |
+| `android:` pickerStyleAndroid | none | `Picker` style | styling for Android's Picker | Use this instead of inputStyle. |
+| containerStyle | none | `View` style | styling for field's container | |
+| inputStyle | none | `Text` style | styling for field's text. | `android:` Use `pickerStyleAndroid` instead of this. |
+
+
+## FormDatePicker
+### FormDatePicker props
+
+> Also recevies all `DatePicker` props
+
+| prop | default | type | description | note |
+| ---- | ---- | ----| ---- | ---- |
+| containerStyle | none | `View` style | styling for field's container | |
+| inputStyle | none | `Text` style | styling for field's text. | |
+
+
+## Theme
 ```javascript
 const fontStylePropTypes = PropTypes.oneOf(['normal', 'italic']);
 const fontWeightPropTypes = PropTypes.oneOf(['normal', 'bold', '100', '200', '300', '400', '500', '600', '700', '800', '900']);

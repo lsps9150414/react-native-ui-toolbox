@@ -79,7 +79,7 @@ export default class FormDatePicker extends Component {
   androidShowPicker = async () => {
     try {
       const { action, year, month, day } = await DatePickerAndroid.open({
-        date: this.props.date,
+        date: this.state.momentDate.toDate(),
         minDate: this.props.minDate,
         maxDate: this.props.maxDate,
       });

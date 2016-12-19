@@ -1,5 +1,9 @@
 # react-native-ui-toolbox
-Just another collection of react native ui components.
+Just another collection of **Cross Platform** React Native UI Components.
+> Extended from react-native-community's [`react-native-elements`](https://github.com/react-native-community/react-native-elements)
+
+## Demo
+[React Native UI Toolbox Demo App]()
 
 ## Included
 - [x] Avatar
@@ -11,6 +15,7 @@ Just another collection of react native ui components.
 - formInputs
   - [x] FormTextInput
   - [x] FormDatePicker
+  - [x] feature: input value validation
 
 ## Roadmap
 - components
@@ -24,20 +29,35 @@ Just another collection of react native ui components.
   - [ ] Consistent default styles for all input types
 
 ## Installation
-Inside your project:
+
+This is still under development!
+
+~~Inside your project:~~
 ```bash
 npm install react-native-ui-toolbox --save
 ```
 
 # API
 ## Avatar
+*Insert screenshot here*
+
+*Insert sample code here*
+
 ## Typography
+*Insert screenshot here*
+
+*Insert sample code here*
+
 - Heading
 - Title
 - Subtitle
 - BodyText
 
 ## FormTextInput
+*Insert gif screenshot here*
+
+*Insert sample code here*
+
 ### FormTextInput props
 
 > Also recevies all `TextInput` props
@@ -51,6 +71,10 @@ npm install react-native-ui-toolbox --save
 
 
 ## FormPicker
+*Insert gif screenshot here*
+
+*Insert sample code here*
+
 ### FormPicker props
 
 > Also recevies all `Picker` props
@@ -65,6 +89,10 @@ npm install react-native-ui-toolbox --save
 
 
 ## FormDatePicker
+*Insert gif screenshot here*
+
+*Insert sample code here*
+
 ### FormDatePicker props
 
 > Also recevies all `DatePicker` props

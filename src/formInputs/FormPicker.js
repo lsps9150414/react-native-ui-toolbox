@@ -17,6 +17,7 @@ import { DEFAULT_COLORS } from '../constants/colors';
 import { fieldContainer, innerContainer } from './styles';
 
 const propTypes = {
+  selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   items: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -45,8 +46,14 @@ const styles = StyleSheet.create({
   innerContainer: {
     ...innerContainer,
   },
-  pickerStyleAndroid: {
-    color: DEFAULT_COLORS[3].toHexString(),
+  picker: {
+    ...Platform.select({
+      ios: {
+      },
+      android: {
+        color: DEFAULT_COLORS[3].toHexString(),
+      },
+    }),
   },
 });
 
@@ -54,8 +61,8 @@ export default class FormPicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedValue: props.items[0].value,
-      iosTempValue: props.items[0].value,
+      selectedValue: props.selectedValue || props.items[0].value,
+      iosTempValue: props.selectedValue || props.items[0].value,
       iosModalVisible: false,
     };
     this.platformIOS = Platform.OS === 'ios';
@@ -65,10 +72,17 @@ export default class FormPicker extends Component {
     if (nextProps.items !== this.props.items) {
       this.updateItemsDictionary(nextProps.items);
     }
+    if (nextProps.selectedValue && nextProps.selectedValue !== this.props.selectedValue) {
+      this.updateSelectedValue(nextProps.selectedValue);
+    }
   }
   updateItemsDictionary = (items) => {
     this.itemsDictionary = {};
     items.forEach((item) => { this.itemsDictionary[item.value] = item.label; });
+  }
+
+  updateSelectedValue = (selectedValue) => {
+    this.setState({ selectedValue, iosTempValue: selectedValue });
   }
 
   androidHandleValueChange = (value) => {
@@ -89,7 +103,7 @@ export default class FormPicker extends Component {
   }
   androidRenderPicker = () => (
     <Picker
-      style={[styles.pickerStyleAndroid, this.props.pickerStyleAndroid]}
+      style={[styles.picker, this.props.pickerStyleAndroid]}
       selectedValue={this.state.selectedValue}
       onValueChange={this.androidHandleValueChange}
       prompt={'propmt'}
@@ -112,6 +126,7 @@ export default class FormPicker extends Component {
   iosHandleTempValueChange = (value) => { this.setState({ iosTempValue: value }); }
   iosRenderPicker = () => (
     <Picker
+      style={styles.picker}
       selectedValue={this.state.iosTempValue}
       onValueChange={this.iosHandleTempValueChange}
     >

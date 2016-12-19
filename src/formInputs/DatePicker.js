@@ -28,8 +28,10 @@ const propTypes = {
   cancelBtnText: PropTypes.string,
   confirmBtnText: PropTypes.string,
   containerStyle: View.propTypes.style,
+  touchableContainerStyle: View.propTypes.style,
   date: PropTypes.object,
   format: PropTypes.string,
+  inputStyle: Text.propTypes.style,
   locale: PropTypes.string,
   maxDate: PropTypes.object,
   minDate: PropTypes.object,
@@ -50,13 +52,18 @@ const styles = StyleSheet.create({
       ios: {
         marginHorizontal: 20,
       },
+    }),
+  },
+  touchableContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    ...Platform.select({
       android: {
         paddingHorizontal: 4,
       },
     }),
   },
   text: {
-    color: 'gray',
     ...Platform.select({
       ios: {
         fontSize: 16,
@@ -100,6 +107,7 @@ export default class IosDatePicker extends Component {
       modalVisible: false,
       animatedHeight: new Animated.Value(0),
     };
+    this.platformIOS = Platform.OS === 'ios';
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.date && nextProps.date !== this.state.date) {
@@ -108,7 +116,6 @@ export default class IosDatePicker extends Component {
   }
 
   openPicker = () => {
-    console.log('openPicker', moment.locale());
     if (Platform.OS === 'ios') { this.iosOpenModal(); } else { this.androidShowPicker(); }
   }
   androidShowPicker = async () => {
@@ -126,7 +133,6 @@ export default class IosDatePicker extends Component {
     }
   }
   iosOpenModal = () => {
-    console.log('iosOpenModal', moment.locale());
     this.setState({ modalVisible: true });
     Animated.timing(this.state.animatedHeight, MODAL_ANIMATION_CONFIG).start();
   }
@@ -218,19 +224,19 @@ export default class IosDatePicker extends Component {
     this.state.momentDate.locale(this.props.locale);
     return (
       <View
-        style={[this.props.containerStyle, styles.container]}
+        style={[styles.container, this.props.containerStyle]}
       >
         <TouchableOpacity
-          style={[]}
+          style={[styles.touchableContainer, this.props.touchableContainerStyle]}
           onPress={this.openPicker}
         >
           <Text
-            style={[styles.text]}
+            style={[styles.text, this.props.inputStyle]}
           >
             {this.state.momentDate.format(this.props.format)}
           </Text>
         </TouchableOpacity>
-        {this.iosRenderModal()}
+        {this.platformIOS && this.iosRenderModal()}
       </View>
     );
   }

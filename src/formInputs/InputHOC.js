@@ -8,31 +8,38 @@ import {
   View,
 } from 'react-native';
 
-/* eslint-disable react/no-unused-prop-types */
+import { DEFAULT_COLORS } from '../constants/colors';
+
 const propTypes = {
-  containerStyle: View.propTypes.style,
-  errorContainerStyle: View.propTypes.style,
-  errorText: PropTypes.string,
-  errorTextStyle: View.propTypes.style,
-  inputStyle: Text.propTypes.style,
-  invalidContainerStyle: View.propTypes.style,
-  invalidInputStyle: Text.propTypes.style,
+  value: PropTypes.any,
   onChange: PropTypes.func,
   validator: PropTypes.func,
+
+  containerStyle: View.propTypes.style,
   validContainerStyle: View.propTypes.style,
+  invalidContainerStyle: View.propTypes.style,
+  touchableContainerStyle: View.propTypes.style,
+
+  inputStyle: Text.propTypes.style,
   validInputStyle: Text.propTypes.style,
-  value: PropTypes.any,
+  invalidInputStyle: Text.propTypes.style,
+
+  errorText: PropTypes.string,
+  errorContainerStyle: View.propTypes.style,
+  errorTextStyle: View.propTypes.style,
 };
-/* eslint-enable react/no-unused-prop-types */
 
 const defaultProps = {};
 
 const styles = StyleSheet.create({
   container: {
-    borderBottomColor: 'red',
+    borderBottomColor: DEFAULT_COLORS[3].toHexString(),
     borderBottomWidth: 1,
     justifyContent: 'center',
     height: 36,
+  },
+  input: {
+    color: DEFAULT_COLORS[3].toHexString(),
   },
   errorContainer: {
     marginHorizontal: 20,
@@ -54,30 +61,28 @@ export default (InnerComponent) => {
     }
 
     getValidationStyles(touched, validator, value) {
-      /* eslint-disable max-len */
       const defaultContainerStyle = this.props.containerStyle;
       const defaultInputStyle = this.props.inputStyle;
-      const invalidContainerStyle = this.props.invalidContainerStyle || defaultContainerStyle;
-      const invalidInputStyle = this.props.invalidInputStyle || defaultInputStyle;
-      const validContainerStyle = this.props.validContainerStyle || defaultContainerStyle;
-      const validInputStyle = this.props.validInputStyle || defaultInputStyle;
-      /* eslint-enable max-len */
+      const invalidContainerStyle = this.props.invalidContainerStyle;
+      const invalidInputStyle = this.props.invalidInputStyle;
+      const validContainerStyle = this.props.validContainerStyle;
+      const validInputStyle = this.props.validInputStyle;
 
       if (touched) {
         if (typeof validator === 'function' && validator(value)) {
           return {
-            containerStyle: validContainerStyle,
-            inputStyle: validInputStyle,
+            containerStyle: { ...defaultContainerStyle, ...validContainerStyle },
+            inputStyle: { ...defaultInputStyle, ...validInputStyle },
           };
         }
         return {
-          containerStyle: invalidContainerStyle,
-          inputStyle: invalidInputStyle,
+          containerStyle: { ...defaultContainerStyle, ...invalidContainerStyle },
+          inputStyle: { ...defaultInputStyle, ...invalidInputStyle },
         };
       }
       return {
-        containerStyle: defaultContainerStyle,
-        inputStyle: defaultInputStyle,
+        containerStyle: { ...defaultContainerStyle, ...defaultContainerStyle },
+        inputStyle: { ...defaultInputStyle, ...defaultInputStyle },
       };
     }
     handleOnFocus() {
@@ -103,7 +108,8 @@ export default (InnerComponent) => {
           <InnerComponent
             {...this.props}
             containerStyle={[styles.container, containerStyle]}
-            inputStyle={inputStyle}
+            inputStyle={[styles.input, inputStyle]}
+            touchableContainerStyle={this.props.touchableContainerStyle}
             onChange={this.handleOnFocus}
             touched={this.state.touched}
             underlineColorAndroid={'transparent'}

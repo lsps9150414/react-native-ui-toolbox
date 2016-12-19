@@ -13,9 +13,12 @@ import {
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
-import { DEFAULT_COLORS } from '../constants/colors';
 
 const propTypes = {
+  items: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  })).isRequired,
   onValueChange: PropTypes.func,
 
   cancelBtnText: PropTypes.string, /* ios */
@@ -26,6 +29,10 @@ const propTypes = {
 };
 
 const defaultProps = {
+  items: [
+    { label: 'item 1', value: 'item 1 value' },
+    { label: 'item 2', value: 'item 2 value' },
+  ],
 };
 
 const styles = StyleSheet.create({
@@ -39,21 +46,47 @@ export default class FormPicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedValue: '',
-      tempValue: '',
+      selectedValue: props.items[0].value,
+      iosTempValue: props.items[0].value,
       iosModalVisible: false,
     };
     this.platformIOS = Platform.OS === 'ios';
+    this.updateItemsDictionary(props.items);
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.items !== this.props.items) {
+      this.updateItemsDictionary(nextProps.items);
+    }
+  }
+  updateItemsDictionary = (items) => {
+    this.itemsDictionary = {};
+    items.forEach((item) => { this.itemsDictionary[item.value] = item.label; });
+  }
+
+  androidHandleValueChange = (value) => {
+    this.setState({ selectedValue: value },
+      () => {
+        if (typeof this.props.onValueChange === 'function') {
+          this.props.onValueChange(this.state.selectedValue);
+        }
+      });
+  }
+  iosHandleValueChange = () => {
+    this.setState({ selectedValue: this.state.iosTempValue },
+      () => {
+        if (typeof this.props.onValueChange === 'function') {
+          this.props.onValueChange(this.state.selectedValue);
+        }
+      });
   }
   androidRenderPicker = () => (
     <Picker
       selectedValue={this.state.selectedValue}
-      onValueChange={lang => this.setState({ selectedValue: lang })}
+      onValueChange={this.androidHandleValueChange}
       prompt={'propmt'}
       mode={'dialog'}
     >
-      <Picker.Item label="Java" value="java" />
-      <Picker.Item label="JavaScript" value="js" />
+      {this.renderPickerItems()}
     </Picker>
   )
 
@@ -61,24 +94,19 @@ export default class FormPicker extends Component {
   iosCloseModal = () => { this.setState({ iosModalVisible: false }); }
   iosHandleModalCancel = () => {
     this.iosCloseModal();
-    this.setState({ tempValue: this.state.selectedValue });
+    this.setState({ iosTempValue: this.state.selectedValue });
   }
   iosHandleModalConfirm = () => {
     this.iosCloseModal();
-    this.setState({ selectedValue: this.state.tempValue },
-      () => {
-        if (typeof this.props.onValueChange === 'function') {
-          this.props.onValueChange(this.state.selectedValue);
-        }
-      });
+    this.iosHandleValueChange();
   }
+  iosHandleTempValueChange = (value) => { this.setState({ iosTempValue: value }); }
   iosRenderPicker = () => (
     <Picker
-      selectedValue={this.state.tempValue}
-      onValueChange={lang => this.setState({ tempValue: lang })}
+      selectedValue={this.state.iosTempValue}
+      onValueChange={this.iosHandleTempValueChange}
     >
-      <Picker.Item label="Java" value="java" />
-      <Picker.Item label="JavaScript" value="js" />
+      {this.renderPickerItems()}
     </Picker>
   )
   iosRenderModal = () => (
@@ -96,14 +124,18 @@ export default class FormPicker extends Component {
       style={[styles.touchableContainer, this.props.touchableContainerStyle]}
       onPress={this.iosOpenModal}
     >
-      <Text
-        style={[styles.text, this.props.inputStyle]}
-      >
-        {this.state.selectedValue}
+      <Text style={[styles.text, this.props.inputStyle]}>
+        {this.itemsDictionary[this.state.selectedValue]}
       </Text>
       {this.iosRenderModal()}
     </TouchableOpacity>
   )
+  renderPickerItems = () => (
+    this.props.items.map((item, index) => (
+      <Picker.Item key={`pickerItem-${index}`} label={item.label} value={item.value} />
+    ))
+  )
+
   render() {
     return (
       <View

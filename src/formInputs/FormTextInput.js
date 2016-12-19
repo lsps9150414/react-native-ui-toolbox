@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class TextInput extends Component {
+export default class FormTextInput extends Component {
 
   render() {
     return (
@@ -38,5 +38,5 @@ export default class TextInput extends Component {
 
 }
 
-TextInput.propTypes = propTypes;
-TextInput.defaultProps = defaultProps;
+FormTextInput.propTypes = propTypes;
+FormTextInput.defaultProps = defaultProps;

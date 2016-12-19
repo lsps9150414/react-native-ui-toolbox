@@ -1,7 +1,7 @@
-import _DatePicker from './DatePicker';
-import _InputHOC from './InputHOC';
-import _TextInput from './TextInput';
+import _FormDatePicker from './FormDatePicker';
+import _FormInputHOC from './FormInputHOC';
+import _FormTextInput from './FormTextInput';
 
-export const InputHOC = _InputHOC;
-export const TextInput = _InputHOC(_TextInput);
-export const DatePicker = _InputHOC(_DatePicker);
+export const FormInputHOC = _FormInputHOC;
+export const FormTextInput = _FormInputHOC(_FormTextInput);
+export const FormDatePicker = _FormInputHOC(_FormDatePicker);

@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
 });
 
 export default (InnerComponent) => {
-  class InputHOC extends Component {
+  class FormInputHOC extends Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -134,8 +134,8 @@ export default (InnerComponent) => {
 
   }
 
-  InputHOC.propTypes = propTypes;
-  InputHOC.defaultProps = defaultProps;
+  FormInputHOC.propTypes = propTypes;
+  FormInputHOC.defaultProps = defaultProps;
 
-  return InputHOC;
+  return FormInputHOC;
 };

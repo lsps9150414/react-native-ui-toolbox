@@ -6,7 +6,6 @@ import React, {
   PropTypes,
 } from 'react';
 import {
-  Animated,
   DatePickerAndroid,
   DatePickerIOS,
   Platform,
@@ -20,13 +19,14 @@ import ModalContainer from './ModalContainer';
 import { fieldContainer, innerContainer } from './styles';
 
 const propTypes = {
-  date: PropTypes.object,
-  maxDate: PropTypes.object,
-  minDate: PropTypes.object,
+  date: PropTypes.instanceOf(Date),
+  maxDate: PropTypes.instanceOf(Date),
+  minDate: PropTypes.instanceOf(Date),
   onDateChange: PropTypes.func,
 
   cancelBtnText: PropTypes.string, /* ios */
   confirmBtnText: PropTypes.string, /* ios */
+  placeholder: PropTypes.string,
   containerStyle: View.propTypes.style,
   touchableContainerStyle: View.propTypes.style,
   inputStyle: Text.propTypes.style,
@@ -36,9 +36,9 @@ const propTypes = {
 };
 
 const defaultProps = {
-  date: new Date(),
   format: 'Y-M-D (dd)',
   locale: 'en',
+  placeholder: 'Select a date',
 };
 
 const styles = StyleSheet.create({
@@ -58,8 +58,8 @@ export default class FormDatePicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      momentDate: moment(props.date),
-      iosTempDate: props.date,
+      momentDate: props.date ? moment(props.date) : null,
+      iosTempDate: props.date || new Date(),
       iosModalVisible: false,
     };
     this.platformIOS = Platform.OS === 'ios';
@@ -85,7 +85,7 @@ export default class FormDatePicker extends Component {
   androidShowPicker = async () => {
     try {
       const { action, year, month, day } = await DatePickerAndroid.open({
-        date: this.state.momentDate.toDate(),
+        date: this.state.momentDate ? this.state.momentDate.toDate() : new Date(),
         minDate: this.props.minDate,
         maxDate: this.props.maxDate,
       });
@@ -101,7 +101,9 @@ export default class FormDatePicker extends Component {
   iosCloseModal = () => { this.setState({ iosModalVisible: false }); }
   iosHandleModalCancel = () => {
     this.iosCloseModal();
-    this.setState({ iosTempDate: this.state.momentDate.toDate() });
+    if (this.state.momentDate) {
+      this.setState({ iosTempDate: this.state.momentDate.toDate() });
+    }
   }
   iosHandleModalConfirm = () => {
     this.iosCloseModal();
@@ -130,7 +132,13 @@ export default class FormDatePicker extends Component {
   )
 
   render() {
-    this.state.momentDate.locale(this.props.locale);
+    let display;
+    if (this.state.momentDate) {
+      this.state.momentDate.locale(this.props.locale);
+      display = this.state.momentDate.format(this.props.format);
+    } else {
+      display = this.props.placeholder;
+    }
     return (
       <View
         style={[styles.container, this.props.containerStyle]}
@@ -140,7 +148,7 @@ export default class FormDatePicker extends Component {
           onPress={this.openPicker}
         >
           <Text style={[styles.text, this.props.inputStyle]}>
-            {this.state.momentDate.format(this.props.format)}
+            {display}
           </Text>
         </TouchableOpacity>
         {this.platformIOS && this.iosRenderModal()}

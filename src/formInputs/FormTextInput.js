@@ -4,7 +4,6 @@ import React, {
 } from 'react';
 import { FormInput } from 'react-native-elements';
 import {
-  Platform,
   StyleSheet,
   Text,
   View,
@@ -13,7 +12,7 @@ import {
 import { innerContainer } from './styles';
 
 const propTypes = {
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   containerStyle: View.propTypes.style,
   inputStyle: Text.propTypes.style,
 };

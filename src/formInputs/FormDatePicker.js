@@ -38,7 +38,7 @@ const propTypes = {
 const defaultProps = {
   format: 'Y-M-D (dd)',
   locale: 'en',
-  placeholder: 'Select a date',
+  placeholder: 'Select a date...',
 };
 
 const styles = StyleSheet.create({

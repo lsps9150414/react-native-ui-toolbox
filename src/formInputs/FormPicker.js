@@ -26,6 +26,7 @@ const propTypes = {
 
   cancelBtnText: PropTypes.string, /* ios */
   confirmBtnText: PropTypes.string, /* ios */
+  placeholder: PropTypes.string,
   containerStyle: View.propTypes.style,
   touchableContainerStyle: View.propTypes.style,
   pickerStyleAndroid: Picker.propTypes.style, /* android */
@@ -37,6 +38,7 @@ const defaultProps = {
     { label: 'item 1', value: 'item 1 value' },
     { label: 'item 2', value: 'item 2 value' },
   ],
+  placeholder: 'Select...',
 };
 
 const styles = StyleSheet.create({
@@ -61,7 +63,7 @@ export default class FormPicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedValue: props.selectedValue || props.items[0].value,
+      selectedValue: props.selectedValue,
       iosTempValue: props.selectedValue || props.items[0].value,
       iosModalVisible: false,
     };
@@ -106,8 +108,8 @@ export default class FormPicker extends Component {
       style={[styles.picker, this.props.pickerStyleAndroid]}
       selectedValue={this.state.selectedValue}
       onValueChange={this.androidHandleValueChange}
-      prompt={'propmt'}
       mode={'dialog'}
+      {...this.props}
     >
       {this.renderPickerItems()}
     </Picker>
@@ -129,6 +131,7 @@ export default class FormPicker extends Component {
       style={styles.picker}
       selectedValue={this.state.iosTempValue}
       onValueChange={this.iosHandleTempValueChange}
+      {...this.props}
     >
       {this.renderPickerItems()}
     </Picker>
@@ -149,7 +152,8 @@ export default class FormPicker extends Component {
       onPress={this.iosOpenModal}
     >
       <Text style={[styles.text, this.props.inputStyle]}>
-        {this.itemsDictionary[this.state.selectedValue]}
+        {!this.state.selectedValue && this.props.placeholder}
+        {this.state.selectedValue && this.itemsDictionary[this.state.selectedValue]}
       </Text>
       {this.iosRenderModal()}
     </TouchableOpacity>

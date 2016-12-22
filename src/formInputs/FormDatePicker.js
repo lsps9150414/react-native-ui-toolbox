@@ -1,5 +1,6 @@
 import 'moment/min/locales';
 
+import _ from 'lodash';
 import moment from 'moment';
 import React, {
   Component,
@@ -65,7 +66,7 @@ export default class FormDatePicker extends Component {
     this.platformIOS = Platform.OS === 'ios';
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.date && nextProps.date !== this.state.date) {
+    if (nextProps.date && !_.isEqual(nextProps.date, this.state.date)) {
       this.updateDate(nextProps.date);
     }
   }

@@ -1,9 +1,9 @@
+import _ from 'lodash';
 import React, {
   Component,
   PropTypes,
 } from 'react';
 import {
-  Modal,
   Picker,
   Platform,
   StyleSheet,
@@ -71,8 +71,9 @@ export default class FormPicker extends Component {
     this.updateItemsDictionary(props.items);
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.items !== this.props.items) {
+    if (!_.isEqual(nextProps.items, this.props.items)) {
       this.updateItemsDictionary(nextProps.items);
+      this.updateSelectedValue(nextProps.selectedValue);
     }
     if (nextProps.selectedValue && nextProps.selectedValue !== this.props.selectedValue) {
       this.updateSelectedValue(nextProps.selectedValue);
@@ -105,11 +106,11 @@ export default class FormPicker extends Component {
   }
   androidRenderPicker = () => (
     <Picker
+      {...this.props}
       style={[styles.picker, this.props.pickerStyleAndroid]}
       selectedValue={this.state.selectedValue}
       onValueChange={this.androidHandleValueChange}
       mode={'dialog'}
-      {...this.props}
     >
       {this.renderPickerItems()}
     </Picker>
@@ -128,10 +129,10 @@ export default class FormPicker extends Component {
   iosHandleTempValueChange = (value) => { this.setState({ iosTempValue: value }); }
   iosRenderPicker = () => (
     <Picker
+      {...this.props}
       style={styles.picker}
       selectedValue={this.state.iosTempValue}
       onValueChange={this.iosHandleTempValueChange}
-      {...this.props}
     >
       {this.renderPickerItems()}
     </Picker>
@@ -158,11 +159,16 @@ export default class FormPicker extends Component {
       {this.iosRenderModal()}
     </TouchableOpacity>
   )
-  renderPickerItems = () => (
-    this.props.items.map((item, index) => (
-      <Picker.Item key={`pickerItem-${index}`} label={item.label} value={item.value} />
-    ))
-  )
+  renderPickerItems = () => {
+    if (this.props.items.length === 0) {
+      return (<Picker.Item label={'No Options'} value={null} />);
+    }
+    return (
+      this.props.items.map((item, index) => (
+        <Picker.Item key={`pickerItem-${index}`} label={item.label} value={item.value} />
+      ))
+    );
+  }
 
   render() {
     return (

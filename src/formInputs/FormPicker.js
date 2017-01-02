@@ -17,10 +17,10 @@ import { DEFAULT_COLORS } from '../constants/colors';
 import { fieldContainer, innerContainer } from './styles';
 
 const propTypes = {
-  selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   items: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   })).isRequired,
   onValueChange: PropTypes.func,
 
@@ -64,7 +64,8 @@ export default class FormPicker extends Component {
     super(props);
     this.state = {
       selectedValue: props.selectedValue,
-      iosTempValue: props.selectedValue || props.items[0].value,
+      iosTempValue: this.valueIsEmpty(props.selectedValue) ?
+        props.items[0].value : props.selectedValue,
       iosModalVisible: false,
     };
     this.platformIOS = Platform.OS === 'ios';
@@ -77,6 +78,17 @@ export default class FormPicker extends Component {
     }
     if (nextProps.selectedValue && nextProps.selectedValue !== this.props.selectedValue) {
       this.updateSelectedValue(nextProps.selectedValue);
+    }
+  }
+
+  valueIsEmpty = (value) => {
+    switch (typeof value) {
+      case 'undefined':
+        return true;
+      case 'string':
+        return value.length === 0;
+      default:
+        return false;
     }
   }
   updateItemsDictionary = (items) => {
@@ -153,8 +165,10 @@ export default class FormPicker extends Component {
       onPress={this.iosOpenModal}
     >
       <Text style={[styles.text, this.props.inputStyle]}>
-        {!this.state.selectedValue && this.props.placeholder}
-        {this.state.selectedValue && this.itemsDictionary[this.state.selectedValue]}
+        {this.valueIsEmpty(this.state.selectedValue) && this.props.placeholder}
+        {!this.valueIsEmpty(this.state.selectedValue) &&
+          this.itemsDictionary[this.state.selectedValue]
+        }
       </Text>
       {this.iosRenderModal()}
     </TouchableOpacity>

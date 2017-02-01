@@ -78,18 +78,18 @@ export default (InnerComponent) => {
       if (touched) {
         if (typeof validator === 'function' && validator(value)) {
           return {
-            containerStyle: { ...defaultContainerStyle, ...validContainerStyle },
-            inputStyle: { ...defaultInputStyle, ...validInputStyle },
+            containerStyle: { default: defaultContainerStyle, specified: validContainerStyle },
+            inputStyle: { default: defaultInputStyle, specified: validInputStyle },
           };
         }
         return {
-          containerStyle: { ...defaultContainerStyle, ...invalidContainerStyle },
-          inputStyle: { ...defaultInputStyle, ...invalidInputStyle },
+          containerStyle: { default: defaultContainerStyle, specified: invalidContainerStyle },
+          inputStyle: { default: defaultInputStyle, specified: invalidInputStyle },
         };
       }
       return {
-        containerStyle: { ...defaultContainerStyle, ...defaultContainerStyle },
-        inputStyle: { ...defaultInputStyle, ...defaultInputStyle },
+        containerStyle: { default: defaultContainerStyle },
+        inputStyle: { default: defaultInputStyle },
       };
     }
     handleOnFocus() {
@@ -114,8 +114,8 @@ export default (InnerComponent) => {
         <View style={{ alignSelf: 'stretch' }}>
           <InnerComponent
             {...this.props}
-            containerStyle={[styles.container, containerStyle]}
-            inputStyle={[styles.input, inputStyle]}
+            containerStyle={[styles.container, containerStyle.default, containerStyle.specified]}
+            inputStyle={[styles.input, inputStyle.default, inputStyle.specified]}
             onChange={this.handleOnFocus}
             touched={this.state.touched}
             underlineColorAndroid={'transparent'}

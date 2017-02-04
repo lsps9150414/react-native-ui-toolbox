@@ -10,8 +10,7 @@ import themeProptypes from './constants/themeProptypes';
 import { DEFAULT_COLORS } from './constants/colors';
 
 const propTypes = {
-  children: PropTypes.string.isRequired,
-  style: Text.propTypes.style,
+  ...Text.propTypes,
   theme: themeProptypes,
 };
 

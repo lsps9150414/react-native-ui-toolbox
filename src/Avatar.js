@@ -29,6 +29,9 @@ const defaultProps = {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    alignSelf: 'center',
+  },
   innerContainer: {
     width: defaultProps.size,
     height: defaultProps.size,
@@ -42,6 +45,9 @@ const styles = StyleSheet.create({
     height: defaultProps.size,
     width: defaultProps.size,
     borderRadius: defaultProps.size / 2,
+  },
+  icon: {
+    backgroundColor: 'transparent',
   },
   editBtn: {
     position: 'absolute',
@@ -74,6 +80,10 @@ export default class Avatar extends Component {
       height: this.props.size,
       borderRadius: this.props.size / 2,
     } : null;
+    const containerStyles = [
+      styles.container,
+      this.props.style,
+    ];
     const innerContainerStyles = [
       styles.innerContainer,
       customedSize,
@@ -88,7 +98,7 @@ export default class Avatar extends Component {
       />
     ) : (
       <Icon
-        style={{ backgroundColor: 'transparent' }}
+        style={styles.icon}
         name={'person'} size={this.props.size * 0.8} color={'#fff'}
       />
     );
@@ -104,7 +114,7 @@ export default class Avatar extends Component {
 
     if (this.props.onPress) {
       return (
-        <View style={this.props.style}>
+        <View style={containerStyles}>
           <TouchableOpacity
             style={innerContainerStyles}
             activeOpacity={0.95}
@@ -117,7 +127,7 @@ export default class Avatar extends Component {
       );
     }
     return (
-      <View style={this.props.style}>
+      <View style={containerStyles}>
         <View style={innerContainerStyles}>
           {display}
         </View>

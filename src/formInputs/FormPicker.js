@@ -82,14 +82,10 @@ export default class FormPicker extends Component {
   }
 
   valueIsEmpty = (value) => {
-    switch (typeof value) {
-      case 'undefined':
-        return true;
-      case 'string':
-        return value.length === 0;
-      default:
-        return false;
+    if (typeof value === 'number') {
+      return false;
     }
+    return _.isEmpty(value);
   }
   updateItemsDictionary = (items) => {
     this.itemsDictionary = {};

@@ -82,10 +82,11 @@ export default class FormPicker extends Component {
   }
 
   valueIsEmpty = (value) => {
-    if (typeof value === 'number') {
+    if (typeof value === 'number' || typeof value === 'boolean') {
       return false;
     }
-    return _.isEmpty(value);
+    // Empty: undefined, null, NaN, ''(empty string)
+    return !value;
   }
   updateItemsDictionary = (items) => {
     this.itemsDictionary = {};

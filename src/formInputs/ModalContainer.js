@@ -9,32 +9,43 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Platform,
 } from 'react-native';
 
-const MODAL_CONTROL_BAR_HEIGHT = 50;
-const MODAL_CONTENT_HEIGHT = MODAL_CONTROL_BAR_HEIGHT + 216;
-const MODAL_ANIMATION_CONFIG = {
-  toValue: MODAL_CONTENT_HEIGHT,
-  duration: 300,
-};
+const DEFAULT_CONTROL_BAR_HEIGHT = 50;
 
 const styles = StyleSheet.create({
+  fullScreenModalContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    ...Platform.select({
+      ios: {
+        paddingTop: 20,
+      },
+    }),
+  },
   modalContainer: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'flex-end',
   },
-  modalContentContainer: {
+  animatedContainer: {
+    alignItems: 'stretch',
     backgroundColor: '#fff',
-    height: MODAL_CONTENT_HEIGHT,
   },
   controlBar: {
     flexDirection: 'row',
     alignItems: 'stretch',
     justifyContent: 'space-between',
-    height: MODAL_CONTROL_BAR_HEIGHT,
     borderBottomWidth: StyleSheet.hairlineWidth,
+    borderTopWidth: StyleSheet.hairlineWidth,
     borderColor: '#ccc',
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: 'stretch',
+    justifyContent: 'center',
+    overflow: 'hidden',
   },
   controlButton: {
     justifyContent: 'center',
@@ -51,9 +62,16 @@ const propTypes = {
   onConfirm: PropTypes.func,
   renderContent: PropTypes.func.isRequired,
   visible: PropTypes.bool.isRequired,
+  controlBarHeight: PropTypes.number,
+  modalHeight: PropTypes.number,
+  fullScreen: PropTypes.bool,
 };
 
-const defaultProps = {};
+const defaultProps = {
+  controlBarHeight: DEFAULT_CONTROL_BAR_HEIGHT,
+  modalHeight: DEFAULT_CONTROL_BAR_HEIGHT + 216,
+  fullScreen: false,
+};
 
 export default class ModalContainer extends Component {
   constructor(props) {
@@ -70,8 +88,12 @@ export default class ModalContainer extends Component {
       this.closeModal();
     }
   }
+
   openModal = () => {
-    Animated.timing(this.state.modalAnimatedHeight, MODAL_ANIMATION_CONFIG).start();
+    Animated.timing(
+      this.state.modalAnimatedHeight,
+      { toValue: this.props.modalHeight, duration: 300 },
+    ).start();
   }
   closeModal = () => {
     this.setState({ modalAnimatedHeight: new Animated.Value(0) });
@@ -99,30 +121,44 @@ export default class ModalContainer extends Component {
     );
   }
   renderControlBar = () => (
-    <View style={styles.controlBar}>
+    <View style={[styles.controlBar, { height: this.props.controlBarHeight }]}>
       {this.renderControlButton('CANCEL', this.props.onCancel, this.props.cancelBtnText)}
       {this.renderControlButton('CONFIRM', this.props.onConfirm, this.props.confirmBtnText)}
     </View>
   )
+  renderAnimatedModalContent = () => (
+    <View style={[styles.modalContainer]}>
+      <Animated.View
+        style={[
+          styles.animatedContainer,
+          { height: this.state.modalAnimatedHeight },
+        ]}
+      >
+        {this.renderControlBar()}
+        <View style={[styles.contentContainer]}>{this.props.renderContent()}</View>
+      </Animated.View>
+    </View>
+  )
+  renderFullScreenModalContent = () => (
+    <View style={[styles.fullScreenModalContainer]}>
+      <View style={[styles.contentContainer]}>{this.props.renderContent()}</View>
+      {this.renderControlBar()}
+    </View>
+  )
   render() {
+    const content = this.props.fullScreen ?
+      this.renderFullScreenModalContent() : this.renderAnimatedModalContent();
+    const modalAnimationType = this.props.fullScreen ? 'slide' : 'fade';
+    const modalTransparent = !this.props.fullScreen;
+
     return (
       <Modal
         visible={this.props.visible}
-        transparent
-        animationType={'fade'}
-        onRequestClose={() => { console.log('Modal has been closed.'); }}
+        transparent={modalTransparent}
+        animationType={modalAnimationType}
+        onRequestClose={() => { this.props.onCancel(); }}
       >
-        <View style={[styles.modalContainer]}>
-          <Animated.View
-            style={[
-              styles.modalContentContainer,
-              { height: this.state.modalAnimatedHeight },
-            ]}
-          >
-            {this.renderControlBar()}
-            {this.props.renderContent()}
-          </Animated.View>
-        </View>
+        {content}
       </Modal>
     );
   }

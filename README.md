@@ -2,6 +2,13 @@
 Just another collection of **cross platform** React Native UI components.
 > Extended from react-native-community's [`react-native-elements`](https://github.com/react-native-community/react-native-elements)
 
+## Todo
+- [ ] Make demoApp
+- [ ] demoApp Tutorial
+- [ ] refactor ModalContainer to render content directly with children
+- [ ] refactor Picker & Select `items` to `options`
+
+
 ## Demo
 [React Native UI Toolbox Demo App]()
 

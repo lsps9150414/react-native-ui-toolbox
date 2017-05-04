@@ -26,6 +26,8 @@ const propTypes = {
 
   cancelBtnText: PropTypes.string, /* ios */
   confirmBtnText: PropTypes.string, /* ios */
+  controlBarHeight: PropTypes.number, /* ios */
+  modalHeight: PropTypes.number, /* ios */
   placeholder: PropTypes.string,
   containerStyle: View.propTypes.style,
   touchableContainerStyle: View.propTypes.style,
@@ -154,6 +156,8 @@ export default class FormPicker extends Component {
       onConfirm={this.iosHandleModalConfirm}
       renderContent={this.iosRenderPicker}
       visible={this.state.iosModalVisible}
+      controlBarHeight={this.props.controlBarHeight}
+      modalHeight={this.props.modalHeight}
     />
   )
   iosRenderTouchable = () => (

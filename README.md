@@ -5,9 +5,7 @@ Just another collection of **cross platform** React Native UI components.
 ## Todo
 - [ ] Make demoApp
 - [ ] demoApp Tutorial
-- [ ] refactor ModalContainer to render content directly with children
-- [ ] refactor Picker & Select `items` to `options`
-
+- [x] refactor ModalContainer to render content directly with children
 
 ## Demo
 [React Native UI Toolbox Demo App]()

@@ -56,11 +56,11 @@ const styles = StyleSheet.create({
 });
 
 const propTypes = {
+  children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]),
   cancelBtnText: PropTypes.string,
   confirmBtnText: PropTypes.string,
   onCancel: PropTypes.func,
   onConfirm: PropTypes.func,
-  renderContent: PropTypes.func.isRequired,
   visible: PropTypes.bool.isRequired,
   controlBarHeight: PropTypes.number,
   modalHeight: PropTypes.number,
@@ -135,13 +135,13 @@ export default class ModalContainer extends Component {
         ]}
       >
         {this.renderControlBar()}
-        <View style={[styles.contentContainer]}>{this.props.renderContent()}</View>
+        <View style={[styles.contentContainer]}>{this.props.children}</View>
       </Animated.View>
     </View>
   )
   renderFullScreenModalContent = () => (
     <View style={[styles.fullScreenModalContainer]}>
-      <View style={[styles.contentContainer]}>{this.props.renderContent()}</View>
+      <View style={[styles.contentContainer]}>{this.props.children}</View>
       {this.renderControlBar()}
     </View>
   )

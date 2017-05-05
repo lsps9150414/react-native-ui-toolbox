@@ -16,11 +16,13 @@ import ModalContainer from './ModalContainer';
 import { DEFAULT_COLORS } from '../constants/colors';
 import { fieldContainer, innerContainer } from './styles';
 
+const acceptValueTypes = [PropTypes.string, PropTypes.number, PropTypes.bool];
+const acceptLabelTypes = [PropTypes.string, PropTypes.number];
 const propTypes = {
-  selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  selectedValue: PropTypes.oneOfType(acceptValueTypes),
   items: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    value: PropTypes.oneOfType(acceptValueTypes),
+    label: PropTypes.oneOfType(acceptLabelTypes),
   })).isRequired,
   onValueChange: PropTypes.func,
 
@@ -28,6 +30,7 @@ const propTypes = {
   confirmBtnText: PropTypes.string, /* ios */
   controlBarHeight: PropTypes.number, /* ios */
   modalHeight: PropTypes.number, /* ios */
+  fullScreen: PropTypes.bool, /* ios */
   placeholder: PropTypes.string,
   containerStyle: View.propTypes.style,
   touchableContainerStyle: View.propTypes.style,
@@ -41,6 +44,7 @@ const defaultProps = {
     { label: 'item 2', value: 'item 2 value' },
   ],
   placeholder: 'Select...',
+  fullScreen: false,
 };
 
 const styles = StyleSheet.create({
@@ -94,11 +98,9 @@ export default class FormPicker extends Component {
     this.itemsDictionary = {};
     items.forEach((item) => { this.itemsDictionary[item.value] = item.label; });
   }
-
   updateSelectedValue = (selectedValue) => {
     this.setState({ selectedValue, iosTempValue: selectedValue });
   }
-
   androidHandleValueChange = (value) => {
     this.setState({ selectedValue: value },
       () => {
@@ -154,11 +156,13 @@ export default class FormPicker extends Component {
       confirmBtnText={this.props.confirmBtnText}
       onCancel={this.iosHandleModalCancel}
       onConfirm={this.iosHandleModalConfirm}
-      renderContent={this.iosRenderPicker}
       visible={this.state.iosModalVisible}
       controlBarHeight={this.props.controlBarHeight}
       modalHeight={this.props.modalHeight}
-    />
+      fullScreen={this.props.fullScreen}
+    >
+      {this.iosRenderPicker()}
+    </ModalContainer>
   )
   iosRenderTouchable = () => (
     <TouchableOpacity

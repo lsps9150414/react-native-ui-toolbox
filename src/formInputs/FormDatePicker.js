@@ -127,9 +127,10 @@ export default class FormDatePicker extends Component {
       confirmBtnText={this.props.confirmBtnText}
       onCancel={this.iosHandleModalCancel}
       onConfirm={this.iosHandleModalConfirm}
-      renderContent={this.iosRenderDatePicker}
       visible={this.state.iosModalVisible}
-    />
+    >
+      {this.iosRenderDatePicker()}
+    </ModalContainer>
   )
 
   render() {

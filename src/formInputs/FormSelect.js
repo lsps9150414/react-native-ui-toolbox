@@ -4,12 +4,12 @@ import React, {
   PropTypes,
 } from 'react';
 import {
-  Picker,
   Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  ScrollView,
 } from 'react-native';
 
 import { CheckBox } from 'react-native-elements';
@@ -17,22 +17,24 @@ import ModalContainer from './ModalContainer';
 import { DEFAULT_COLORS } from '../constants/colors';
 import { fieldContainer, innerContainer } from './styles';
 
+const acceptValueTypes = [PropTypes.string, PropTypes.number, PropTypes.bool];
+const acceptLabelTypes = [PropTypes.string, PropTypes.number];
 const propTypes = {
-  selectedValues: PropTypes.arrayOf([PropTypes.string, PropTypes.number, PropTypes.bool]),
+  selectedValues: PropTypes.arrayOf(PropTypes.oneOfType(acceptValueTypes)),
   items: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
+    value: PropTypes.oneOfType(acceptValueTypes),
+    label: PropTypes.oneOfType(acceptLabelTypes),
   })).isRequired,
   onValueChange: PropTypes.func,
 
   cancelBtnText: PropTypes.string, /* ios */
   confirmBtnText: PropTypes.string, /* ios */
-  controlBarHeight: PropTypes.number, /* ios */
-  modalHeight: PropTypes.number, /* ios */
+  controlBarHeight: PropTypes.number,
+  modalHeight: PropTypes.number,
+  fullScreen: PropTypes.bool,
   placeholder: PropTypes.string,
   containerStyle: View.propTypes.style,
   touchableContainerStyle: View.propTypes.style,
-  pickerStyleAndroid: Picker.propTypes.style, /* android */
   inputStyle: Text.propTypes.style,
 };
 
@@ -42,6 +44,7 @@ const defaultProps = {
     { label: 'item 2', value: 'item 2 value' },
   ],
   placeholder: 'Select...',
+  fullScreen: false,
 };
 
 const styles = StyleSheet.create({
@@ -51,14 +54,8 @@ const styles = StyleSheet.create({
   innerContainer: {
     ...innerContainer,
   },
-  picker: {
-    ...Platform.select({
-      ios: {
-      },
-      android: {
-        color: DEFAULT_COLORS[3].toHexString(),
-      },
-    }),
+  modalContentContainer: {
+
   },
 });
 
@@ -67,8 +64,7 @@ export default class FormSelect extends Component {
     super(props);
     this.state = {
       selectedValues: props.selectedValues,
-      tempValues: this.valueIsEmpty(props.selectedValues) ?
-        props.items[0].value : props.selectedValues,
+      tempValues: props.selectedValues,
       modalVisible: false,
     };
     this.platformIOS = Platform.OS === 'ios';
@@ -77,29 +73,23 @@ export default class FormSelect extends Component {
   componentWillReceiveProps(nextProps) {
     if (!_.isEqual(nextProps.items, this.props.items)) {
       this.updateItemsDictionary(nextProps.items);
-      this.updateSelectedValue(nextProps.selectedValues);
+      this.updateSelectedValues(nextProps.selectedValues);
     }
     if (nextProps.selectedValues && nextProps.selectedValues !== this.props.selectedValues) {
-      this.updateSelectedValue(nextProps.selectedValues);
+      this.updateSelectedValues(nextProps.selectedValues);
     }
   }
 
-  valueIsEmpty = (value) => {
-    if (typeof value === 'number' || typeof value === 'boolean') {
-      return false;
-    }
-    // Empty: undefined, null, NaN, ''(empty string)
-    return !value;
-  }
+  noneSelected = selectedValues => _.isEmpty(selectedValues)
+  isSelected = (selectedValues, value) => _.includes(selectedValues, value)
+
   updateItemsDictionary = (items) => {
     this.itemsDictionary = {};
     items.forEach((item) => { this.itemsDictionary[item.value] = item.label; });
   }
-
-  updateSelectedValue = (selectedValues) => {
+  updateSelectedValues = (selectedValues) => {
     this.setState({ selectedValues, tempValues: selectedValues });
   }
-
   handleValueChange = () => {
     this.setState({ selectedValues: this.state.tempValues },
       () => {
@@ -107,6 +97,15 @@ export default class FormSelect extends Component {
           this.props.onValueChange(this.state.selectedValues);
         }
       });
+  }
+  handleTempValueChange = (value) => {
+    const newTempValues = [...this.state.tempValues];
+    if (newTempValues.indexOf(value) === -1) {
+      newTempValues.push(value);
+    } else {
+      _.remove(newTempValues, n => (n === value));
+    }
+    this.setState({ tempValues: newTempValues });
   }
 
   openModal = () => { this.setState({ modalVisible: true }); }
@@ -119,30 +118,44 @@ export default class FormSelect extends Component {
     this.closeModal();
     this.handleValueChange();
   }
-  handleTempValueChange = (value) => { this.setState({ tempValues: value }); }
 
-  renderCheckboxes = () => (
-    <View>
-      <CheckBox
-        title={'Click Here'}
-        checked={false}
-      />
-      <CheckBox
-        title={'Click Here'}
-        checked={true}
-      />
-    </View>
-  )
+  renderCheckboxItems = () => {
+    if (this.props.items.length === 0) {
+      return (<CheckBox title={'No Options'} />);
+    }
+    return (
+      this.props.items.map((item, index) => (
+        <CheckBox
+          key={`pickerItem-${index}`}
+          title={item.label.toString()}
+          checked={this.isSelected(this.state.tempValues, item.value)}
+          onPress={() => { this.handleTempValueChange(item.value); }}
+        />
+      ))
+    );
+  }
   renderModal = () => (
     <ModalContainer
       cancelBtnText={this.props.cancelBtnText}
       confirmBtnText={this.props.confirmBtnText}
       onCancel={this.handleModalCancel}
       onConfirm={this.handleModalConfirm}
-      renderContent={this.renderCheckboxes}
       visible={this.state.modalVisible}
-      fullScreen
-    />
+      controlBarHeight={this.props.controlBarHeight}
+      modalHeight={this.props.modalHeight}
+      fullScreen={this.props.fullScreen}
+    >
+      <ScrollView style={styles.modalContentContainer}>{this.renderCheckboxItems()}</ScrollView>
+    </ModalContainer>
+  )
+  renderSelectedValues = selectedValues => (
+    selectedValues.map((item, index) => {
+      let seperator = '';
+      if ((index + 1) !== selectedValues.length) {
+        seperator = ', ';
+      }
+      return (`${this.itemsDictionary[item]}${seperator}`);
+    })
   )
   renderTouchable = () => (
     <TouchableOpacity
@@ -150,24 +163,14 @@ export default class FormSelect extends Component {
       onPress={this.openModal}
     >
       <Text style={[styles.text, this.props.inputStyle]}>
-        {this.valueIsEmpty(this.state.selectedValues) && this.props.placeholder}
-        {!this.valueIsEmpty(this.state.selectedValues) &&
-          this.itemsDictionary[this.state.selectedValues]
+        {this.noneSelected(this.state.selectedValues) && this.props.placeholder}
+        {!this.noneSelected(this.state.selectedValues) &&
+          this.renderSelectedValues(this.state.selectedValues)
         }
       </Text>
       {this.renderModal()}
     </TouchableOpacity>
   )
-  renderCheckboxesItems = () => {
-    if (this.props.items.length === 0) {
-      return (<Picker.Item label={'No Options'} value={null} />);
-    }
-    return (
-      this.props.items.map((item, index) => (
-        <Picker.Item key={`pickerItem-${index}`} label={item.label} value={item.value} />
-      ))
-    );
-  }
 
   render() {
     return (

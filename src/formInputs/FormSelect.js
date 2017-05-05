@@ -54,8 +54,7 @@ const styles = StyleSheet.create({
   innerContainer: {
     ...innerContainer,
   },
-  modalContentContainer: {
-
+  text: {
   },
 });
 
@@ -145,7 +144,7 @@ export default class FormSelect extends Component {
       modalHeight={this.props.modalHeight}
       fullScreen={this.props.fullScreen}
     >
-      <ScrollView style={styles.modalContentContainer}>{this.renderCheckboxItems()}</ScrollView>
+      <ScrollView>{this.renderCheckboxItems()}</ScrollView>
     </ModalContainer>
   )
   renderSelectedValues = selectedValues => (
@@ -162,7 +161,7 @@ export default class FormSelect extends Component {
       style={[styles.innerContainer, this.props.touchableContainerStyle]}
       onPress={this.openModal}
     >
-      <Text style={[styles.text, this.props.inputStyle]}>
+      <Text style={[styles.text, this.props.inputStyle]} ellipsizeMode={'tail'} numberOfLines={1}>
         {this.noneSelected(this.state.selectedValues) && this.props.placeholder}
         {!this.noneSelected(this.state.selectedValues) &&
           this.renderSelectedValues(this.state.selectedValues)

@@ -76,7 +76,12 @@ const defaultProps = {
   source: null,
   imageStyle: null,
 
-  icon: null,
+  icon: {
+    name: null,
+    type: 'material',
+    color: '#fff',
+    style: null,
+  },
 
   title: {
     text: null,
@@ -164,6 +169,18 @@ const Avatar = (props) => {
           resizeMode={'cover'}
         />
       );
+    } else if (props.icon.name) {
+      const iconProps = { ...defaultProps.icon, ...props.icon };
+
+      return (
+        <Icon
+          style={[styles.icon, iconProps.style]}
+          name={iconProps.name}
+          type={iconProps.type}
+          size={props.size * 0.8}
+          color={iconProps.color}
+        />
+      );
     } else if (props.title.text) {
       const titleProps = { ...defaultProps.title, ...props.title };
       const titleSizeStyle = { fontSize: props.size / 3 };
@@ -173,13 +190,6 @@ const Avatar = (props) => {
         <Text style={[styles.title, titleSizeStyle, titleColorStyle, titleProps.style]}>
           {titleProps.text}
         </Text>
-      );
-    } else if (props.icon) {
-      return (
-        <Icon
-          style={[styles.icon, props.icon.style && props.icon.style]}
-          name={props.icon.name} size={props.size * 0.8} color={'#fff'}
-        />
       );
     }
     return (

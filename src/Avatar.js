@@ -52,24 +52,23 @@ const propTypes = {
   }),
 
   showIndicator: PropTypes.bool,
-  indicatorStyle: View.propTypes.style,
-  statusTypes: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string,
-    color: PropTypes.string,
-  })),
-  status: PropTypes.string,
+  indicator: PropTypes.shape({
+    size: PropTypes.number,
+    types: PropTypes.arrayOf(PropTypes.shape({
+      key: PropTypes.string,
+      color: PropTypes.string,
+    })),
+    status: PropTypes.string,
+    style: View.propTypes.style,
+  }),
 };
-
-const DEFAULT_AVATAR_SIZE = 100;
-const DEFAULT_EDIT_BTN_SIZE = DEFAULT_AVATAR_SIZE / 3;
-const DEFAULT_INDICATOR_SIZE = DEFAULT_AVATAR_SIZE / 4;
 
 const defaultProps = {
   component: View,
   onPress: null,
   onLongPress: null,
 
-  size: DEFAULT_AVATAR_SIZE,
+  size: 100,
   rounded: false,
   containerStyle: null,
   avatarContainerStyle: null,
@@ -84,21 +83,24 @@ const defaultProps = {
   showEditButton: false,
   onEditPress: null,
   editButton: {
-    size: DEFAULT_EDIT_BTN_SIZE,
+    size: null,
     iconName: 'mode-edit',
     iconType: 'material',
     iconColor: '#fff',
     underlayColor: DEFAULT_COLORS[0].toHexString(),
-    style: {},
+    style: null,
   },
 
   showIndicator: false,
-  statusTypes: [
-    { key: 'active', color: 'green' },
-    { key: 'inactive', color: 'red' },
-  ],
-  status: 'active',
-  indicatorStyle: null,
+  indicator: {
+    size: null,
+    types: [
+      { key: 'active', color: 'green' },
+      { key: 'inactive', color: 'red' },
+    ],
+    status: 'active',
+    style: null,
+  },
 };
 
 const styles = StyleSheet.create({
@@ -140,9 +142,6 @@ const styles = StyleSheet.create({
     }),
   },
   indicator: {
-    width: DEFAULT_INDICATOR_SIZE,
-    height: DEFAULT_INDICATOR_SIZE,
-    borderRadius: DEFAULT_INDICATOR_SIZE / 2,
     position: 'absolute',
     bottom: 0,
     right: 0,
@@ -190,21 +189,24 @@ const Avatar = (props) => {
         ...props.editButton,
       };
 
-      const editButtonSize = {
-        width: props.editButton.size || props.size / 3,
-        height: props.editButton.size || props.size / 3,
-        borderRadius: (props.editButton.size / 2) || props.size / 6,
+      const defaultEditButtonSize = props.size / 3;
+      const editButtonSize = props.editButton.size || defaultEditButtonSize;
+      const editButtonSizeStyle = {
+        width: editButtonSize,
+        height: editButtonSize,
+        borderRadius: editButtonSize / 2,
       };
+      const editButtonIconSize = editButtonSize * 0.8;
 
       return (
         <TouchableHighlight
-          style={[styles.editButton, editButtonSize, editButonProps.style]}
+          style={[styles.editButton, editButtonSizeStyle, editButonProps.style]}
           underlayColor={editButonProps.underlayColor}
           onPress={props.onEditPress}
         >
           <View>
             <Icon
-              size={editButonProps.size * 0.8}
+              size={editButtonIconSize}
               name={editButonProps.iconName}
               type={editButonProps.iconType}
               color={editButonProps.iconColor}
@@ -213,10 +215,26 @@ const Avatar = (props) => {
         </TouchableHighlight>
       );
     } else if (props.showIndicator) {
-      const statusColor = _.find(props.statusTypes, { key: props.status }).color;
+      const indicatorProps = {
+        ...defaultProps.indicator,
+        ...props.indicator,
+      };
+
+      const defaultIndicatorSize = props.size / 4;
+      const indicatorSize = props.indicator.size || defaultIndicatorSize;
+      const indicatorSizeStyle = {
+        width: indicatorSize,
+        height: indicatorSize,
+        borderRadius: indicatorSize / 2,
+      };
+
+      const statusColor = {
+        backgroundColor: _.find(indicatorProps.types, { key: indicatorProps.status }).color,
+      };
+
       return (
         <View
-          style={[styles.indicator, { backgroundColor: statusColor }]}
+          style={[styles.indicator, indicatorSizeStyle, statusColor, indicatorProps.style]}
         />
       );
     }

@@ -78,7 +78,11 @@ const defaultProps = {
 
   icon: null,
 
-  title: null,
+  title: {
+    text: null,
+    color: DEFAULT_COLORS[3].toHexString(),
+    style: null,
+  },
 
   showEditButton: false,
   onEditPress: null,
@@ -118,6 +122,8 @@ const styles = StyleSheet.create({
     width: defaultProps.size,
   },
   title: {
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
   icon: {
     backgroundColor: 'transparent',
@@ -158,12 +164,14 @@ const Avatar = (props) => {
           resizeMode={'cover'}
         />
       );
-    } else if (props.title) {
+    } else if (props.title.text) {
+      const titleProps = { ...defaultProps.title, ...props.title };
+      const titleSizeStyle = { fontSize: props.size / 3 };
+      const titleColorStyle = { color: titleProps.color };
+
       return (
-        <Text
-          style={[styles.title, props.title.style && props.title.style]}
-        >
-          {props.title}
+        <Text style={[styles.title, titleSizeStyle, titleColorStyle, titleProps.style]}>
+          {titleProps.text}
         </Text>
       );
     } else if (props.icon) {
@@ -182,12 +190,9 @@ const Avatar = (props) => {
     );
   };
 
-  const renderUtilities = () => {
+  const renderUtils = () => {
     if (props.showEditButton) {
-      const editButonProps = {
-        ...defaultProps.editButton,
-        ...props.editButton,
-      };
+      const editButonProps = { ...defaultProps.editButton, ...props.editButton };
 
       const defaultEditButtonSize = props.size / 3;
       const editButtonSize = props.editButton.size || defaultEditButtonSize;
@@ -215,10 +220,7 @@ const Avatar = (props) => {
         </TouchableHighlight>
       );
     } else if (props.showIndicator) {
-      const indicatorProps = {
-        ...defaultProps.indicator,
-        ...props.indicator,
-      };
+      const indicatorProps = { ...defaultProps.indicator, ...props.indicator };
 
       const defaultIndicatorSize = props.size / 4;
       const indicatorSize = props.indicator.size || defaultIndicatorSize;
@@ -261,7 +263,7 @@ const Avatar = (props) => {
       >
         {renderContent()}
       </Component>
-      {renderUtilities()}
+      {renderUtils()}
     </View>
   );
 };

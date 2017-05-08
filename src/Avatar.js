@@ -8,39 +8,47 @@ import {
   Image,
   Platform,
   StyleSheet,
+  TouchableOpacity,
   TouchableHighlight,
+  TouchableNativeFeedback,
+  TouchableWithoutFeedback,
   View,
 } from 'react-native';
 
 import { DEFAULT_COLORS } from './constants/colors';
 
 const propTypes = {
-  component: PropTypes.func,
-  onPress: PropTypes.func,
-  onLongPress: PropTypes.func,
-
+  component: PropTypes.oneOf([
+    View,
+    TouchableOpacity,
+    TouchableHighlight,
+    TouchableNativeFeedback,
+    TouchableWithoutFeedback,
+  ]),
   size: PropTypes.number,
   rounded: PropTypes.bool,
   containerStyle: View.propTypes.style,
+
+  avatarContainerProps: PropTypes.object,
   avatarContainerStyle: View.propTypes.style,
 
   source: PropTypes.object,
   imageStyle: Image.propTypes.style,
 
   icon: PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     type: PropTypes.string,
     color: PropTypes.string,
     style: View.propTypes.style,
   }),
 
   title: PropTypes.shape({
-    text: PropTypes.string.isRequired,
+    text: PropTypes.string,
     color: PropTypes.string,
     style: Text.propTypes.style,
   }),
 
-  showEditButton: PropTypes.bool.isRequired,
+  showEditButton: PropTypes.bool,
   onEditPress: PropTypes.func,
   editButton: PropTypes.shape({
     size: PropTypes.number,
@@ -65,12 +73,11 @@ const propTypes = {
 
 const defaultProps = {
   component: View,
-  onPress: null,
-  onLongPress: null,
-
   size: 100,
   rounded: false,
   containerStyle: null,
+
+  avatarContainerProps: {},
   avatarContainerStyle: null,
 
   source: null,
@@ -123,15 +130,13 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   image: {
-    height: defaultProps.size,
-    width: defaultProps.size,
+  },
+  icon: {
+    backgroundColor: 'transparent',
   },
   title: {
     textAlign: 'center',
     fontWeight: 'bold',
-  },
-  icon: {
-    backgroundColor: 'transparent',
   },
   editButton: {
     position: 'absolute',
@@ -162,10 +167,19 @@ const styles = StyleSheet.create({
 const Avatar = (props) => {
   const renderContent = () => {
     if (props.source) {
+      const defaultImageSize = props.size;
+      const imageSizeStyle = { width: defaultImageSize, height: defaultImageSize };
+
+      /*
+      Note: imageRoundedStyle is a temp fix due to `overflow: hidden` not working on android:
+      https://github.com/facebook/react-native/issues/3198
+      */
+      const imageRoundedStyle = props.rounded ? { borderRadius: defaultImageSize / 2 } : null;
+
       return (
         <Image
           source={props.source}
-          style={[styles.image, props.imageStyle && props.imageStyle]}
+          style={[styles.image, imageSizeStyle, imageRoundedStyle, props.imageStyle]}
           resizeMode={'cover'}
         />
       );
@@ -253,13 +267,7 @@ const Avatar = (props) => {
     return null;
   };
 
-  let Component;
-  if (props.onPress) {
-    Component = TouchableHighlight;
-  } else {
-    Component = props.component;
-  }
-
+  const Component = props.component;
   const avatarSize = { width: props.size, height: props.size };
   const avatarRoundedStyle = props.rounded ? { borderRadius: props.size / 2 } : null;
 
@@ -267,9 +275,7 @@ const Avatar = (props) => {
     <View style={[styles.container, props.containerStyle]}>
       <Component
         style={[styles.avatarContainer, avatarSize, avatarRoundedStyle, props.avatarContainerStyle]}
-        activeOpacity={0.95}
-        onPress={props.onPress}
-        onLongPress={props.onLongPress}
+        {...props.avatarContainerProps}
       >
         {renderContent()}
       </Component>

@@ -7,6 +7,10 @@ Just another collection of **cross platform** React Native UI components.
 - [ ] demoApp Tutorial
 - [x] refactor ModalContainer to render content directly with children
 
+## Change logs
+- 0.0.17: Update `Avatar` API.
+- 0.0.16: Add `FormSelect`
+
 ## Demo
 [React Native UI Toolbox Demo App]()
 
@@ -169,7 +173,7 @@ const defaultProps = {
 
 *Insert sample code here*
 
-### FormTextInput props
+### props
 
 > Also recevies all `TextInput` props
 
@@ -186,7 +190,7 @@ const defaultProps = {
 
 *Insert sample code here*
 
-### FormPicker props
+### props
 
 > Also recevies all `Picker` props
 
@@ -198,13 +202,20 @@ const defaultProps = {
 | items | demo data | array of `{ label: [string], value: [string\number] }` | picker items | |
 | onValueChange | function | ---- | ---- | ---- |
 
+## FormSelect
+*Insert gif screenshot here*
+
+*Insert sample code here*
+
+### props
+
 
 ## FormDatePicker
 *Insert gif screenshot here*
 
 *Insert sample code here*
 
-### FormDatePicker props
+### props
 
 > Also recevies all `DatePicker` props
 

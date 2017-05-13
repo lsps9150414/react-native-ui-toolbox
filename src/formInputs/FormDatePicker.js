@@ -36,6 +36,10 @@ const propTypes = {
 };
 
 const defaultProps = {
+  date: null,
+  maxDate: undefined, // DatePickerAndroid don't take null.
+  minDate: undefined, // DatePickerAndroid don't take null.
+  onValueChange: null,
   format: 'Y-M-D (dd)',
   locale: 'en',
   placeholder: 'Select a date...',
@@ -45,32 +49,50 @@ export default class FormDatePicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      momentDate: props.date ? moment(props.date) : null,
-      iosTempDate: props.date || new Date(),
+      // internalDate is only used when date prop is not provided.
+      internalDate: props.date instanceof Date ? props.date : null,
+      iosTempDate: this.getValidDate(props.date),
       iosModalVisible: false,
     };
     this.platformIOS = Platform.OS === 'ios';
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.date && !_.isEqual(nextProps.date, this.state.date)) {
-      this.updateDate(nextProps.date);
+    if (!_.isEqual(nextProps.date, this.props.date)) {
+      this.updateDateState(nextProps.date);
     }
   }
 
-  updateDate = (date) => {
-    this.setState({ momentDate: moment(date), iosTempDate: date });
+  getValidDate = date => (date instanceof Date ? date : new Date())
+
+  /*
+  If props.date is not provided use state.internalDate.
+  When state.internalDate is not yet init, use today.
+  */
+  getDateInUse = () => {
+    if (this.props.date instanceof Date) {
+      return this.props.date;
+    } else if (this.state.internalDate instanceof Date) {
+      return this.state.internalDate;
+    }
+    return new Date();
   }
 
-  handleDateChange = () => {
-    if (typeof this.props.onValueChange === 'function') {
-      this.props.onValueChange(this.state.momentDate.toDate());
-    }
+  updateDateState = (date) => {
+    this.setState({ internalDate: date, iosTempDate: this.getValidDate(date) });
+  }
+
+  handleDateChange = (newDate) => {
+    this.setState({ internalDate: newDate }, () => {
+      if (typeof this.props.onValueChange === 'function') {
+        this.props.onValueChange(newDate);
+      }
+    });
   }
 
   openPicker = () => {
     if (Platform.OS === 'ios') {
-      this.iosOpenModal();
+      this.iosShowModal();
     } else {
       this.androidShowPicker();
     }
@@ -79,66 +101,60 @@ export default class FormDatePicker extends Component {
   androidShowPicker = async () => {
     try {
       const { action, year, month, day } = await DatePickerAndroid.open({
-        date: this.state.momentDate ? this.state.momentDate.toDate() : new Date(),
+        date: this.getDateInUse(),
         minDate: this.props.minDate,
         maxDate: this.props.maxDate,
       });
       if (action === DatePickerAndroid.dateSetAction) {
-        this.setState({ momentDate: moment(new Date(year, month, day)) }, this.handleDateChange);
+        this.handleDateChange(new Date(year, month, day));
       }
-    } catch ({ code, message }) {
-      console.warn('Error');
+    } catch ({ message }) {
+      console.warn('Error:', message);
     }
   }
 
-  iosOpenModal = () => { this.setState({ iosModalVisible: true }); }
+  iosShowModal = () => { this.setState({ iosModalVisible: true }); }
 
   iosCloseModal = () => { this.setState({ iosModalVisible: false }); }
 
-  iosHandleModalCancel = () => {
+  iosHandleCancel = () => {
     this.iosCloseModal();
-    if (this.state.momentDate) {
-      this.setState({ iosTempDate: this.state.momentDate.toDate() });
-    }
+    this.setState({ iosTempDate: this.getDateInUse() });
   }
 
-  iosHandleModalConfirm = () => {
+  iosHandleConfirm = () => {
     this.iosCloseModal();
-    this.setState({ momentDate: moment(this.state.iosTempDate) }, this.handleDateChange);
+    this.handleDateChange(this.state.iosTempDate);
   }
 
   iosHandleTempDateChange = (date) => { this.setState({ iosTempDate: date }); }
 
-  iosRenderDatePicker = () => (
-    <DatePickerIOS
-      mode={'date'}
-      date={this.state.iosTempDate}
-      onDateChange={this.iosHandleTempDateChange}
-      minimumDate={this.props.minDate}
-      maximumDate={this.props.maxDate}
-    />
-  );
-
-  iosRenderModal = () => (
+  iosRenderModal = visible => (
     <ModalContainer
       cancelBtnText={this.props.cancelBtnText}
       confirmBtnText={this.props.confirmBtnText}
-      onCancel={this.iosHandleModalCancel}
-      onConfirm={this.iosHandleModalConfirm}
-      visible={this.state.iosModalVisible}
+      onCancel={this.iosHandleCancel}
+      onConfirm={this.iosHandleConfirm}
+      visible={visible}
     >
-      {this.iosRenderDatePicker()}
+      <DatePickerIOS
+        mode={'date'}
+        date={this.state.iosTempDate}
+        onDateChange={this.iosHandleTempDateChange}
+        minimumDate={this.props.minDate}
+        maximumDate={this.props.maxDate}
+      />
     </ModalContainer>
   )
 
-  render() {
-    let display;
-    if (this.state.momentDate) {
-      this.state.momentDate.locale(this.props.locale);
-      display = this.state.momentDate.format(this.props.format);
-    } else {
-      display = this.props.placeholder;
+  renderDisplayText = () => {
+    if (!(this.props.date instanceof Date) && !(this.state.internalDate instanceof Date)) {
+      return this.props.placeholder;
     }
+    return moment(this.getDateInUse()).locale(this.props.locale).format(this.props.format);
+  }
+
+  render() {
     return (
       <View style={[baseStyles.container, this.props.containerStyle]}>
         <TouchableOpacity
@@ -146,10 +162,10 @@ export default class FormDatePicker extends Component {
           onPress={this.openPicker}
         >
           <Text style={[this.props.inputStyle]}>
-            {display}
+            {this.renderDisplayText()}
           </Text>
         </TouchableOpacity>
-        {this.platformIOS && this.iosRenderModal()}
+        {this.platformIOS && this.iosRenderModal(this.state.iosModalVisible)}
       </View>
     );
   }

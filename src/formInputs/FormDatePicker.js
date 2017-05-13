@@ -22,7 +22,7 @@ const propTypes = {
   date: PropTypes.instanceOf(Date),
   maxDate: PropTypes.instanceOf(Date),
   minDate: PropTypes.instanceOf(Date),
-  onDateChange: PropTypes.func,
+  onValueChange: PropTypes.func,
 
   cancelBtnText: PropTypes.string, /* ios */
   confirmBtnText: PropTypes.string, /* ios */
@@ -63,13 +63,17 @@ export default class FormDatePicker extends Component {
   }
 
   handleDateChange = () => {
-    if (typeof this.props.onDateChange === 'function') {
-      this.props.onDateChange(this.state.momentDate.toDate());
+    if (typeof this.props.onValueChange === 'function') {
+      this.props.onValueChange(this.state.momentDate.toDate());
     }
   }
 
   openPicker = () => {
-    if (Platform.OS === 'ios') { this.iosOpenModal(); } else { this.androidShowPicker(); }
+    if (Platform.OS === 'ios') {
+      this.iosOpenModal();
+    } else {
+      this.androidShowPicker();
+    }
   }
 
   androidShowPicker = async () => {

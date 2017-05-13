@@ -1,10 +1,10 @@
 import 'moment/min/locales';
 
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 import moment from 'moment';
 import React, {
   Component,
-  PropTypes,
 } from 'react';
 import {
   DatePickerAndroid,

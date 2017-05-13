@@ -1,18 +1,18 @@
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 import React, {
   Component,
-  PropTypes,
 } from 'react';
+import { CheckBox } from 'react-native-elements';
 import {
   Platform,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  ScrollView,
 } from 'react-native';
 
-import { CheckBox } from 'react-native-elements';
 import ModalContainer from './ModalContainer';
 import { DEFAULT_COLORS } from '../constants/colors';
 import { fieldContainer, innerContainer } from './styles';

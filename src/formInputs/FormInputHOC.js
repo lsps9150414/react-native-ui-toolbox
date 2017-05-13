@@ -1,6 +1,10 @@
+/*
+Add validation to InnerComponent
+*/
+
+import PropTypes from 'prop-types';
 import React, {
   Component,
-  PropTypes,
 } from 'react';
 import {
   Platform,
@@ -78,6 +82,7 @@ export default (InnerComponent) => {
       if (touched) {
         if (typeof validator === 'function' && validator(value)) {
           return {
+            // Note: Cannot use spread assign here b.c. style prop may be array.
             containerStyle: { default: defaultContainerStyle, specified: validContainerStyle },
             inputStyle: { default: defaultInputStyle, specified: validInputStyle },
           };
@@ -106,6 +111,8 @@ export default (InnerComponent) => {
         containerStyle,
         inputStyle,
       } = this.getValidationStyles(this.state.touched, this.props.validator, this.props.value);
+
+      // TODO: Wrap error logic & view into renderError();
       const displayError =
         this.props.errorText && this.props.validator &&
         !this.props.validator(this.props.value) && this.state.touched;

@@ -95,6 +95,7 @@ export default (InnerComponent) => {
         inputStyle: { default: defaultInputStyle },
       };
     }
+
     handleOnFocus = () => {
       if (this.props.onChange) { this.props.onChange(); }
       if (!this.state.touched) { this.setState({ touched: true }); }
@@ -136,7 +137,6 @@ export default (InnerComponent) => {
         </View>
       );
     }
-
   }
 
   FormInputHOC.propTypes = propTypes;

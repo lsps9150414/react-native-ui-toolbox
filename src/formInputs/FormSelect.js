@@ -57,6 +57,7 @@ export default class FormSelect extends Component {
     this.platformIOS = Platform.OS === 'ios';
     this.updateItemsDictionary(props.items);
   }
+
   componentWillReceiveProps(nextProps) {
     if (!_.isEqual(nextProps.items, this.props.items)) {
       this.updateItemsDictionary(nextProps.items);
@@ -68,15 +69,18 @@ export default class FormSelect extends Component {
   }
 
   noneSelected = selectedValues => _.isEmpty(selectedValues)
+
   isSelected = (selectedValues, value) => _.includes(selectedValues, value)
 
   updateItemsDictionary = (items) => {
     this.itemsDictionary = {};
     items.forEach((item) => { this.itemsDictionary[item.value] = item.label; });
   }
+
   updateSelectedValues = (selectedValues) => {
     this.setState({ selectedValues, tempValues: selectedValues });
   }
+
   handleValueChange = () => {
     this.setState({ selectedValues: this.state.tempValues },
       () => {
@@ -85,6 +89,7 @@ export default class FormSelect extends Component {
         }
       });
   }
+
   handleTempValueChange = (value) => {
     const newTempValues = [...this.state.tempValues];
     if (newTempValues.indexOf(value) === -1) {
@@ -96,11 +101,14 @@ export default class FormSelect extends Component {
   }
 
   openModal = () => { this.setState({ modalVisible: true }); }
+
   closeModal = () => { this.setState({ modalVisible: false }); }
+
   handleModalCancel = () => {
     this.closeModal();
     this.setState({ tempValues: this.state.selectedValues });
   }
+
   handleModalConfirm = () => {
     this.closeModal();
     this.handleValueChange();
@@ -121,6 +129,7 @@ export default class FormSelect extends Component {
       ))
     );
   }
+
   renderModal = () => (
     <ModalContainer
       cancelBtnText={this.props.cancelBtnText}
@@ -135,6 +144,7 @@ export default class FormSelect extends Component {
       <ScrollView>{this.renderCheckboxItems()}</ScrollView>
     </ModalContainer>
   )
+
   renderSelectedValues = selectedValues => (
     selectedValues.map((item, index) => {
       let seperator = '';
@@ -144,6 +154,7 @@ export default class FormSelect extends Component {
       return (`${this.itemsDictionary[item]}${seperator}`);
     })
   )
+
   renderTouchable = () => (
     <TouchableOpacity
       style={[baseStyles.innerContainer, this.props.touchableContainerStyle]}
@@ -168,7 +179,6 @@ export default class FormSelect extends Component {
       </View>
     );
   }
-
 }
 
 FormSelect.propTypes = propTypes;

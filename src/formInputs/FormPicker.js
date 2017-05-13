@@ -71,6 +71,7 @@ export default class FormPicker extends Component {
     this.platformIOS = Platform.OS === 'ios';
     this.updateItemsDictionary(props.items);
   }
+
   componentWillReceiveProps(nextProps) {
     if (!_.isEqual(nextProps.items, this.props.items)) {
       this.updateItemsDictionary(nextProps.items);
@@ -88,13 +89,16 @@ export default class FormPicker extends Component {
     // Empty: undefined, null, NaN, ''(empty string)
     return !value;
   }
+
   updateItemsDictionary = (items) => {
     this.itemsDictionary = {};
     items.forEach((item) => { this.itemsDictionary[item.value] = item.label; });
   }
+
   updateSelectedValue = (selectedValue) => {
     this.setState({ selectedValue, iosTempValue: selectedValue });
   }
+
   androidHandleValueChange = (value) => {
     this.setState({ selectedValue: value },
       () => {
@@ -103,6 +107,7 @@ export default class FormPicker extends Component {
         }
       });
   }
+
   iosHandleValueChange = () => {
     this.setState({ selectedValue: this.state.iosTempValue },
       () => {
@@ -111,6 +116,7 @@ export default class FormPicker extends Component {
         }
       });
   }
+
   androidRenderPicker = () => (
     <Picker
       {...this.props}
@@ -124,16 +130,21 @@ export default class FormPicker extends Component {
   )
 
   iosOpenModal = () => { this.setState({ iosModalVisible: true }); }
+
   iosCloseModal = () => { this.setState({ iosModalVisible: false }); }
+
   iosHandleModalCancel = () => {
     this.iosCloseModal();
     this.setState({ iosTempValue: this.state.selectedValue });
   }
+
   iosHandleModalConfirm = () => {
     this.iosCloseModal();
     this.iosHandleValueChange();
   }
+
   iosHandleTempValueChange = (value) => { this.setState({ iosTempValue: value }); }
+
   iosRenderPicker = () => (
     <Picker
       {...this.props}
@@ -143,6 +154,7 @@ export default class FormPicker extends Component {
       {this.renderPickerItems()}
     </Picker>
   )
+
   iosRenderModal = () => (
     <ModalContainer
       cancelBtnText={this.props.cancelBtnText}
@@ -157,6 +169,7 @@ export default class FormPicker extends Component {
       {this.iosRenderPicker()}
     </ModalContainer>
   )
+
   iosRenderTouchable = () => (
     <TouchableOpacity
       style={[baseStyles.innerContainer, this.props.touchableContainerStyle]}
@@ -171,6 +184,7 @@ export default class FormPicker extends Component {
       {this.iosRenderModal()}
     </TouchableOpacity>
   )
+
   renderPickerItems = () => {
     if (this.props.items.length === 0) {
       return (<Picker.Item label={'No Options'} value={null} />);
@@ -192,7 +206,6 @@ export default class FormPicker extends Component {
       </View>
     );
   }
-
 }
 
 FormPicker.propTypes = propTypes;

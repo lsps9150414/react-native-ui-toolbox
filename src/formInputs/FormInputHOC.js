@@ -67,8 +67,6 @@ export default (InnerComponent) => {
       this.state = {
         touched: false,
       };
-
-      this.handleOnFocus = this.handleOnFocus.bind(this);
     }
 
     getValidationStyles(touched, validator, value) {
@@ -97,13 +95,26 @@ export default (InnerComponent) => {
         inputStyle: { default: defaultInputStyle },
       };
     }
-    handleOnFocus() {
-      if (this.props.onChange) {
-        this.props.onChange();
+    handleOnFocus = () => {
+      if (this.props.onChange) { this.props.onChange(); }
+      if (!this.state.touched) { this.setState({ touched: true }); }
+    }
+
+    renderError = () => {
+      if (
+        this.props.errorText && this.props.validator && // Error materials provided
+        !this.props.validator(this.props.value) && // Invalid value
+        this.state.touched // Field has been touched
+      ) {
+        return (
+          <View style={[styles.errorContainer, this.props.errorContainerStyle]}>
+            <Text style={[styles.errorText, this.props.errorTextStyle]}>
+              {this.props.errorText}
+            </Text>
+          </View>
+        );
       }
-      if (!this.state.touched) {
-        this.setState({ touched: true });
-      }
+      return null;
     }
 
     render() {
@@ -112,11 +123,6 @@ export default (InnerComponent) => {
         inputStyle,
       } = this.getValidationStyles(this.state.touched, this.props.validator, this.props.value);
 
-      // TODO: Wrap error logic & view into renderError();
-      const displayError =
-        this.props.errorText && this.props.validator &&
-        !this.props.validator(this.props.value) && this.state.touched;
-
       return (
         <View style={{ alignSelf: 'stretch' }}>
           <InnerComponent
@@ -124,16 +130,9 @@ export default (InnerComponent) => {
             containerStyle={[styles.container, containerStyle.default, containerStyle.specified]}
             inputStyle={[styles.input, inputStyle.default, inputStyle.specified]}
             onChange={this.handleOnFocus}
-            touched={this.state.touched}
             underlineColorAndroid={'transparent'}
           />
-          {displayError && (
-            <View style={[styles.errorContainer, this.props.errorContainerStyle]}>
-              <Text style={[styles.errorText, this.props.errorTextStyle]}>
-                {this.props.errorText}
-              </Text>
-            </View>
-          )}
+          {this.renderError()}
         </View>
       );
     }

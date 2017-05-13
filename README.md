@@ -5,7 +5,9 @@ Just another collection of **cross platform** React Native UI components.
 ## Todo
 - [ ] Make demoApp
 - [ ] demoApp Tutorial
-- [x] refactor ModalContainer to render content directly with children
+- [ ] Make sure if FormInput components are also going into RNE
+- [ ] Refactor FormInput components to accept custom touchable component
+- [x] Refactor ModalContainer to render content directly with children
 
 ## Change logs
 - 0.0.17: Update `Avatar` API.

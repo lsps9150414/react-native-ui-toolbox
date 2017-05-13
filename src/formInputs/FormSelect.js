@@ -7,15 +7,14 @@ import { CheckBox } from 'react-native-elements';
 import {
   Platform,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
+import baseStyles from './styles';
 import { DEFAULT_COLORS } from '../constants/colors';
-import { fieldContainer, innerContainer } from './styles';
 
 const acceptValueTypes = [PropTypes.string, PropTypes.number, PropTypes.bool];
 const acceptLabelTypes = [PropTypes.string, PropTypes.number];
@@ -46,17 +45,6 @@ const defaultProps = {
   placeholder: 'Select...',
   fullScreen: false,
 };
-
-const styles = StyleSheet.create({
-  container: {
-    ...fieldContainer,
-  },
-  innerContainer: {
-    ...innerContainer,
-  },
-  text: {
-  },
-});
 
 export default class FormSelect extends Component {
   constructor(props) {
@@ -158,10 +146,10 @@ export default class FormSelect extends Component {
   )
   renderTouchable = () => (
     <TouchableOpacity
-      style={[styles.innerContainer, this.props.touchableContainerStyle]}
+      style={[baseStyles.innerContainer, this.props.touchableContainerStyle]}
       onPress={this.openModal}
     >
-      <Text style={[styles.text, this.props.inputStyle]} ellipsizeMode={'tail'} numberOfLines={1}>
+      <Text style={[this.props.inputStyle]} ellipsizeMode={'tail'} numberOfLines={1}>
         {this.noneSelected(this.state.selectedValues) && this.props.placeholder}
         {!this.noneSelected(this.state.selectedValues) &&
           this.renderSelectedValues(this.state.selectedValues)
@@ -174,7 +162,7 @@ export default class FormSelect extends Component {
   render() {
     return (
       <View
-        style={[styles.container, this.props.containerStyle]}
+        style={[baseStyles.container, this.props.containerStyle]}
       >
         {this.renderTouchable()}
       </View>

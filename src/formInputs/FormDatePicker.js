@@ -10,14 +10,13 @@ import {
   DatePickerAndroid,
   DatePickerIOS,
   Platform,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
-import { fieldContainer, innerContainer } from './styles';
+import baseStyles from './styles';
 
 const propTypes = {
   date: PropTypes.instanceOf(Date),
@@ -41,19 +40,6 @@ const defaultProps = {
   locale: 'en',
   placeholder: 'Select a date...',
 };
-
-const styles = StyleSheet.create({
-  container: {
-    ...fieldContainer,
-  },
-  innerContainer: {
-    ...innerContainer,
-  },
-  text: {
-  },
-  datePicker: {
-  },
-});
 
 export default class FormDatePicker extends Component {
   constructor(props) {
@@ -113,7 +99,6 @@ export default class FormDatePicker extends Component {
   iosHandleTempDateChange = (date) => { this.setState({ iosTempDate: date }); }
   iosRenderDatePicker = () => (
     <DatePickerIOS
-      style={styles.datePicker}
       mode={'date'}
       date={this.state.iosTempDate}
       onDateChange={this.iosHandleTempDateChange}
@@ -142,14 +127,12 @@ export default class FormDatePicker extends Component {
       display = this.props.placeholder;
     }
     return (
-      <View
-        style={[styles.container, this.props.containerStyle]}
-      >
+      <View style={[baseStyles.container, this.props.containerStyle]}>
         <TouchableOpacity
-          style={[styles.innerContainer, this.props.touchableContainerStyle]}
+          style={[baseStyles.innerContainer, this.props.touchableContainerStyle]}
           onPress={this.openPicker}
         >
-          <Text style={[styles.text, this.props.inputStyle]}>
+          <Text style={[this.props.inputStyle]}>
             {display}
           </Text>
         </TouchableOpacity>

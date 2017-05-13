@@ -13,8 +13,8 @@ import {
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
+import baseStyles from './styles';
 import { DEFAULT_COLORS } from '../constants/colors';
-import { fieldContainer, innerContainer } from './styles';
 
 const acceptValueTypes = [PropTypes.string, PropTypes.number, PropTypes.bool];
 const acceptLabelTypes = [PropTypes.string, PropTypes.number];
@@ -48,12 +48,6 @@ const defaultProps = {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    ...fieldContainer,
-  },
-  innerContainer: {
-    ...innerContainer,
-  },
   picker: {
     ...Platform.select({
       ios: {
@@ -120,7 +114,7 @@ export default class FormPicker extends Component {
   androidRenderPicker = () => (
     <Picker
       {...this.props}
-      style={[styles.picker, this.props.pickerStyleAndroid]}
+      style={[this.props.pickerStyleAndroid]}
       selectedValue={this.state.selectedValue}
       onValueChange={this.androidHandleValueChange}
       mode={'dialog'}
@@ -143,7 +137,6 @@ export default class FormPicker extends Component {
   iosRenderPicker = () => (
     <Picker
       {...this.props}
-      style={styles.picker}
       selectedValue={this.state.iosTempValue}
       onValueChange={this.iosHandleTempValueChange}
     >
@@ -166,7 +159,7 @@ export default class FormPicker extends Component {
   )
   iosRenderTouchable = () => (
     <TouchableOpacity
-      style={[styles.innerContainer, this.props.touchableContainerStyle]}
+      style={[baseStyles.innerContainer, this.props.touchableContainerStyle]}
       onPress={this.iosOpenModal}
     >
       <Text style={[styles.text, this.props.inputStyle]}>
@@ -192,7 +185,7 @@ export default class FormPicker extends Component {
   render() {
     return (
       <View
-        style={[styles.container, this.props.containerStyle]}
+        style={[baseStyles.container, this.props.containerStyle]}
       >
         {this.platformIOS && this.iosRenderTouchable()}
         {!this.platformIOS && this.androidRenderPicker()}

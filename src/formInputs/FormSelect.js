@@ -19,6 +19,7 @@ import { DEFAULT_COLORS } from '../constants/colors';
 const acceptValueTypes = [PropTypes.string, PropTypes.number, PropTypes.bool];
 const acceptLabelTypes = [PropTypes.string, PropTypes.number];
 const propTypes = {
+  // TODO: rename to 'values'
   selectedValues: PropTypes.arrayOf(PropTypes.oneOfType(acceptValueTypes)),
   items: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.oneOfType(acceptValueTypes),

@@ -24,6 +24,7 @@ const propTypes = {
   minDate: PropTypes.instanceOf(Date),
   onValueChange: PropTypes.func,
 
+  // TODO: Share these props
   cancelBtnText: PropTypes.string, /* ios */
   confirmBtnText: PropTypes.string, /* ios */
   placeholder: PropTypes.string,

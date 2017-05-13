@@ -8,8 +8,13 @@ Just another collection of **cross platform** React Native UI components.
 - [ ] Make sure if FormInput components are also going into RNE
 - [ ] Refactor FormInput components to accept custom touchable component
 - [x] Refactor ModalContainer to render content directly with children
+- [ ] Add language config prop for ios DatePickerIOS
 
 ## Change logs
+- 0.0.18:
+  - [ ] `<FormDatePicker>`: prop `onDateChange` -> `onValueChange`
+
+
 - 0.0.17: Update `Avatar` API.
 - 0.0.16: Add `FormSelect`
 

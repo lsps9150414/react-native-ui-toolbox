@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
-import baseStyles from './styles';
 import { defaultModalPropTypes, modalPropTypes, stlyePropTypes } from './proptypes';
 
 const ACCEPT_VALUE_TYPES = [PropTypes.string, PropTypes.number, PropTypes.bool];
@@ -78,12 +77,12 @@ export default class FormSelect extends Component {
   }
 
   handleValueChange = () => {
-    this.setState({ selectedValues: this.state.tempValues },
-      () => {
-        if (typeof this.props.onValueChange === 'function') {
-          this.props.onValueChange(this.state.selectedValues);
-        }
-      });
+    this.setState({ selectedValues: this.state.tempValues }, () => {
+      if (typeof this.props.onValueChange === 'function') {
+        this.props.onTouched(); // For the HOC to manage touch state.
+        this.props.onValueChange(this.state.selectedValues);
+      }
+    });
   }
 
   handleTempValueChange = (value) => {
@@ -162,7 +161,7 @@ export default class FormSelect extends Component {
         style={[this.props.containerStyle]}
         onPress={this.openModal}
       >
-        <Text style={[baseStyles.inputStyle, this.props.inputStyle]} ellipsizeMode={'tail'} numberOfLines={1}>
+        <Text style={[this.props.inputStyle]} ellipsizeMode={'tail'} numberOfLines={1}>
           {this.renderDisplayText()}
         </Text>
         {this.renderModal()}

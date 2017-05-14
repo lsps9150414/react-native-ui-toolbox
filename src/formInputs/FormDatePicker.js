@@ -16,7 +16,6 @@ import {
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
-import baseStyles from './styles';
 import { defaultModalPropTypes, modalPropTypes, stlyePropTypes } from './proptypes';
 
 const propTypes = {
@@ -84,6 +83,7 @@ export default class FormDatePicker extends Component {
   handleDateChange = (newDate) => {
     this.setState({ internalDate: newDate }, () => {
       if (typeof this.props.onValueChange === 'function') {
+        this.props.onTouched(); // For the HOC to manage touch state.
         this.props.onValueChange(newDate);
       }
     });
@@ -162,7 +162,7 @@ export default class FormDatePicker extends Component {
         style={[this.props.containerStyle]}
         onPress={this.openPicker}
       >
-        <Text style={[baseStyles.inputStyle, this.props.inputStyle]}>
+        <Text style={[this.props.inputStyle]}>
           {this.renderDisplayText()}
         </Text>
         {this.platformIOS && this.iosRenderModal(this.state.iosModalVisible)}

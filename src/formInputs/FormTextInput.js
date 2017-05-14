@@ -3,29 +3,23 @@ import React, {
   Component,
 } from 'react';
 import { FormInput } from 'react-native-elements';
-import {
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
 
-import { innerContainer } from './styles';
+import { stlyePropTypes } from './proptypes';
 
 const propTypes = {
   value: PropTypes.string,
-  containerStyle: View.propTypes.style,
-  inputStyle: Text.propTypes.style,
+  ...stlyePropTypes,
 };
 
 const defaultProps = {};
 
-const styles = StyleSheet.create({
-  inputStyle: {
-    ...innerContainer,
-  },
-});
-
 export default class FormTextInput extends Component {
+  handleOnChange = () => {
+    if (typeof this.props.onChange === 'function') {
+      this.props.onChange();
+    }
+    this.props.onTouched();
+  }
 
   render() {
     return (
@@ -33,11 +27,11 @@ export default class FormTextInput extends Component {
         {...this.props}
         value={this.props.value}
         containerStyle={[this.props.containerStyle]}
-        inputStyle={[styles.inputStyle, this.props.inputStyle]}
+        inputStyle={[this.props.inputStyle]}
+        onChange={this.handleOnChange}
       />
     );
   }
-
 }
 
 FormTextInput.propTypes = propTypes;

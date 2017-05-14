@@ -6,14 +6,12 @@ import React, {
 import {
   Picker,
   Platform,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
-import baseStyles from './styles';
 import { DEFAULT_COLORS } from '../constants/colors';
 import { defaultModalPropTypes, modalPropTypes, stlyePropTypes } from './proptypes';
 
@@ -42,18 +40,6 @@ const defaultProps = {
   placeholder: 'Pick...',
   ...defaultModalPropTypes,
 };
-
-const styles = StyleSheet.create({
-  picker: {
-    ...Platform.select({
-      ios: {
-      },
-      android: {
-        color: DEFAULT_COLORS[3].toHexString(),
-      },
-    }),
-  },
-});
 
 export default class FormPicker extends Component {
   constructor(props) {
@@ -95,22 +81,19 @@ export default class FormPicker extends Component {
     this.setState({ selectedValue, iosTempValue: selectedValue });
   }
 
+  handleValueChange = () => {
+    if (typeof this.props.onValueChange === 'function') {
+      this.props.onTouched(); // For the HOC to manage touch state.
+      this.props.onValueChange(this.state.selectedValue);
+    }
+  }
+
   androidHandleValueChange = (value) => {
-    this.setState({ selectedValue: value },
-      () => {
-        if (typeof this.props.onValueChange === 'function') {
-          this.props.onValueChange(this.state.selectedValue);
-        }
-      });
+    this.setState({ selectedValue: value }, this.handleValueChange);
   }
 
   iosHandleValueChange = () => {
-    this.setState({ selectedValue: this.state.iosTempValue },
-      () => {
-        if (typeof this.props.onValueChange === 'function') {
-          this.props.onValueChange(this.state.selectedValue);
-        }
-      });
+    this.setState({ selectedValue: this.state.iosTempValue }, this.handleValueChange);
   }
 
   iosOpenModal = () => { this.setState({ iosModalVisible: true }); }
@@ -155,7 +138,7 @@ export default class FormPicker extends Component {
       style={[this.props.containerStyle]}
       onPress={this.iosOpenModal}
     >
-      <Text style={[baseStyles.inputStyle, this.props.inputStyle]}>
+      <Text style={[this.props.inputStyle]}>
         {this.valueIsEmpty(this.state.selectedValue) && this.props.placeholder}
         {!this.valueIsEmpty(this.state.selectedValue) &&
           this.itemsDictionary[this.state.selectedValue]

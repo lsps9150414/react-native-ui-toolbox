@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 
 import { DEFAULT_COLORS } from '../constants/colors';
-import { fieldContainer } from './styles';
 
 const propTypes = {
   value: PropTypes.any,
@@ -46,9 +45,16 @@ const styles = StyleSheet.create({
   input: {
     color: DEFAULT_COLORS[3].toHexString(),
     fontSize: 16,
+    ...Platform.select({
+      android: {
+        paddingHorizontal: 8, // To align with Android <Picker>'s style.
+      },
+      ios: {
+        paddingHorizontal: 8,
+      },
+    }),
   },
   errorContainer: {
-    ...fieldContainer,
     ...Platform.select({
       android: {
         paddingHorizontal: 4,
@@ -96,14 +102,13 @@ export default (InnerComponent) => {
       };
     }
 
-    handleOnFocus = () => {
-      if (this.props.onChange) { this.props.onChange(); }
+    handleOnTouched = () => {
       if (!this.state.touched) { this.setState({ touched: true }); }
     }
 
     renderError = () => {
       if (
-        this.props.errorText && this.props.validator && // Error materials provided
+        this.props.errorText && typeof this.props.validator === 'function' && // Error materials provided
         !this.props.validator(this.props.value) && // Invalid value
         this.state.touched // Field has been touched
       ) {
@@ -130,7 +135,7 @@ export default (InnerComponent) => {
             {...this.props}
             containerStyle={[styles.container, containerStyle.default, containerStyle.specified]}
             inputStyle={[styles.input, inputStyle.default, inputStyle.specified]}
-            onChange={this.handleOnFocus}
+            onTouched={this.handleOnTouched}
             underlineColorAndroid={'transparent'}
           />
           {this.renderError()}

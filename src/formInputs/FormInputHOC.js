@@ -37,14 +37,11 @@ const propTypes = {
 const defaultProps = {};
 
 const styles = StyleSheet.create({
-  wrapper: {
-    alignSelf: 'stretch',
-  },
   innerComponentContainer: {
+    height: 36,
+    justifyContent: 'center',
     borderBottomColor: DEFAULT_COLORS[3].toHexString(),
     borderBottomWidth: 1,
-    justifyContent: 'center',
-    // height: 36,
   },
   input: {
     color: DEFAULT_COLORS[3].toHexString(),
@@ -124,7 +121,7 @@ export default (InnerComponent) => {
       } = this.getValidationStyles(this.state.touched, this.props.validator, this.props.value);
 
       return (
-        <View style={[styles.wrapper, this.props.wrapperStyle]}>
+        <View style={[this.props.wrapperStyle]}>
           <InnerComponent
             {...this.props}
             containerStyle={[

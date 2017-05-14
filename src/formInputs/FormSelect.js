@@ -15,27 +15,23 @@ import {
 import ModalContainer from './ModalContainer';
 import baseStyles from './styles';
 import { DEFAULT_COLORS } from '../constants/colors';
+import { defaultModalPropTypes, modalPropTypes, stlyePropTypes } from './proptypes';
 
-const acceptValueTypes = [PropTypes.string, PropTypes.number, PropTypes.bool];
-const acceptLabelTypes = [PropTypes.string, PropTypes.number];
+const ACCEPT_VALUE_TYPES = [PropTypes.string, PropTypes.number, PropTypes.bool];
+const ACCEPT_LABEL_TYPES = [PropTypes.string, PropTypes.number];
 const propTypes = {
   // TODO: rename to 'values'
-  selectedValues: PropTypes.arrayOf(PropTypes.oneOfType(acceptValueTypes)),
+  selectedValues: PropTypes.arrayOf(PropTypes.oneOfType(ACCEPT_VALUE_TYPES)),
   items: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.oneOfType(acceptValueTypes),
-    label: PropTypes.oneOfType(acceptLabelTypes),
+    value: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
+    label: PropTypes.oneOfType(ACCEPT_LABEL_TYPES),
   })).isRequired,
   onValueChange: PropTypes.func,
 
-  cancelBtnText: PropTypes.string, /* ios */
-  confirmBtnText: PropTypes.string, /* ios */
-  controlBarHeight: PropTypes.number,
-  modalHeight: PropTypes.number,
-  fullScreen: PropTypes.bool,
+  ...modalPropTypes,
+  ...stlyePropTypes,
+
   placeholder: PropTypes.string,
-  containerStyle: View.propTypes.style,
-  touchableContainerStyle: View.propTypes.style,
-  inputStyle: Text.propTypes.style,
 };
 
 const defaultProps = {
@@ -43,8 +39,9 @@ const defaultProps = {
     { label: 'item 1', value: 'item 1 value' },
     { label: 'item 2', value: 'item 2 value' },
   ],
+  onValueChange: null,
   placeholder: 'Select...',
-  fullScreen: false,
+  ...defaultModalPropTypes,
 };
 
 export default class FormSelect extends Component {

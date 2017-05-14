@@ -17,6 +17,7 @@ import {
 
 import ModalContainer from './ModalContainer';
 import baseStyles from './styles';
+import { defaultModalPropTypes, modalPropTypes, stlyePropTypes } from './proptypes';
 
 const propTypes = {
   date: PropTypes.instanceOf(Date),
@@ -24,14 +25,10 @@ const propTypes = {
   minDate: PropTypes.instanceOf(Date),
   onValueChange: PropTypes.func,
 
-  // TODO: Share these props
-  cancelBtnText: PropTypes.string, /* ios */
-  confirmBtnText: PropTypes.string, /* ios */
-  placeholder: PropTypes.string,
-  containerStyle: View.propTypes.style,
-  touchableContainerStyle: View.propTypes.style,
-  inputStyle: Text.propTypes.style,
+  ...modalPropTypes,
+  ...stlyePropTypes,
 
+  placeholder: PropTypes.string,
   format: PropTypes.string,
   locale: PropTypes.string,
 };
@@ -44,6 +41,7 @@ const defaultProps = {
   format: 'Y-M-D (dd)',
   locale: 'en',
   placeholder: 'Select a date...',
+  ...defaultModalPropTypes,
 };
 
 export default class FormDatePicker extends Component {
@@ -132,11 +130,14 @@ export default class FormDatePicker extends Component {
 
   iosRenderModal = visible => (
     <ModalContainer
+      visible={visible}
       cancelBtnText={this.props.cancelBtnText}
       confirmBtnText={this.props.confirmBtnText}
       onCancel={this.iosHandleCancel}
       onConfirm={this.iosHandleConfirm}
-      visible={visible}
+      controlBarHeight={this.props.controlBarHeight}
+      modalHeight={this.props.modalHeight}
+      fullScreen={this.props.fullScreen}
     >
       <DatePickerIOS
         mode={'date'}
@@ -162,9 +163,7 @@ export default class FormDatePicker extends Component {
           style={[baseStyles.innerContainer, this.props.touchableContainerStyle]}
           onPress={this.openPicker}
         >
-          <Text style={[this.props.inputStyle]}>
-            {this.renderDisplayText()}
-          </Text>
+          <Text style={[this.props.inputStyle]}>{this.renderDisplayText()}</Text>
         </TouchableOpacity>
         {this.platformIOS && this.iosRenderModal(this.state.iosModalVisible)}
       </View>

@@ -15,28 +15,23 @@ import {
 import ModalContainer from './ModalContainer';
 import baseStyles from './styles';
 import { DEFAULT_COLORS } from '../constants/colors';
+import { defaultModalPropTypes, modalPropTypes, stlyePropTypes } from './proptypes';
 
-const acceptValueTypes = [PropTypes.string, PropTypes.number, PropTypes.bool];
-const acceptLabelTypes = [PropTypes.string, PropTypes.number];
+const ACCEPT_VALUE_TYPES = [PropTypes.string, PropTypes.number, PropTypes.bool];
+const ACCEPT_LABEL_TYPES = [PropTypes.string, PropTypes.number];
 const propTypes = {
   // TODO: rename to 'value'
-  selectedValue: PropTypes.oneOfType(acceptValueTypes),
+  selectedValue: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
   items: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.oneOfType(acceptValueTypes),
-    label: PropTypes.oneOfType(acceptLabelTypes),
+    value: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
+    label: PropTypes.oneOfType(ACCEPT_LABEL_TYPES),
   })).isRequired,
   onValueChange: PropTypes.func,
 
-  cancelBtnText: PropTypes.string, /* ios */
-  confirmBtnText: PropTypes.string, /* ios */
-  controlBarHeight: PropTypes.number, /* ios */
-  modalHeight: PropTypes.number, /* ios */
-  fullScreen: PropTypes.bool, /* ios */
+  ...modalPropTypes,
+  ...stlyePropTypes,
+
   placeholder: PropTypes.string,
-  containerStyle: View.propTypes.style,
-  touchableContainerStyle: View.propTypes.style,
-  pickerStyleAndroid: Picker.propTypes.style, /* android */
-  inputStyle: Text.propTypes.style,
 };
 
 const defaultProps = {
@@ -44,8 +39,9 @@ const defaultProps = {
     { label: 'item 1', value: 'item 1 value' },
     { label: 'item 2', value: 'item 2 value' },
   ],
-  placeholder: 'Select...',
-  fullScreen: false,
+  onValueChange: null,
+  placeholder: 'Pick...',
+  ...defaultModalPropTypes,
 };
 
 const styles = StyleSheet.create({
@@ -87,7 +83,7 @@ export default class FormPicker extends Component {
     if (typeof value === 'number' || typeof value === 'boolean') {
       return false;
     }
-    // Empty: undefined, null, NaN, ''(empty string)
+    // Note: empty = undefined, null, NaN, ''(empty string)
     return !value;
   }
 
@@ -121,7 +117,8 @@ export default class FormPicker extends Component {
   androidRenderPicker = () => (
     <Picker
       {...this.props}
-      style={[this.props.pickerStyleAndroid]}
+      // As of react-native 0.44, there is no propper way to style the text of Android Picker.
+      style={[this.props.touchableContainerStyle]}
       selectedValue={this.state.selectedValue}
       onValueChange={this.androidHandleValueChange}
       mode={'dialog'}
@@ -146,28 +143,24 @@ export default class FormPicker extends Component {
 
   iosHandleTempValueChange = (value) => { this.setState({ iosTempValue: value }); }
 
-  iosRenderPicker = () => (
-    <Picker
-      {...this.props}
-      selectedValue={this.state.iosTempValue}
-      onValueChange={this.iosHandleTempValueChange}
-    >
-      {this.renderPickerItems()}
-    </Picker>
-  )
-
-  iosRenderModal = () => (
+  iosRenderModal = visible => (
     <ModalContainer
+      visible={visible}
       cancelBtnText={this.props.cancelBtnText}
       confirmBtnText={this.props.confirmBtnText}
       onCancel={this.iosHandleModalCancel}
       onConfirm={this.iosHandleModalConfirm}
-      visible={this.state.iosModalVisible}
       controlBarHeight={this.props.controlBarHeight}
       modalHeight={this.props.modalHeight}
       fullScreen={this.props.fullScreen}
     >
-      {this.iosRenderPicker()}
+      <Picker
+        {...this.props}
+        selectedValue={this.state.iosTempValue}
+        onValueChange={this.iosHandleTempValueChange}
+      >
+        {this.renderPickerItems()}
+      </Picker>
     </ModalContainer>
   )
 
@@ -176,13 +169,13 @@ export default class FormPicker extends Component {
       style={[baseStyles.innerContainer, this.props.touchableContainerStyle]}
       onPress={this.iosOpenModal}
     >
-      <Text style={[styles.text, this.props.inputStyle]}>
+      <Text style={[this.props.inputStyle]}>
         {this.valueIsEmpty(this.state.selectedValue) && this.props.placeholder}
         {!this.valueIsEmpty(this.state.selectedValue) &&
           this.itemsDictionary[this.state.selectedValue]
         }
       </Text>
-      {this.iosRenderModal()}
+      {this.iosRenderModal(this.state.iosModalVisible)}
     </TouchableOpacity>
   )
 

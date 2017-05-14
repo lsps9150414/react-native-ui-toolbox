@@ -29,6 +29,7 @@ export default class FormTextInput extends Component {
         containerStyle={[this.props.containerStyle]}
         inputStyle={[this.props.inputStyle]}
         onChange={this.handleOnChange}
+        underlineColorAndroid={'transparent'}
       />
     );
   }

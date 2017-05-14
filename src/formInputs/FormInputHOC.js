@@ -7,7 +7,6 @@ import React, {
   Component,
 } from 'react';
 import {
-  Platform,
   StyleSheet,
   Text,
   View,
@@ -17,9 +16,9 @@ import { DEFAULT_COLORS } from '../constants/colors';
 
 const propTypes = {
   value: PropTypes.any,
-  onChange: PropTypes.func,
   validator: PropTypes.func,
 
+  wrapperStyle: View.propTypes.style,
   containerStyle: View.propTypes.style,
   validContainerStyle: View.propTypes.style,
   invalidContainerStyle: View.propTypes.style,
@@ -28,15 +27,18 @@ const propTypes = {
   validInputStyle: Text.propTypes.style,
   invalidInputStyle: Text.propTypes.style,
 
-  errorText: PropTypes.string,
   errorContainerStyle: View.propTypes.style,
   errorTextStyle: View.propTypes.style,
+  errorText: PropTypes.string,
 };
 
 const defaultProps = {};
 
 const styles = StyleSheet.create({
   container: {
+    alignSelf: 'stretch',
+  },
+  innerContainer: {
     borderBottomColor: DEFAULT_COLORS[3].toHexString(),
     borderBottomWidth: 1,
     justifyContent: 'center',
@@ -45,21 +47,11 @@ const styles = StyleSheet.create({
   input: {
     color: DEFAULT_COLORS[3].toHexString(),
     fontSize: 16,
-    ...Platform.select({
-      android: {
-        paddingHorizontal: 8, // To align with Android <Picker>'s style.
-      },
-      ios: {
-        paddingHorizontal: 8,
-      },
-    }),
+    paddingHorizontal: 8, // To align with Android <Picker>'s style.
   },
   errorContainer: {
-    ...Platform.select({
-      android: {
-        paddingHorizontal: 4,
-      },
-    }),
+    paddingHorizontal: 8, // To align with Android <Picker>'s style.
+    paddingBottom: 8,
   },
   errorText: {
     color: '#ff0000',
@@ -130,13 +122,16 @@ export default (InnerComponent) => {
       } = this.getValidationStyles(this.state.touched, this.props.validator, this.props.value);
 
       return (
-        <View style={{ alignSelf: 'stretch' }}>
+        <View style={[styles.container, this.props.wrapperStyle]}>
           <InnerComponent
             {...this.props}
-            containerStyle={[styles.container, containerStyle.default, containerStyle.specified]}
+            containerStyle={[
+              styles.innerContainer,
+              containerStyle.default,
+              containerStyle.specified,
+            ]}
             inputStyle={[styles.input, inputStyle.default, inputStyle.specified]}
             onTouched={this.handleOnTouched}
-            underlineColorAndroid={'transparent'}
           />
           {this.renderError()}
         </View>

@@ -12,7 +12,6 @@ import {
   Platform,
   Text,
   TouchableOpacity,
-  View,
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';

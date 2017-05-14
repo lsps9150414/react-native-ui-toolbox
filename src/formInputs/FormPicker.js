@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
-import { DEFAULT_COLORS } from '../constants/colors';
 import { defaultModalPropTypes, modalPropTypes, stlyePropTypes } from './proptypes';
 
 const ACCEPT_VALUE_TYPES = [PropTypes.string, PropTypes.number, PropTypes.bool];

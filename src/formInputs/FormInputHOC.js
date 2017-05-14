@@ -18,11 +18,13 @@ const propTypes = {
   value: PropTypes.any,
   validator: PropTypes.func,
 
+  // For the wrapper component around the input field and the error.
   wrapperStyle: View.propTypes.style,
+  // For the inner component.
   containerStyle: View.propTypes.style,
   validContainerStyle: View.propTypes.style,
   invalidContainerStyle: View.propTypes.style,
-
+// For the value display text.
   inputStyle: Text.propTypes.style,
   validInputStyle: Text.propTypes.style,
   invalidInputStyle: Text.propTypes.style,
@@ -35,14 +37,14 @@ const propTypes = {
 const defaultProps = {};
 
 const styles = StyleSheet.create({
-  container: {
+  wrapper: {
     alignSelf: 'stretch',
   },
-  innerContainer: {
+  innerComponentContainer: {
     borderBottomColor: DEFAULT_COLORS[3].toHexString(),
     borderBottomWidth: 1,
     justifyContent: 'center',
-    height: 36,
+    // height: 36,
   },
   input: {
     color: DEFAULT_COLORS[3].toHexString(),
@@ -122,11 +124,11 @@ export default (InnerComponent) => {
       } = this.getValidationStyles(this.state.touched, this.props.validator, this.props.value);
 
       return (
-        <View style={[styles.container, this.props.wrapperStyle]}>
+        <View style={[styles.wrapper, this.props.wrapperStyle]}>
           <InnerComponent
             {...this.props}
             containerStyle={[
-              styles.innerContainer,
+              styles.innerComponentContainer,
               containerStyle.default,
               containerStyle.specified,
             ]}

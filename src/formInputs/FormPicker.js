@@ -132,16 +132,20 @@ export default class FormPicker extends Component {
     </ModalContainer>
   )
 
+  iosRenderDisplayText = () => {
+    if (this.valueIsEmpty(this.state.selectedValue)) {
+      return this.props.placeholder;
+    }
+    return this.itemsDictionary[this.state.selectedValue];
+  }
+
   iosRenderTouchable = () => (
     <TouchableOpacity
       style={[this.props.containerStyle]}
       onPress={this.iosOpenModal}
     >
       <Text style={[this.props.inputStyle]}>
-        {this.valueIsEmpty(this.state.selectedValue) && this.props.placeholder}
-        {!this.valueIsEmpty(this.state.selectedValue) &&
-          this.itemsDictionary[this.state.selectedValue]
-        }
+        {this.iosRenderDisplayText()}
       </Text>
       {this.iosRenderModal(this.state.iosModalVisible)}
     </TouchableOpacity>

@@ -20,7 +20,6 @@ import { defaultModalPropTypes, modalPropTypes, stlyePropTypes } from './proptyp
 const ACCEPT_VALUE_TYPES = [PropTypes.string, PropTypes.number, PropTypes.bool];
 const ACCEPT_LABEL_TYPES = [PropTypes.string, PropTypes.number];
 const propTypes = {
-  // TODO: rename to 'value'
   selectedValue: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
   items: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
@@ -118,7 +117,7 @@ export default class FormPicker extends Component {
     <Picker
       {...this.props}
       // As of react-native 0.44, there is no propper way to style the text of Android Picker.
-      style={[this.props.touchableContainerStyle]}
+      style={[this.props.touchableContainerStyle, this.props.inputStyle]}
       selectedValue={this.state.selectedValue}
       onValueChange={this.androidHandleValueChange}
       mode={'dialog'}

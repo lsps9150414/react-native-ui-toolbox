@@ -14,13 +14,11 @@ import {
 
 import ModalContainer from './ModalContainer';
 import baseStyles from './styles';
-import { DEFAULT_COLORS } from '../constants/colors';
 import { defaultModalPropTypes, modalPropTypes, stlyePropTypes } from './proptypes';
 
 const ACCEPT_VALUE_TYPES = [PropTypes.string, PropTypes.number, PropTypes.bool];
 const ACCEPT_LABEL_TYPES = [PropTypes.string, PropTypes.number];
 const propTypes = {
-  // TODO: rename to 'values'
   selectedValues: PropTypes.arrayOf(PropTypes.oneOfType(ACCEPT_VALUE_TYPES)),
   items: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),

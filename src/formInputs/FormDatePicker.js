@@ -158,15 +158,15 @@ export default class FormDatePicker extends Component {
 
   render() {
     return (
-      <View style={[baseStyles.container, this.props.containerStyle]}>
-        <TouchableOpacity
-          style={[baseStyles.innerContainer, this.props.touchableContainerStyle]}
-          onPress={this.openPicker}
-        >
-          <Text style={[this.props.inputStyle]}>{this.renderDisplayText()}</Text>
-        </TouchableOpacity>
+      <TouchableOpacity
+        style={[this.props.containerStyle]}
+        onPress={this.openPicker}
+      >
+        <Text style={[baseStyles.inputStyle, this.props.inputStyle]}>
+          {this.renderDisplayText()}
+        </Text>
         {this.platformIOS && this.iosRenderModal(this.state.iosModalVisible)}
-      </View>
+      </TouchableOpacity>
     );
   }
 }

@@ -1,24 +1,16 @@
 import { Platform, StyleSheet } from 'react-native';
 
-export default StyleSheet.create({
-  fieldContainer: {
+const baseStyles = StyleSheet.create({
+  inputStyle: {
     ...Platform.select({
+      android: {
+        paddingHorizontal: 8, // To align with Android <Picker>'s style.
+      },
       ios: {
-        marginHorizontal: 20,
-      },
-      android: {
-        marginHorizontal: 15,
-      },
-    }),
-  },
-  innerContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    ...Platform.select({
-      android: {
-        paddingVertical: 0,
         paddingHorizontal: 8,
       },
     }),
   },
 });
+
+export default baseStyles;

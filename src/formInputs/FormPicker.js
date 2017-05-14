@@ -113,19 +113,6 @@ export default class FormPicker extends Component {
       });
   }
 
-  androidRenderPicker = () => (
-    <Picker
-      {...this.props}
-      // As of react-native 0.44, there is no propper way to style the text of Android Picker.
-      style={[this.props.touchableContainerStyle, this.props.inputStyle]}
-      selectedValue={this.state.selectedValue}
-      onValueChange={this.androidHandleValueChange}
-      mode={'dialog'}
-    >
-      {this.renderPickerItems()}
-    </Picker>
-  )
-
   iosOpenModal = () => { this.setState({ iosModalVisible: true }); }
 
   iosCloseModal = () => { this.setState({ iosModalVisible: false }); }
@@ -165,10 +152,10 @@ export default class FormPicker extends Component {
 
   iosRenderTouchable = () => (
     <TouchableOpacity
-      style={[baseStyles.innerContainer, this.props.touchableContainerStyle]}
+      style={[this.props.containerStyle]}
       onPress={this.iosOpenModal}
     >
-      <Text style={[this.props.inputStyle]}>
+      <Text style={[baseStyles.inputStyle, this.props.inputStyle]}>
         {this.valueIsEmpty(this.state.selectedValue) && this.props.placeholder}
         {!this.valueIsEmpty(this.state.selectedValue) &&
           this.itemsDictionary[this.state.selectedValue]
@@ -176,6 +163,21 @@ export default class FormPicker extends Component {
       </Text>
       {this.iosRenderModal(this.state.iosModalVisible)}
     </TouchableOpacity>
+  )
+
+  androidRenderPicker = () => (
+    <View style={[this.props.containerStyle]}>
+      <Picker
+        {...this.props}
+        // As of react-native 0.44, there is no propper way to style the text of Android Picker.
+        style={[this.props.inputStyle]}
+        selectedValue={this.state.selectedValue}
+        onValueChange={this.androidHandleValueChange}
+        mode={'dialog'}
+      >
+        {this.renderPickerItems()}
+      </Picker>
+    </View>
   )
 
   renderPickerItems = () => {
@@ -189,15 +191,15 @@ export default class FormPicker extends Component {
     );
   }
 
+  renderPicker = () => {
+    if (this.platformIOS) {
+      return this.iosRenderTouchable();
+    }
+    return this.androidRenderPicker();
+  }
+
   render() {
-    return (
-      <View
-        style={[baseStyles.container, this.props.containerStyle]}
-      >
-        {this.platformIOS && this.iosRenderTouchable()}
-        {!this.platformIOS && this.androidRenderPicker()}
-      </View>
-    );
+    return this.renderPicker();
   }
 }
 

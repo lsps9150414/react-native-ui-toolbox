@@ -141,38 +141,32 @@ export default class FormSelect extends Component {
     </ModalContainer>
   )
 
-  renderSelectedValues = selectedValues => (
-    selectedValues.map((item, index) => {
-      let seperator = '';
-      if ((index + 1) !== selectedValues.length) {
-        seperator = ', ';
-      }
-      return (`${this.itemsDictionary[item]}${seperator}`);
-    })
-  )
-
-  renderTouchable = () => (
-    <TouchableOpacity
-      style={[baseStyles.innerContainer, this.props.touchableContainerStyle]}
-      onPress={this.openModal}
-    >
-      <Text style={[this.props.inputStyle]} ellipsizeMode={'tail'} numberOfLines={1}>
-        {this.noneSelected(this.state.selectedValues) && this.props.placeholder}
-        {!this.noneSelected(this.state.selectedValues) &&
-          this.renderSelectedValues(this.state.selectedValues)
+  renderDisplayText = () => {
+    if (this.noneSelected(this.state.selectedValues)) {
+      return this.props.placeholder;
+    }
+    return (
+      this.state.selectedValues.map((item, index) => {
+        let seperator = '';
+        if ((index + 1) !== this.state.selectedValues.length) {
+          seperator = ', ';
         }
-      </Text>
-      {this.renderModal()}
-    </TouchableOpacity>
-  )
+        return (`${this.itemsDictionary[item]}${seperator}`);
+      })
+    );
+  }
 
   render() {
     return (
-      <View
-        style={[baseStyles.container, this.props.containerStyle]}
+      <TouchableOpacity
+        style={[this.props.containerStyle]}
+        onPress={this.openModal}
       >
-        {this.renderTouchable()}
-      </View>
+        <Text style={[baseStyles.inputStyle, this.props.inputStyle]} ellipsizeMode={'tail'} numberOfLines={1}>
+          {this.renderDisplayText()}
+        </Text>
+        {this.renderModal()}
+      </TouchableOpacity>
     );
   }
 }

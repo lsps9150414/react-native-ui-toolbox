@@ -5,7 +5,6 @@ import React, {
 } from 'react';
 import { CheckBox } from 'react-native-elements';
 import {
-  Platform,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -48,7 +47,6 @@ export default class FormSelect extends Component {
       tempValues: props.selectedValues,
       modalVisible: false,
     };
-    this.platformIOS = Platform.OS === 'ios';
     this.updateItemsDictionary(props.items);
   }
 
@@ -124,13 +122,13 @@ export default class FormSelect extends Component {
     );
   }
 
-  renderModal = () => (
+  renderModal = visible => (
     <ModalContainer
+      visible={visible}
       cancelBtnText={this.props.cancelBtnText}
       confirmBtnText={this.props.confirmBtnText}
       onCancel={this.handleModalCancel}
       onConfirm={this.handleModalConfirm}
-      visible={this.state.modalVisible}
       controlBarHeight={this.props.controlBarHeight}
       modalHeight={this.props.modalHeight}
       fullScreen={this.props.fullScreen}
@@ -163,7 +161,7 @@ export default class FormSelect extends Component {
         <Text style={[this.props.inputStyle]} ellipsizeMode={'tail'} numberOfLines={1}>
           {this.renderDisplayText()}
         </Text>
-        {this.renderModal()}
+        {this.renderModal(this.state.modalVisible)}
       </TouchableOpacity>
     );
   }

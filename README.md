@@ -13,11 +13,7 @@ Just another collection of **cross platform** React Native UI components.
 - [x] FormInput components: accept custom touchable component
 - [x] FormInput components: accept icon
 - [x] `Modal`: props to config controlBar position
-- [ ] `Modal`: props to config view mode (dialog/slide in)
 - [ ] `FormDatePicker` with timePicker option
-- [ ] `FormPicker`: accept more list item props
-- [ ] `FormSelect`: accept more list item props
-- [ ] Add language config prop for ios DatePickerIOS
 
 ## Components Included
 - [x] Avatar
@@ -33,8 +29,12 @@ Just another collection of **cross platform** React Native UI components.
 
 ## Change logs
 - 0.0.18:
-  - [ ] `FormDatePicker`: prop `onDateChange` -> `onValueChange`
-
+  - [x] FormInput components: API breaking changes. See the API docs.
+  - [x] FormInput components: accept custom component as touchable
+  - [x] FormInput components: add icon
+  - [x] Refactor `FormPicker` to use pure RN implementation, Create `FormPickerNative` for native implementation
+  - [x] Refactor ModalContainer to render content directly with children
+  - [x] `Modal`: add props to config controlBar position
 
 - 0.0.17: Update `Avatar` API.
 - 0.0.16: Add `FormSelect`
@@ -47,6 +47,10 @@ Just another collection of **cross platform** React Native UI components.
 
 - Feature
   - [ ] Error icon & customizable error block
+  - [ ] `Modal`: props to config view mode (dialog/slide in)
+  - [ ] `FormPicker`: accept more list item props
+  - [ ] `FormSelect`: accept more list item props
+  - [ ] Add language config prop for ios DatePickerIOS of `FormDatePicker`
 
 
 - Style

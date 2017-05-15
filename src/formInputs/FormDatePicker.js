@@ -82,7 +82,7 @@ export default class FormDatePicker extends Component {
     this.setState({ internalDate: date, iosTempDate: this.getValidDate(date) });
   }
 
-  handleDateChange = (newDate) => {
+  handleValueChange = (newDate) => {
     this.setState({ internalDate: newDate }, () => {
       if (typeof this.props.onValueChange === 'function') {
         this.props.onTouched(); // For the HOC to manage touch state.
@@ -107,7 +107,7 @@ export default class FormDatePicker extends Component {
         maxDate: this.props.maxDate,
       });
       if (action === DatePickerAndroid.dateSetAction) {
-        this.handleDateChange(new Date(year, month, day));
+        this.handleValueChange(new Date(year, month, day));
       }
     } catch ({ message }) {
       console.warn('Error:', message);
@@ -125,7 +125,7 @@ export default class FormDatePicker extends Component {
 
   iosHandleConfirm = () => {
     this.iosCloseModal();
-    this.handleDateChange(this.state.iosTempDate);
+    this.handleValueChange(this.state.iosTempDate);
   }
 
   iosHandleTempDateChange = (date) => { this.setState({ iosTempDate: date }); }

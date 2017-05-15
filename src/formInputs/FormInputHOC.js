@@ -55,10 +55,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center', // Vertical align contentContainer
     borderBottomColor: DEFAULT_COLORS[3].toHexString(),
     borderBottomWidth: 1,
+    height: 80,
   },
   contentContainer: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center', // Vertical align icon & input display
+    justifyContent: 'flex-start',
     paddingHorizontal: 8,
     paddingVertical: 8,
   },

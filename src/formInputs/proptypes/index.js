@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import {
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 
@@ -14,8 +15,14 @@ export const HOCInternalPropTypes = {
 
 // Input Field Basic
 export const inputFieldPropTypes = {
+  component: PropTypes.any,
+  componentProps: PropTypes.object,
   onValueChange: PropTypes.func,
   placeholder: PropTypes.string,
+};
+
+export const defaultInputFieldProps = {
+  component: TouchableOpacity,
 };
 
 // Styles

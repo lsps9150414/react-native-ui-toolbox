@@ -11,12 +11,12 @@ import {
   DatePickerIOS,
   Platform,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
 import {
+  defaultInputFieldProps,
   iconPropTypes,
   inputFieldPropTypes,
   modalPropTypes,
@@ -43,6 +43,7 @@ const defaultProps = {
   locale: 'en',
   onValueChange: undefined,
   placeholder: 'Select a date...',
+  ...defaultInputFieldProps,
 };
 
 export default class FormDatePicker extends Component {
@@ -161,8 +162,10 @@ export default class FormDatePicker extends Component {
   )
 
   render() {
+    const CustomComponent = this.props.component;
     return (
-      <TouchableOpacity
+      <CustomComponent
+        {...this.props.componentProps}
         style={[this.props.containerStyle]}
         onPress={this.openPicker}
       >
@@ -171,7 +174,7 @@ export default class FormDatePicker extends Component {
           {this.renderInputDisplay()}
           {this.platformIOS && this.iosRenderModal(this.state.iosModalVisible)}
         </View>
-      </TouchableOpacity>
+      </CustomComponent>
     );
   }
 }

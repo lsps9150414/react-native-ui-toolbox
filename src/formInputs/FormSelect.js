@@ -7,12 +7,12 @@ import { CheckBox } from 'react-native-elements';
 import {
   ScrollView,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
 import {
+  defaultInputFieldProps,
   iconPropTypes,
   inputFieldPropTypes,
   modalPropTypes,
@@ -41,6 +41,7 @@ const defaultProps = {
   selectedValues: undefined,
   onValueChange: undefined,
   placeholder: 'Select...',
+  ...defaultInputFieldProps,
 };
 
 export default class FormSelect extends Component {
@@ -161,8 +162,10 @@ export default class FormSelect extends Component {
   )
 
   render() {
+    const CustomComponent = this.props.component;
     return (
-      <TouchableOpacity
+      <CustomComponent
+        {...this.props.componentProps}
         style={[this.props.containerStyle]}
         onPress={this.openModal}
       >
@@ -171,7 +174,7 @@ export default class FormSelect extends Component {
           {this.renderInputDisplay()}
           {this.renderModal(this.state.modalVisible)}
         </View>
-      </TouchableOpacity>
+      </CustomComponent>
     );
   }
 }

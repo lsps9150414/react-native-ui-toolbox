@@ -42,3 +42,6 @@ android/keystores/debug.keystore
 
 # Watchman
 .watchmanconfig
+
+# Atom Editor
+.imdone

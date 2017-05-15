@@ -14,6 +14,7 @@ import {
 import ModalContainer from './ModalContainer';
 import {
   iconPropTypes,
+  inputFieldPropTypes,
   modalPropTypes,
   stylePropTypes,
 } from './proptypes';
@@ -26,13 +27,10 @@ const propTypes = {
     value: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
     label: PropTypes.oneOfType(ACCEPT_LABEL_TYPES),
   })).isRequired,
-  onValueChange: PropTypes.func,
-
+  ...inputFieldPropTypes,
   ...stylePropTypes,
   ...modalPropTypes,
   ...iconPropTypes,
-
-  placeholder: PropTypes.string,
 };
 
 const defaultProps = {
@@ -40,7 +38,8 @@ const defaultProps = {
     { label: 'item 1', value: 'item 1 value' },
     { label: 'item 2', value: 'item 2 value' },
   ],
-  onValueChange: null,
+  selectedValues: undefined,
+  onValueChange: undefined,
   placeholder: 'Select...',
 };
 

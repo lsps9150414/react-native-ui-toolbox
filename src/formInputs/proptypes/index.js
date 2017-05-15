@@ -12,6 +12,12 @@ export const HOCInternalPropTypes = {
   onTouched: PropTypes.func,
 };
 
+// Input Field Basic
+export const inputFieldPropTypes = {
+  onValueChange: PropTypes.func,
+  placeholder: PropTypes.string,
+};
+
 // Styles
 export const stylePropTypes = {
   containerStyle: View.propTypes.style,

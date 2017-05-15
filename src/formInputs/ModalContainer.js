@@ -12,6 +12,8 @@ import {
   View,
 } from 'react-native';
 
+import { defaultModalProps } from './proptypes';
+
 const DEFAULT_CONTROL_BAR_HEIGHT = 50;
 
 const styles = StyleSheet.create({
@@ -56,21 +58,26 @@ const styles = StyleSheet.create({
 });
 
 const propTypes = {
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.array]),
-  cancelBtnText: PropTypes.string,
-  confirmBtnText: PropTypes.string,
+  visible: PropTypes.bool.isRequired,
+  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   onCancel: PropTypes.func,
   onConfirm: PropTypes.func,
-  visible: PropTypes.bool.isRequired,
+  cancelBtnText: PropTypes.string,
+  confirmBtnText: PropTypes.string,
   controlBarHeight: PropTypes.number,
   modalHeight: PropTypes.number,
   fullScreen: PropTypes.bool,
 };
 
 const defaultProps = {
+  children: undefined,
+  onCancel: undefined,
+  onConfirm: undefined,
+  cancelBtnText: defaultModalProps.modal.cancelBtnText,
+  confirmBtnText: defaultModalProps.modal.confirmBtnText,
   controlBarHeight: DEFAULT_CONTROL_BAR_HEIGHT,
   modalHeight: DEFAULT_CONTROL_BAR_HEIGHT + 216,
-  fullScreen: false,
+  fullScreen: defaultModalProps.modal.fullScreen,
 };
 
 export default class ModalContainer extends Component {

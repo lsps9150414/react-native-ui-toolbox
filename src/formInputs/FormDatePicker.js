@@ -18,6 +18,7 @@ import {
 import ModalContainer from './ModalContainer';
 import {
   iconPropTypes,
+  inputFieldPropTypes,
   modalPropTypes,
   stylePropTypes,
 } from './proptypes';
@@ -26,24 +27,21 @@ const propTypes = {
   date: PropTypes.instanceOf(Date),
   maxDate: PropTypes.instanceOf(Date),
   minDate: PropTypes.instanceOf(Date),
-  onValueChange: PropTypes.func,
-
+  format: PropTypes.string,
+  locale: PropTypes.string,
+  ...inputFieldPropTypes,
   ...stylePropTypes,
   ...modalPropTypes,
   ...iconPropTypes,
-
-  placeholder: PropTypes.string,
-  format: PropTypes.string,
-  locale: PropTypes.string,
 };
 
 const defaultProps = {
-  date: null,
+  date: undefined,
   maxDate: undefined, // DatePickerAndroid don't take null.
   minDate: undefined, // DatePickerAndroid don't take null.
-  onValueChange: null,
   format: 'Y-M-D (dd)',
   locale: 'en',
+  onValueChange: undefined,
   placeholder: 'Select a date...',
 };
 

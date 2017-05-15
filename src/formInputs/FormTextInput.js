@@ -2,35 +2,55 @@ import PropTypes from 'prop-types';
 import React, {
   Component,
 } from 'react';
-import { FormInput } from 'react-native-elements';
+import {
+  TextInput,
+  View,
+} from 'react-native';
 
-import { stylePropTypes } from './proptypes';
+import {
+  defaultInputFieldProps,
+  iconPropTypes,
+  inputFieldPropTypes,
+  modalPropTypes,
+  stylePropTypes,
+} from './proptypes';
 
 const propTypes = {
   value: PropTypes.string,
   ...stylePropTypes,
+  ...inputFieldPropTypes,
+  ...stylePropTypes,
+  ...modalPropTypes,
+  ...iconPropTypes,
 };
 
-const defaultProps = {};
+const defaultProps = {
+  value: undefined,
+  ...defaultInputFieldProps,
+};
 
 export default class FormTextInput extends Component {
-  handleOnChange = () => {
-    if (typeof this.props.onChange === 'function') {
-      this.props.onChange();
+  handleValueChange = (value) => {
+    if (typeof this.props.onValueChange === 'function') {
+      this.props.onTouched();
+      this.props.onValueChange(value);
     }
-    this.props.onTouched();
   }
 
   render() {
     return (
-      <FormInput
-        {...this.props}
-        value={this.props.value}
-        containerStyle={[this.props.containerStyle]}
-        inputStyle={[this.props.inputStyle]}
-        onChange={this.handleOnChange}
-        underlineColorAndroid={'transparent'}
-      />
+      <View style={[this.props.containerStyle]}>
+        <View style={[this.props.contentContainerStyle]}>
+          {this.props.showIcon && this.props.renderIcon()}
+          <TextInput
+            {...this.props}
+            value={this.props.value}
+            style={[{ flex: 1 }, this.props.inputStyle]}
+            onChangeText={this.handleValueChange}
+            underlineColorAndroid={'transparent'}
+          />
+        </View>
+      </View>
     );
   }
 }

@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
-import { defaultModalProps, modalPropTypes, stylePropTypes } from './proptypes';
+import { stylePropTypes } from './proptypes';
 
 const ACCEPT_VALUE_TYPES = [PropTypes.string, PropTypes.number, PropTypes.bool];
 const ACCEPT_LABEL_TYPES = [PropTypes.string, PropTypes.number];
@@ -24,7 +24,6 @@ const propTypes = {
   })).isRequired,
   onValueChange: PropTypes.func,
 
-  ...modalPropTypes,
   ...stylePropTypes,
 
   placeholder: PropTypes.string,
@@ -37,7 +36,6 @@ const defaultProps = {
   ],
   onValueChange: null,
   placeholder: 'Select...',
-  ...defaultModalProps,
 };
 
 export default class FormSelect extends Component {
@@ -126,13 +124,13 @@ export default class FormSelect extends Component {
   renderModal = visible => (
     <ModalContainer
       visible={visible}
-      cancelBtnText={this.props.cancelBtnText}
-      confirmBtnText={this.props.confirmBtnText}
       onCancel={this.handleModalCancel}
       onConfirm={this.handleModalConfirm}
-      controlBarHeight={this.props.controlBarHeight}
-      modalHeight={this.props.modalHeight}
-      fullScreen={this.props.fullScreen}
+      cancelBtnText={this.props.modal.cancelBtnText}
+      confirmBtnText={this.props.modal.confirmBtnText}
+      controlBarHeight={this.props.modal.controlBarHeight}
+      modalHeight={this.props.modal.height}
+      fullScreen={this.props.modal.fullScreen}
     >
       <ScrollView>{this.renderCheckboxItems()}</ScrollView>
     </ModalContainer>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React, {
   Component,
 } from 'react';
-import { CheckBox, Icon } from 'react-native-elements';
+import { CheckBox } from 'react-native-elements';
 import {
   ScrollView,
   Text,
@@ -13,8 +13,6 @@ import {
 
 import ModalContainer from './ModalContainer';
 import {
-  defaultModalProps,
-  modalPropTypes,
   stylePropTypes,
 } from './proptypes';
 
@@ -29,10 +27,8 @@ const propTypes = {
   onValueChange: PropTypes.func,
 
   ...stylePropTypes,
-  ...modalPropTypes,
 
   placeholder: PropTypes.string,
-
 };
 
 const defaultProps = {
@@ -42,8 +38,6 @@ const defaultProps = {
   ],
   onValueChange: null,
   placeholder: 'Pick...',
-
-  ...defaultModalProps,
 };
 
 export default class FormPicker extends Component {
@@ -131,13 +125,13 @@ export default class FormPicker extends Component {
   renderModal = visible => (
     <ModalContainer
       visible={visible}
-      cancelBtnText={this.props.cancelBtnText}
-      confirmBtnText={this.props.confirmBtnText}
       onCancel={this.handleModalCancel}
       onConfirm={this.handleModalConfirm}
-      controlBarHeight={this.props.controlBarHeight}
-      modalHeight={this.props.modalHeight}
-      fullScreen={this.props.fullScreen}
+      cancelBtnText={this.props.modal.cancelBtnText}
+      confirmBtnText={this.props.modal.confirmBtnText}
+      controlBarHeight={this.props.modal.controlBarHeight}
+      modalHeight={this.props.modal.height}
+      fullScreen={this.props.modal.fullScreen}
     >
       <ScrollView>{this.renderPickerItems()}</ScrollView>
     </ModalContainer>

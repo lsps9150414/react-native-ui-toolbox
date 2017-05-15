@@ -21,15 +21,23 @@ export const stylePropTypes = {
 
 // Modal
 export const modalPropTypes = {
-  cancelBtnText: PropTypes.string,
-  confirmBtnText: PropTypes.string,
-  controlBarHeight: PropTypes.number,
-  modalHeight: PropTypes.number,
-  fullScreen: PropTypes.bool,
+  modal: PropTypes.shape({
+    cancelBtnText: PropTypes.string,
+    confirmBtnText: PropTypes.string,
+    controlBarHeight: PropTypes.number,
+    height: PropTypes.number,
+    fullScreen: PropTypes.bool,
+  }),
 };
 
 export const defaultModalProps = {
-  fullScreen: false,
+  modal: {
+    cancelBtnText: 'CANCEL',
+    confirmBtnText: 'CONFIRM',
+    controlBarHeight: undefined,
+    height: undefined,
+    fullScreen: false,
+  },
 };
 
 // Icon

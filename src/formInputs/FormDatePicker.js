@@ -131,13 +131,13 @@ export default class FormDatePicker extends Component {
   iosRenderModal = visible => (
     <ModalContainer
       visible={visible}
-      cancelBtnText={this.props.cancelBtnText}
-      confirmBtnText={this.props.confirmBtnText}
       onCancel={this.iosHandleCancel}
       onConfirm={this.iosHandleConfirm}
-      controlBarHeight={this.props.controlBarHeight}
-      modalHeight={this.props.modalHeight}
-      fullScreen={this.props.fullScreen}
+      cancelBtnText={this.props.modal.cancelBtnText}
+      confirmBtnText={this.props.modal.confirmBtnText}
+      controlBarHeight={this.props.modal.controlBarHeight}
+      modalHeight={this.props.modal.height}
+      fullScreen={this.props.modal.fullScreen}
     >
       <DatePickerIOS
         mode={'date'}

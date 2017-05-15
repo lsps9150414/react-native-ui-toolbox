@@ -16,7 +16,9 @@ import {
 import { DEFAULT_COLORS } from '../constants/colors';
 import {
   defaultIconProps,
+  defaultModalProps,
   iconPropTypes,
+  modalPropTypes,
 } from './proptypes';
 
 const propTypes = {
@@ -39,10 +41,13 @@ const propTypes = {
   errorContainerStyle: View.propTypes.style,
   errorTextStyle: View.propTypes.style,
   errorText: PropTypes.string,
+
+  ...modalPropTypes,
   ...iconPropTypes,
 };
 
 const defaultProps = {
+  ...defaultModalProps,
   ...defaultIconProps,
 };
 
@@ -160,6 +165,9 @@ export default (InnerComponent) => {
             ]}
             contentContainerStyle={[styles.contentContainer, this.props.contentContainerStyle]}
             inputStyle={[styles.input, inputStyle.default, inputStyle.specified]}
+            modal={this.props.modal}
+            icon={this.props.icon}
+            // HOC inner props
             onTouched={this.handleOnTouched}
             renderIcon={this.renderIcon}
           />

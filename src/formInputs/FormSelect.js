@@ -131,11 +131,7 @@ export default class FormSelect extends Component {
       visible={visible}
       onCancel={this.handleModalCancel}
       onConfirm={this.handleModalConfirm}
-      cancelBtnText={this.props.modal.cancelBtnText}
-      confirmBtnText={this.props.modal.confirmBtnText}
-      controlBarHeight={this.props.modal.controlBarHeight}
-      modalHeight={this.props.modal.height}
-      fullScreen={this.props.modal.fullScreen}
+      {...this.props.modal}
     >
       <ScrollView>{this.renderCheckboxItems()}</ScrollView>
     </ModalContainer>

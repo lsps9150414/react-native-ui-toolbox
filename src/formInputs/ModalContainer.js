@@ -53,8 +53,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 16,
   },
-  controlButtonText: {
-  },
 });
 
 const propTypes = {
@@ -65,19 +63,27 @@ const propTypes = {
   cancelBtnText: PropTypes.string,
   confirmBtnText: PropTypes.string,
   controlBarHeight: PropTypes.number,
-  modalHeight: PropTypes.number,
+  controlBarPosition: PropTypes.oneOf(['top', 'bottom']),
+  height: PropTypes.number,
   fullScreen: PropTypes.bool,
+  containerStyle: View.propTypes.style,
+  contentContainerStyle: View.propTypes.style,
+  controlBarStyle: View.propTypes.style,
+  cancelBtnStyle: View.propTypes.style,
+  confirmBtnStyle: View.propTypes.style,
+  cancelBtnTextStyle: Text.propTypes.style,
+  confirmBtnTextStyle: Text.propTypes.style,
 };
 
 const defaultProps = {
+  ...defaultModalProps.modal,
   children: undefined,
   onCancel: undefined,
   onConfirm: undefined,
-  cancelBtnText: defaultModalProps.modal.cancelBtnText,
-  confirmBtnText: defaultModalProps.modal.confirmBtnText,
   controlBarHeight: DEFAULT_CONTROL_BAR_HEIGHT,
-  modalHeight: DEFAULT_CONTROL_BAR_HEIGHT + 216,
-  fullScreen: defaultModalProps.modal.fullScreen,
+  height: DEFAULT_CONTROL_BAR_HEIGHT + 216,
+  cancelBtnTextStyle: { color: 'red' },
+  confirmBtnTextStyle: { color: 'blue' },
 };
 
 export default class ModalContainer extends Component {
@@ -99,64 +105,102 @@ export default class ModalContainer extends Component {
   openModal = () => {
     Animated.timing(
       this.state.modalAnimatedHeight,
-      { toValue: this.props.modalHeight, duration: 300 },
+      { toValue: this.props.height, duration: 300 },
     ).start();
   }
   closeModal = () => {
     this.setState({ modalAnimatedHeight: new Animated.Value(0) });
   }
 
-  renderControlButton = (btnType, handler, btnText) => {
-    let displayBtnText;
-    let btnStyle;
-    if (btnType === 'CANCEL') {
-      displayBtnText = 'Cancel';
-      btnStyle = { color: 'red' };
-    } else {
-      displayBtnText = 'Confirm';
-    }
+  renderControlButton = (btnType, handler) => {
+    const isCancel = () => (btnType === 'CANCEL');
+    const {
+      cancelBtnText,
+      confirmBtnText,
+      cancelBtnStyle,
+      confirmBtnStyle,
+      cancelBtnTextStyle,
+      confirmBtnTextStyle,
+    } = this.props;
+
+    const displayBtnText = isCancel() ? cancelBtnText : confirmBtnText;
+    const btnStyle = isCancel() ? cancelBtnStyle : confirmBtnStyle;
+    const btnTextStyle = isCancel() ? cancelBtnTextStyle : confirmBtnTextStyle;
+
     return (
-      <TouchableOpacity
-        style={[styles.controlButton]}
-        onPress={handler}
-      >
-        <Text style={[styles.controlButtonText, btnStyle]}>
-          {Boolean(btnText) && btnText}
-          {!btnText && displayBtnText}
+      <TouchableOpacity style={[styles.controlButton, btnStyle]} onPress={handler}>
+        <Text style={[btnTextStyle]}>
+          {displayBtnText}
         </Text>
       </TouchableOpacity>
     );
   }
   renderControlBar = () => (
-    <View style={[styles.controlBar, { height: this.props.controlBarHeight }]}>
-      {this.renderControlButton('CANCEL', this.props.onCancel, this.props.cancelBtnText)}
-      {this.renderControlButton('CONFIRM', this.props.onConfirm, this.props.confirmBtnText)}
+    <View
+      style={[
+        styles.controlBar,
+        this.props.controlBarStyle,
+        { height: this.props.controlBarHeight },
+      ]}
+    >
+      {this.renderControlButton('CANCEL', this.props.onCancel)}
+      {this.renderControlButton('CONFIRM', this.props.onConfirm)}
     </View>
   )
+
+  renderContent = () => (
+    <View style={[styles.contentContainer, this.props.contentContainerStyle]}>
+      {this.props.children}
+    </View>
+  )
+
+  renderModalBody = () => {
+    if (this.props.controlBarPosition === 'top') {
+      return (
+        <View style={{ flex: 1 }}>
+          {this.renderControlBar()}
+          {this.renderContent()}
+        </View>
+      );
+    }
+    return (
+      <View style={{ flex: 1 }}>
+        {this.renderContent()}
+        {this.renderControlBar()}
+      </View>
+    );
+  }
+
   renderAnimatedModalContent = () => (
     <View style={[styles.modalContainer]}>
       <Animated.View
         style={[
           styles.animatedContainer,
+          this.props.containerStyle,
           { height: this.state.modalAnimatedHeight },
         ]}
       >
-        {this.renderControlBar()}
-        <View style={[styles.contentContainer]}>{this.props.children}</View>
+        {this.renderModalBody()}
       </Animated.View>
     </View>
   )
+
   renderFullScreenModalContent = () => (
-    <View style={[styles.fullScreenModalContainer]}>
-      <View style={[styles.contentContainer]}>{this.props.children}</View>
-      {this.renderControlBar()}
+    <View style={[styles.fullScreenModalContainer, this.props.containerStyle]}>
+      {this.renderModalBody()}
     </View>
   )
+
+  renderModalContent = (fullScreen) => {
+    if (fullScreen) {
+      return this.renderFullScreenModalContent();
+    }
+    return this.renderAnimatedModalContent();
+  }
+
   render() {
-    const content = this.props.fullScreen ?
-      this.renderFullScreenModalContent() : this.renderAnimatedModalContent();
-    const modalAnimationType = this.props.fullScreen ? 'slide' : 'fade';
     const modalTransparent = !this.props.fullScreen;
+    const modalAnimationType = this.props.fullScreen ? 'slide' : 'fade';
 
     return (
       <Modal
@@ -165,7 +209,7 @@ export default class ModalContainer extends Component {
         animationType={modalAnimationType}
         onRequestClose={() => { this.props.onCancel(); }}
       >
-        {content}
+        {this.renderModalContent(this.props.fullScreen)}
       </Modal>
     );
   }

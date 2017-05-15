@@ -119,7 +119,7 @@ export default class FormPicker extends Component {
       onCancel={this.iosHandleModalCancel}
       onConfirm={this.iosHandleModalConfirm}
       controlBarHeight={this.props.controlBarHeight}
-      modalHeight={this.props.modalHeight}
+      height={this.props.height}
       fullScreen={this.props.fullScreen}
     >
       <Picker

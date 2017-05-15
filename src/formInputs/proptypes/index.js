@@ -31,8 +31,16 @@ export const modalPropTypes = {
     cancelBtnText: PropTypes.string,
     confirmBtnText: PropTypes.string,
     controlBarHeight: PropTypes.number,
+    controlBarPosition: PropTypes.oneOf(['top', 'bottom']),
     height: PropTypes.number,
     fullScreen: PropTypes.bool,
+    containerStyle: View.propTypes.style,
+    contentContainerStyle: View.propTypes.style,
+    controlBarStyle: View.propTypes.style,
+    cancelBtnStyle: View.propTypes.style,
+    confirmBtnStyle: View.propTypes.style,
+    cancelBtnTextStyle: Text.propTypes.style,
+    confirmBtnTextStyle: Text.propTypes.style,
   }),
 };
 
@@ -41,8 +49,16 @@ export const defaultModalProps = {
     cancelBtnText: 'CANCEL',
     confirmBtnText: 'CONFIRM',
     controlBarHeight: undefined,
+    controlBarPosition: 'top',
     height: undefined,
     fullScreen: false,
+    containerStyle: undefined,
+    contentContainerStyle: undefined,
+    controlBarStyle: undefined,
+    cancelBtnStyle: undefined,
+    confirmBtnStyle: undefined,
+    cancelBtnTextStyle: undefined,
+    confirmBtnTextStyle: undefined,
   },
 };
 

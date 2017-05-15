@@ -43,11 +43,11 @@ export default class FormTextInput extends Component {
         <View style={[this.props.contentContainerStyle]}>
           {this.props.showIcon && this.props.renderIcon()}
           <TextInput
+            underlineColorAndroid={'transparent'}
             {...this.props}
             value={this.props.value}
             style={[{ flex: 1 }, this.props.inputStyle]}
             onChangeText={this.handleValueChange}
-            underlineColorAndroid={'transparent'}
           />
         </View>
       </View>

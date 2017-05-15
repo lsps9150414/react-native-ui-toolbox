@@ -52,7 +52,6 @@ const defaultProps = {
 
 const styles = StyleSheet.create({
   innerComponentContainer: {
-    height: 36,
     justifyContent: 'center', // Vertical align contentContainer
     borderBottomColor: DEFAULT_COLORS[3].toHexString(),
     borderBottomWidth: 1,
@@ -61,6 +60,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center', // Vertical align icon & input display
     paddingHorizontal: 8,
+    paddingVertical: 8,
   },
   input: {
     color: DEFAULT_COLORS[3].toHexString(),

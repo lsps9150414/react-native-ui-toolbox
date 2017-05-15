@@ -1,6 +1,14 @@
 import Avatar from './Avatar';
 import { BodyText, Heading, Subtitle, Title } from './Typography';
-import { FormDatePicker, FormInputHOC, FormPicker, FormPickerNative, FormSelect, FormTextInput } from './formInputs';
+import {
+  FormDatePicker,
+  FormInputHOC,
+  FormPicker,
+  FormPickerNative,
+  FormSelect,
+  FormTextInput,
+  WrappedTouchableNativeFeedback,
+} from './formInputs';
 
 export {
   Avatar,
@@ -14,4 +22,5 @@ export {
   Heading,
   Subtitle,
   Title,
+  WrappedTouchableNativeFeedback,
 };

@@ -2,7 +2,10 @@
 Just another collection of **cross platform** React Native UI components.
 > Extended from react-native-community's [`react-native-elements`](https://github.com/react-native-community/react-native-elements)
 
-## Todo
+## Demo
+[React Native UI Toolbox Demo App]()
+
+## 0.0.18 Todo
 - [ ] Make demoApp
 - [ ] demoApp Tutorial
 - [x] Refactor ModalContainer to render content directly with children
@@ -11,46 +14,44 @@ Just another collection of **cross platform** React Native UI components.
 - [x] FormInput components: accept icon
 - [x] `Modal`: props to config controlBar position
 - [ ] `Modal`: props to config view mode (dialog/slide in)
+- [ ] `FormDatePicker` with timePicker option
 - [ ] `FormPicker`: accept more list item props
 - [ ] `FormSelect`: accept more list item props
 - [ ] Add language config prop for ios DatePickerIOS
 
+## Components Included
+- [x] Avatar
+- [x] Heading
+- [x] Title
+- [x] Subtitle
+- [x] BodyText
+- [x] FormTextInput
+- [x] FormDatePicker
+- [x] FormPicker
+- [x] FormPickerNative
+- [x] FormSelect
+
 ## Change logs
 - 0.0.18:
-  - [ ] `<FormDatePicker>`: prop `onDateChange` -> `onValueChange`
+  - [ ] `FormDatePicker`: prop `onDateChange` -> `onValueChange`
 
 
 - 0.0.17: Update `Avatar` API.
 - 0.0.16: Add `FormSelect`
 
-## Demo
-[React Native UI Toolbox Demo App]()
-
-## Included
-- [x] Avatar
-- Typography
-  - [x] Heading
-  - [x] Title
-  - [x] Subtitle
-  - [x] BodyText
-- formInputs
-  - [x] FormTextInput
-  - [x] FormDatePicker
-  - [x] FormPicker
-  - [x] FormSelect
-  - [x] feature: input value validation
-
 ## Roadmap
-- components
-  - [ ] Inputs (with validation, custom state styles)
-    - [x] FormPicker
-    - [ ] FormTextBox
-    - [ ] FormDatePicker with timePicker option
-    - [ ] feature: inline error icon & customizable error block
-  - [ ] Avatar with editor
+- component
+  - [ ] `FormTextBox`
+  - [ ] Refactor typography components into a single `Text` with type props
+
+
+- Feature
+  - [ ] Error icon & customizable error block
+
+
 - Style
-  - [ ] Consistent theme options for all elements
   - [x] Consistent default styles for all input types
+  - [ ] Consistent theme options for all elements
 
 ## Installation
 
@@ -67,7 +68,7 @@ npm install react-native-ui-toolbox --save
 
 *Insert sample code here*
 
-### Props
+### Prop Types
 ```javascript
 const propTypes = {
   component: PropTypes.oneOf([
@@ -122,7 +123,10 @@ const propTypes = {
     style: View.propTypes.style,
   }),
 };
+```
 
+### Default Props
+```javascript
 const defaultProps = {
   component: View,
   size: 100,
@@ -174,77 +178,225 @@ const defaultProps = {
 
 
 ## Typography
-*Insert screenshot here*
-
-*Insert sample code here*
-
 - Heading
 - Title
 - Subtitle
 - BodyText
 
-## FormTextInput
+*Insert screenshot here*
+
+*Insert sample code here*
+
+
+## Form Inputs
+- FormTextInput
+- FormDatePicker
+- FormPicker
+- FormPickerNative
+- FormSelect
+
 *Insert gif screenshot here*
 
 *Insert sample code here*
 
-### props
+### Common Prop Types
+```javascript
+const inputFieldPropTypes = {
+  component: PropTypes.any,
+  componentProps: PropTypes.object,
+  onValueChange: PropTypes.func,
+  placeholder: PropTypes.string,
+};
 
-> Also recevies all `TextInput` props
+const stylePropTypes = {
+  containerStyle: View.propTypes.style,
+  contentContainerStyle: View.propTypes.style,
+  inputStyle: Text.propTypes.style,
+};
 
-| prop | default | type | description | note |
-| ---- | ---- | ---- | ---- | ---- |
-| containerStyle | none | `View` style | styling for field's container | |
-| inputStyle | none | `Text` style | styling for field's text. | |
-| value | string | ---- | ---- | ---- |
-| onChangeText | function | ---- | ---- | ---- |
+const modalPropTypes = {
+  modal: PropTypes.shape({
+    cancelBtnText: PropTypes.string,
+    confirmBtnText: PropTypes.string,
+    controlBarHeight: PropTypes.number,
+    controlBarPosition: PropTypes.oneOf(['top', 'bottom']),
+    height: PropTypes.number,
+    fullScreen: PropTypes.bool,
+    containerStyle: View.propTypes.style,
+    contentContainerStyle: View.propTypes.style,
+    controlBarStyle: View.propTypes.style,
+    cancelBtnStyle: View.propTypes.style,
+    confirmBtnStyle: View.propTypes.style,
+    cancelBtnTextStyle: Text.propTypes.style,
+    confirmBtnTextStyle: Text.propTypes.style,
+  }),
+};
+
+const iconPropTypes = {
+  showIcon: PropTypes.bool,
+  icon: PropTypes.shape({
+    name: PropTypes.string,
+    type: PropTypes.string,
+    color: PropTypes.string,
+    size: PropTypes.number,
+    style: View.propTypes.style,
+  }),
+};
+```
+
+### Common Default Props
+```javascript
+const defaultInputFieldProps = {
+  component: TouchableOpacity,
+  componentProps: undefined,
+  onValueChange: undefined,
+};
+
+const defaultModalProps = {
+  modal: {
+    cancelBtnText: 'CANCEL',
+    confirmBtnText: 'CONFIRM',
+    controlBarHeight: undefined,
+    controlBarPosition: 'top',
+    height: undefined,
+    fullScreen: false,
+    containerStyle: undefined,
+    contentContainerStyle: undefined,
+    controlBarStyle: undefined,
+    cancelBtnStyle: undefined,
+    confirmBtnStyle: undefined,
+    cancelBtnTextStyle: undefined,
+    confirmBtnTextStyle: undefined,
+  },
+};
+
+const defaultIconProps = {
+  showIcon: false,
+  icon: {
+    name: 'settings',
+    type: 'material',
+    size: 28,
+    color: DEFAULT_COLORS[2].toHexString(),
+    containerStyle: { marginRight: 8 },
+  },
+};
+```
 
 
-## FormPicker
-*Insert gif screenshot here*
+### FormTextInput
+#### Specific Prop Types
+> Also accepts all react native `TextInput` props
 
-*Insert sample code here*
-
-### props
-
-> Also recevies all `Picker` props
-
-| prop | default | type | description | note |
-| ---- | ---- | ---- | ---- | ---- |
-| `android:` pickerStyleAndroid | none | `Picker` style | styling for Android's Picker | Use this instead of inputStyle. |
-| containerStyle | none | `View` style | styling for field's container | |
-| inputStyle | none | `Text` style | styling for field's text. | `android:` Use `pickerStyleAndroid` instead of this. |
-| items | demo data | array of `{ label: [string], value: [string\number] }` | picker items | |
-| onValueChange | function | ---- | ---- | ---- |
-
-## FormSelect
-*Insert gif screenshot here*
-
-*Insert sample code here*
-
-### props
+#### Specific Default Props
 
 
-## FormDatePicker
-*Insert gif screenshot here*
+### FormDatePicker
+#### Specific Prop Types
+```javascript
+date: PropTypes.instanceOf(Date),
+maxDate: PropTypes.instanceOf(Date),
+minDate: PropTypes.instanceOf(Date),
+format: PropTypes.string,
+locale: PropTypes.string,
+```
+> Also accepts all react native `DatePicker` props
 
-*Insert sample code here*
+#### Specific Default Props
+```javascript
+const defaultProps = {
+  date: undefined,
+  maxDate: undefined, // DatePickerAndroid don't take null.
+  minDate: undefined, // DatePickerAndroid don't take null.
+  format: 'Y-M-D (dd)',
+  locale: 'en',
+  placeholder: 'Select a date...',
+};
+```
 
-### props
 
-> Also recevies all `DatePicker` props
+### FormPicker
+#### Specific Prop Types
+```javascript
+const ACCEPT_VALUE_TYPES = [PropTypes.string, PropTypes.number, PropTypes.bool];
+const ACCEPT_LABEL_TYPES = [PropTypes.string, PropTypes.number];
 
-| prop | default | type | description | note |
-| ---- | ---- | ---- | ---- | ---- |
-| containerStyle | none | `View` style | styling for field's container | |
-| inputStyle | none | `Text` style | styling for field's text. | |
-| date | date | ---- | ---- | ---- |
-| minDate | date | ---- | ---- | ---- |
-| maxDate | date | ---- | ---- | ---- |
-| onDateChange | function | ---- | ---- | ---- |
-| `ios:` cancelBtnText | string | ---- | ---- | ---- |
-| `ios:` confirmBtnText | string | ---- | ---- | ---- |
-| locale | locale string | ---- | ---- | ---- |
+const propTypes = {
+  selectedValue: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
+  items: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
+    label: PropTypes.oneOfType(ACCEPT_LABEL_TYPES),
+  })).isRequired,
+};
+```
+
+#### Specific Default Props
+```javascript
+const defaultProps = {
+  items: [
+    { label: 'item 1', value: 'item 1 value' },
+    { label: 'item 2', value: 'item 2 value' },
+  ],
+  selectedValue: undefined,
+  placeholder: 'Pick...',
+};
+```
+
+
+### FormPickerNative
+#### Specific Prop Types
+```javascript
+const ACCEPT_VALUE_TYPES = [PropTypes.string, PropTypes.number, PropTypes.bool];
+const ACCEPT_LABEL_TYPES = [PropTypes.string, PropTypes.number];
+
+const propTypes = {
+  selectedValue: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
+  items: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
+    label: PropTypes.oneOfType(ACCEPT_LABEL_TYPES),
+  })).isRequired,
+};
+```
+> Also accepts all react native `Picker` props
+
+#### Specific Default Props
+```javascript
+const defaultProps = {
+  items: [
+    { label: 'item 1', value: 'item 1 value' },
+    { label: 'item 2', value: 'item 2 value' },
+  ],
+  selectedValue: undefined,
+  placeholder: 'Pick...',
+};
+```
+
+
+### FormSelect
+#### Specific Prop Types
+```javascript
+const ACCEPT_VALUE_TYPES = [PropTypes.string, PropTypes.number, PropTypes.bool];
+const ACCEPT_LABEL_TYPES = [PropTypes.string, PropTypes.number];
+
+const propTypes = {
+  selectedValues: PropTypes.arrayOf(PropTypes.oneOfType(ACCEPT_VALUE_TYPES)),
+  items: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
+    label: PropTypes.oneOfType(ACCEPT_LABEL_TYPES),
+  })).isRequired,
+};
+```
+
+#### Specific Default Props
+```javascript
+const defaultProps = {
+  items: [
+    { label: 'item 1', value: 'item 1 value' },
+    { label: 'item 2', value: 'item 2 value' },
+  ],
+  selectedValues: undefined,
+  placeholder: 'Select...',
+};
+```
 
 
 ## Theme

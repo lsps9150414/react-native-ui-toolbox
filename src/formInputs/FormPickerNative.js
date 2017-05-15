@@ -12,7 +12,12 @@ import {
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
-import { defaultModalProps, modalPropTypes, stylePropTypes } from './proptypes';
+import {
+  iconPropTypes,
+  inputFieldPropTypes,
+  modalPropTypes,
+  stylePropTypes,
+} from './proptypes';
 
 const ACCEPT_VALUE_TYPES = [PropTypes.string, PropTypes.number, PropTypes.bool];
 const ACCEPT_LABEL_TYPES = [PropTypes.string, PropTypes.number];
@@ -22,12 +27,10 @@ const propTypes = {
     value: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
     label: PropTypes.oneOfType(ACCEPT_LABEL_TYPES),
   })).isRequired,
-  onValueChange: PropTypes.func,
-
-  ...modalPropTypes,
+  ...inputFieldPropTypes,
   ...stylePropTypes,
-
-  placeholder: PropTypes.string,
+  ...modalPropTypes,
+  ...iconPropTypes,
 };
 
 const defaultProps = {
@@ -35,9 +38,9 @@ const defaultProps = {
     { label: 'item 1', value: 'item 1 value' },
     { label: 'item 2', value: 'item 2 value' },
   ],
-  onValueChange: null,
+  selectedValue: undefined,
+  onValueChange: undefined,
   placeholder: 'Pick...',
-  ...defaultModalProps,
 };
 
 export default class FormPicker extends Component {
@@ -114,13 +117,9 @@ export default class FormPicker extends Component {
   iosRenderModal = visible => (
     <ModalContainer
       visible={visible}
-      cancelBtnText={this.props.cancelBtnText}
-      confirmBtnText={this.props.confirmBtnText}
       onCancel={this.iosHandleModalCancel}
       onConfirm={this.iosHandleModalConfirm}
-      controlBarHeight={this.props.controlBarHeight}
-      height={this.props.height}
-      fullScreen={this.props.fullScreen}
+      {...this.props.modal}
     >
       <Picker
         {...this.props}
@@ -139,30 +138,40 @@ export default class FormPicker extends Component {
     return this.itemsDictionary[this.state.selectedValue];
   }
 
+  iosRenderInputDisplay = () => (
+    <Text style={[this.props.inputStyle]}>
+      {this.iosRenderDisplayText()}
+    </Text>
+  )
+
   iosRenderTouchable = () => (
     <TouchableOpacity
       style={[this.props.containerStyle]}
       onPress={this.iosOpenModal}
     >
-      <Text style={[this.props.inputStyle]}>
-        {this.iosRenderDisplayText()}
-      </Text>
-      {this.iosRenderModal(this.state.iosModalVisible)}
+      <View style={[this.props.contentContainerStyle]}>
+        {this.props.showIcon && this.props.renderIcon()}
+        {this.iosRenderInputDisplay()}
+        {this.iosRenderModal(this.state.iosModalVisible)}
+      </View>
     </TouchableOpacity>
   )
 
   androidRenderPicker = () => (
     <View style={[this.props.containerStyle]}>
-      <Picker
-        {...this.props}
-        // As of react-native 0.44, there is no propper way to style the text of Android Picker.
-        style={[this.props.inputStyle]}
-        selectedValue={this.state.selectedValue}
-        onValueChange={this.androidHandleValueChange}
-        mode={'dialog'}
-      >
-        {this.renderPickerItems()}
-      </Picker>
+      <View style={[this.props.contentContainerStyle]}>
+        {this.props.showIcon && this.props.renderIcon()}
+        <Picker
+          {...this.props}
+          // As of react-native 0.44, there is no propper way to style the text of Android Picker.
+          style={[{ flex: 1 }, this.props.inputStyle]}
+          selectedValue={this.state.selectedValue}
+          onValueChange={this.androidHandleValueChange}
+          mode={'dialog'}
+        >
+          {this.renderPickerItems()}
+        </Picker>
+      </View>
     </View>
   )
 

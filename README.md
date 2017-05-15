@@ -7,13 +7,12 @@ Just another collection of **cross platform** React Native UI components.
 - [ ] demoApp Tutorial
 - [x] Refactor ModalContainer to render content directly with children
 - [x] Refactor FormPicker to use pure RN implementation
-- [ ] FormInput components: accept custom touchable component
-- [ ] FormInput components: accept custom input display component
-- [ ] FormInput components: accept icon
+- [x] FormInput components: accept custom touchable component
+- [x] FormInput components: accept icon
+- [x] `Modal`: props to config controlBar position
+- [ ] `Modal`: props to config view mode (dialog/slide in)
 - [ ] `FormPicker`: accept more list item props
 - [ ] `FormSelect`: accept more list item props
-- [ ] `Modal`: props to config controlBar position
-- [ ] `Modal`: props to config view mode (dialog/slide in)
 - [ ] Add language config prop for ios DatePickerIOS
 
 ## Change logs

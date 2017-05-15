@@ -4,11 +4,11 @@ import React, {
 } from 'react';
 import { FormInput } from 'react-native-elements';
 
-import { stlyePropTypes } from './proptypes';
+import { stylePropTypes } from './proptypes';
 
 const propTypes = {
   value: PropTypes.string,
-  ...stlyePropTypes,
+  ...stylePropTypes,
 };
 
 const defaultProps = {};

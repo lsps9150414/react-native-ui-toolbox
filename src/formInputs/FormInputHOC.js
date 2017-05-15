@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import React, {
   Component,
 } from 'react';
+import { Icon } from 'react-native-elements';
 import {
   StyleSheet,
   Text,
@@ -13,6 +14,10 @@ import {
 } from 'react-native';
 
 import { DEFAULT_COLORS } from '../constants/colors';
+import {
+  defaultIconProps,
+  iconPropTypes,
+} from './proptypes';
 
 const propTypes = {
   value: PropTypes.any,
@@ -20,11 +25,13 @@ const propTypes = {
 
   // For the wrapper component around the input field and the error.
   wrapperStyle: View.propTypes.style,
-  // For the inner component.
+  // For the touchable component.
   containerStyle: View.propTypes.style,
   validContainerStyle: View.propTypes.style,
   invalidContainerStyle: View.propTypes.style,
-// For the value display text.
+  // For the touchable content component.
+  contentContainerStyle: View.propTypes.style,
+  // For the value display text.
   inputStyle: Text.propTypes.style,
   validInputStyle: Text.propTypes.style,
   invalidInputStyle: Text.propTypes.style,
@@ -32,24 +39,31 @@ const propTypes = {
   errorContainerStyle: View.propTypes.style,
   errorTextStyle: View.propTypes.style,
   errorText: PropTypes.string,
+  ...iconPropTypes,
 };
 
-const defaultProps = {};
+const defaultProps = {
+  ...defaultIconProps,
+};
 
 const styles = StyleSheet.create({
   innerComponentContainer: {
     height: 36,
-    justifyContent: 'center',
+    justifyContent: 'center', // Vertical align contentContainer
     borderBottomColor: DEFAULT_COLORS[3].toHexString(),
     borderBottomWidth: 1,
+  },
+  contentContainer: {
+    flexDirection: 'row',
+    alignItems: 'center', // Vertical align icon & input display
+    paddingHorizontal: 8,
   },
   input: {
     color: DEFAULT_COLORS[3].toHexString(),
     fontSize: 16,
-    paddingHorizontal: 8, // To align with Android <Picker>'s style.
   },
   errorContainer: {
-    paddingHorizontal: 8, // To align with Android <Picker>'s style.
+    paddingHorizontal: 8,
     paddingBottom: 8,
   },
   errorText: {
@@ -114,6 +128,21 @@ export default (InnerComponent) => {
       return null;
     }
 
+    renderIcon = () => {
+      const iconProps = { ...defaultProps.icon, ...this.props.icon };
+
+      return (
+        <View style={[iconProps.containerStyle]}>
+          <Icon
+            name={iconProps.name}
+            type={iconProps.type}
+            size={iconProps.size}
+            color={iconProps.color}
+          />
+        </View>
+      );
+    }
+
     render() {
       const {
         containerStyle,
@@ -129,8 +158,10 @@ export default (InnerComponent) => {
               containerStyle.default,
               containerStyle.specified,
             ]}
+            contentContainerStyle={[styles.contentContainer, this.props.contentContainerStyle]}
             inputStyle={[styles.input, inputStyle.default, inputStyle.specified]}
             onTouched={this.handleOnTouched}
+            renderIcon={this.renderIcon}
           />
           {this.renderError()}
         </View>

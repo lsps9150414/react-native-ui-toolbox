@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
-import { defaultModalPropTypes, modalPropTypes, stlyePropTypes } from './proptypes';
+import { defaultModalProps, modalPropTypes, stylePropTypes } from './proptypes';
 
 const propTypes = {
   date: PropTypes.instanceOf(Date),
@@ -24,7 +24,7 @@ const propTypes = {
   onValueChange: PropTypes.func,
 
   ...modalPropTypes,
-  ...stlyePropTypes,
+  ...stylePropTypes,
 
   placeholder: PropTypes.string,
   format: PropTypes.string,
@@ -39,7 +39,7 @@ const defaultProps = {
   format: 'Y-M-D (dd)',
   locale: 'en',
   placeholder: 'Select a date...',
-  ...defaultModalPropTypes,
+  ...defaultModalProps,
 };
 
 export default class FormDatePicker extends Component {
@@ -155,15 +155,19 @@ export default class FormDatePicker extends Component {
     return moment(this.getDateInUse()).locale(this.props.locale).format(this.props.format);
   }
 
+  renderInputDisplay = () => (
+    <Text style={[this.props.inputStyle]}>
+      {this.renderDisplayText()}
+    </Text>
+  )
+
   render() {
     return (
       <TouchableOpacity
         style={[this.props.containerStyle]}
         onPress={this.openPicker}
       >
-        <Text style={[this.props.inputStyle]}>
-          {this.renderDisplayText()}
-        </Text>
+        {this.renderInputDisplay()}
         {this.platformIOS && this.iosRenderModal(this.state.iosModalVisible)}
       </TouchableOpacity>
     );

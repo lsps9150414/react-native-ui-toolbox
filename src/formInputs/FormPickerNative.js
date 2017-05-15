@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
-import { defaultModalPropTypes, modalPropTypes, stlyePropTypes } from './proptypes';
+import { defaultModalProps, modalPropTypes, stylePropTypes } from './proptypes';
 
 const ACCEPT_VALUE_TYPES = [PropTypes.string, PropTypes.number, PropTypes.bool];
 const ACCEPT_LABEL_TYPES = [PropTypes.string, PropTypes.number];
@@ -25,7 +25,7 @@ const propTypes = {
   onValueChange: PropTypes.func,
 
   ...modalPropTypes,
-  ...stlyePropTypes,
+  ...stylePropTypes,
 
   placeholder: PropTypes.string,
 };
@@ -37,7 +37,7 @@ const defaultProps = {
   ],
   onValueChange: null,
   placeholder: 'Pick...',
-  ...defaultModalPropTypes,
+  ...defaultModalProps,
 };
 
 export default class FormPicker extends Component {

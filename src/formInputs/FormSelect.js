@@ -8,10 +8,11 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
-import { defaultModalPropTypes, modalPropTypes, stlyePropTypes } from './proptypes';
+import { defaultModalProps, modalPropTypes, stylePropTypes } from './proptypes';
 
 const ACCEPT_VALUE_TYPES = [PropTypes.string, PropTypes.number, PropTypes.bool];
 const ACCEPT_LABEL_TYPES = [PropTypes.string, PropTypes.number];
@@ -24,7 +25,7 @@ const propTypes = {
   onValueChange: PropTypes.func,
 
   ...modalPropTypes,
-  ...stlyePropTypes,
+  ...stylePropTypes,
 
   placeholder: PropTypes.string,
 };
@@ -36,7 +37,7 @@ const defaultProps = {
   ],
   onValueChange: null,
   placeholder: 'Select...',
-  ...defaultModalPropTypes,
+  ...defaultModalProps,
 };
 
 export default class FormSelect extends Component {
@@ -152,16 +153,23 @@ export default class FormSelect extends Component {
     );
   }
 
+  renderInputDisplay = () => (
+    <Text style={[this.props.inputStyle]} ellipsizeMode={'tail'} numberOfLines={1}>
+      {this.renderDisplayText()}
+    </Text>
+  )
+
   render() {
     return (
       <TouchableOpacity
         style={[this.props.containerStyle]}
         onPress={this.openModal}
       >
-        <Text style={[this.props.inputStyle]} ellipsizeMode={'tail'} numberOfLines={1}>
-          {this.renderDisplayText()}
-        </Text>
-        {this.renderModal(this.state.modalVisible)}
+        <View style={[this.props.contentContainerStyle]}>
+          {this.props.showIcon && this.props.renderIcon()}
+          {this.renderInputDisplay()}
+          {this.renderModal(this.state.modalVisible)}
+        </View>
       </TouchableOpacity>
     );
   }

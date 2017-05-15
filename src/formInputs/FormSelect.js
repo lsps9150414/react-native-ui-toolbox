@@ -12,7 +12,11 @@ import {
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
-import { stylePropTypes } from './proptypes';
+import {
+  iconPropTypes,
+  modalPropTypes,
+  stylePropTypes,
+} from './proptypes';
 
 const ACCEPT_VALUE_TYPES = [PropTypes.string, PropTypes.number, PropTypes.bool];
 const ACCEPT_LABEL_TYPES = [PropTypes.string, PropTypes.number];
@@ -25,6 +29,8 @@ const propTypes = {
   onValueChange: PropTypes.func,
 
   ...stylePropTypes,
+  ...modalPropTypes,
+  ...iconPropTypes,
 
   placeholder: PropTypes.string,
 };

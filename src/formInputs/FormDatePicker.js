@@ -16,7 +16,11 @@ import {
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
-import { defaultModalProps, modalPropTypes, stylePropTypes } from './proptypes';
+import {
+  iconPropTypes,
+  modalPropTypes,
+  stylePropTypes,
+} from './proptypes';
 
 const propTypes = {
   date: PropTypes.instanceOf(Date),
@@ -24,8 +28,9 @@ const propTypes = {
   minDate: PropTypes.instanceOf(Date),
   onValueChange: PropTypes.func,
 
-  ...modalPropTypes,
   ...stylePropTypes,
+  ...modalPropTypes,
+  ...iconPropTypes,
 
   placeholder: PropTypes.string,
   format: PropTypes.string,
@@ -40,7 +45,6 @@ const defaultProps = {
   format: 'Y-M-D (dd)',
   locale: 'en',
   placeholder: 'Select a date...',
-  ...defaultModalProps,
 };
 
 export default class FormDatePicker extends Component {

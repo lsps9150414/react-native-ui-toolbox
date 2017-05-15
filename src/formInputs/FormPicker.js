@@ -13,6 +13,8 @@ import {
 
 import ModalContainer from './ModalContainer';
 import {
+  iconPropTypes,
+  modalPropTypes,
   stylePropTypes,
 } from './proptypes';
 
@@ -27,6 +29,8 @@ const propTypes = {
   onValueChange: PropTypes.func,
 
   ...stylePropTypes,
+  ...modalPropTypes,
+  ...iconPropTypes,
 
   placeholder: PropTypes.string,
 };

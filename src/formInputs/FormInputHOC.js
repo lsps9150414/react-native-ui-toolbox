@@ -1,5 +1,5 @@
 /*
-Add validation to InnerComponent
+Add validation, icon rendering to InnerComponent
 */
 
 import PropTypes from 'prop-types';
@@ -41,7 +41,6 @@ const propTypes = {
   errorContainerStyle: View.propTypes.style,
   errorTextStyle: View.propTypes.style,
   errorText: PropTypes.string,
-
   ...modalPropTypes,
   ...iconPropTypes,
 };

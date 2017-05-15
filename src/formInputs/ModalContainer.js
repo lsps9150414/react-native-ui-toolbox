@@ -94,6 +94,7 @@ export default class ModalContainer extends Component {
       modalAnimatedHeight: new Animated.Value(0),
     };
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.visible && nextProps.visible !== this.props.visible) {
       this.openModal();
@@ -108,6 +109,7 @@ export default class ModalContainer extends Component {
       { toValue: this.props.height, duration: 300 },
     ).start();
   }
+
   closeModal = () => {
     this.setState({ modalAnimatedHeight: new Animated.Value(0) });
   }
@@ -135,6 +137,7 @@ export default class ModalContainer extends Component {
       </TouchableOpacity>
     );
   }
+
   renderControlBar = () => (
     <View
       style={[

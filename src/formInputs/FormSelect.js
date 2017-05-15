@@ -59,7 +59,9 @@ export default class FormSelect extends Component {
       this.updateItemsDictionary(nextProps.items);
       this.updateSelectedValues(nextProps.selectedValues);
     }
-    if (nextProps.selectedValues && nextProps.selectedValues !== this.props.selectedValues) {
+    if (nextProps.selectedValues &&
+      !_.isEqual(nextProps.selectedValues, this.props.selectedValues)
+    ) {
       this.updateSelectedValues(nextProps.selectedValues);
     }
   }
@@ -110,7 +112,7 @@ export default class FormSelect extends Component {
     this.setState({ tempValues: newTempValues });
   }
 
-  renderCheckboxItems = () => {
+  renderItems = () => {
     if (this.props.items.length === 0) {
       return (<CheckBox title={'No Options'} />);
     }
@@ -133,7 +135,7 @@ export default class FormSelect extends Component {
       onConfirm={this.handleModalConfirm}
       {...this.props.modal}
     >
-      <ScrollView>{this.renderCheckboxItems()}</ScrollView>
+      <ScrollView>{this.renderItems()}</ScrollView>
     </ModalContainer>
   )
 

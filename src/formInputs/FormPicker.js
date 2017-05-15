@@ -60,7 +60,9 @@ export default class FormPicker extends Component {
       this.updateItemsDictionary(nextProps.items);
       this.updateSelectedValue(nextProps.selectedValue);
     }
-    if (nextProps.selectedValue && nextProps.selectedValue !== this.props.selectedValue) {
+    if (nextProps.selectedValue &&
+      !_.isEqual(nextProps.selectedValue, this.props.selectedValue)
+    ) {
       this.updateSelectedValue(nextProps.selectedValue);
     }
   }
@@ -107,7 +109,7 @@ export default class FormPicker extends Component {
 
   handleTempValueChange = (value) => { this.setState({ tempValue: value }); }
 
-  renderPickerItems = () => {
+  renderItems = () => {
     if (this.props.items.length === 0) {
       return (<CheckBox title={'No Options'} />);
     }
@@ -132,7 +134,7 @@ export default class FormPicker extends Component {
       onConfirm={this.handleModalConfirm}
       {...this.props.modal}
     >
-      <ScrollView>{this.renderPickerItems()}</ScrollView>
+      <ScrollView>{this.renderItems()}</ScrollView>
     </ModalContainer>
   )
 

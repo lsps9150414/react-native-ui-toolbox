@@ -23,6 +23,8 @@ export const inputFieldPropTypes = {
 
 export const defaultInputFieldProps = {
   component: TouchableOpacity,
+  componentProps: undefined,
+  onValueChange: undefined,
 };
 
 // Styles

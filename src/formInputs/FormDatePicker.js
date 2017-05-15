@@ -41,7 +41,6 @@ const defaultProps = {
   minDate: undefined, // DatePickerAndroid don't take null.
   format: 'Y-M-D (dd)',
   locale: 'en',
-  onValueChange: undefined,
   placeholder: 'Select a date...',
   ...defaultInputFieldProps,
 };

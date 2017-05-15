@@ -39,7 +39,6 @@ const defaultProps = {
     { label: 'item 2', value: 'item 2 value' },
   ],
   selectedValues: undefined,
-  onValueChange: undefined,
   placeholder: 'Select...',
   ...defaultInputFieldProps,
 };

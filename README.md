@@ -285,19 +285,30 @@ const defaultIconProps = {
 
 ### FormTextInput
 #### Specific Prop Types
-> Also accepts all react native `TextInput` props
+```javascript
+const propTypes = {
+  value: PropTypes.string,
+};
+```
+> Also accepts all react native `TextInput` props except `onChangeText`, use `onValueChange` instead.
 
 #### Specific Default Props
-
+```javascript
+const defaultProps = {
+  value: undefined,
+};
+```
 
 ### FormDatePicker
 #### Specific Prop Types
 ```javascript
-date: PropTypes.instanceOf(Date),
-maxDate: PropTypes.instanceOf(Date),
-minDate: PropTypes.instanceOf(Date),
-format: PropTypes.string,
-locale: PropTypes.string,
+const propTypes = {
+  date: PropTypes.instanceOf(Date),
+  maxDate: PropTypes.instanceOf(Date),
+  minDate: PropTypes.instanceOf(Date),
+  format: PropTypes.string,
+  locale: PropTypes.string,
+};
 ```
 > Also accepts all react native `DatePicker` props
 

@@ -12,6 +12,7 @@ import {
   Platform,
   Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
@@ -167,8 +168,11 @@ export default class FormDatePicker extends Component {
         style={[this.props.containerStyle]}
         onPress={this.openPicker}
       >
-        {this.renderInputDisplay()}
-        {this.platformIOS && this.iosRenderModal(this.state.iosModalVisible)}
+        <View style={[this.props.contentContainerStyle]}>
+          {this.props.showIcon && this.props.renderIcon()}
+          {this.renderInputDisplay()}
+          {this.platformIOS && this.iosRenderModal(this.state.iosModalVisible)}
+        </View>
       </TouchableOpacity>
     );
   }

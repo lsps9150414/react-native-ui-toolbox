@@ -1,5 +1,4 @@
 import React, {
-  Component,
   PropTypes,
 } from 'react';
 import {
@@ -36,13 +35,12 @@ const WrappedTouchableNativeFeedback = (props) => {
       </TouchableOpacity>
     );
   }
-  const rippleColor = props.rippleColor ? props.rippleColor : '#aaa';
   return (
     <View {...props} style={props.style}>
       <TouchableNativeFeedback
         {...props}
         onPress={props.onPress}
-        background={TouchableNativeFeedback.Ripple(rippleColor, true)}
+        background={TouchableNativeFeedback.Ripple(props.rippleColor, true)}
       >
         {props.children}
       </TouchableNativeFeedback>

@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import React, {
   Component,
 } from 'react';
+import { CheckBox } from 'react-native-elements';
 import {
-  Picker,
-  Platform,
+  ScrollView,
   Text,
   TouchableOpacity,
-  View,
 } from 'react-native';
 
 import ModalContainer from './ModalContainer';
@@ -45,11 +44,10 @@ export default class FormPicker extends Component {
     super(props);
     this.state = {
       selectedValue: props.selectedValue,
-      iosTempValue: this.valueIsEmpty(props.selectedValue) ?
+      tempValue: this.valueIsEmpty(props.selectedValue) ?
         props.items[0].value : props.selectedValue,
-      iosModalVisible: false,
+      modalVisible: false,
     };
-    this.platformIOS = Platform.OS === 'ios';
     this.updateItemsDictionary(props.items);
   }
 
@@ -77,115 +75,86 @@ export default class FormPicker extends Component {
   }
 
   updateSelectedValue = (selectedValue) => {
-    this.setState({ selectedValue, iosTempValue: selectedValue });
+    this.setState({ selectedValue, tempValue: selectedValue });
   }
 
   handleValueChange = () => {
-    if (typeof this.props.onValueChange === 'function') {
-      this.props.onTouched(); // For the HOC to manage touch state.
-      this.props.onValueChange(this.state.selectedValue);
+    this.setState({ selectedValue: this.state.tempValue }, () => {
+      if (typeof this.props.onValueChange === 'function') {
+        this.props.onTouched(); // For the HOC to manage touch state.
+        this.props.onValueChange(this.state.selectedValue);
+      }
+    });
+  }
+
+  openModal = () => { this.setState({ modalVisible: true }); }
+
+  closeModal = () => { this.setState({ modalVisible: false }); }
+
+  handleModalCancel = () => {
+    this.closeModal();
+    this.setState({ tempValue: this.state.selectedValue });
+  }
+
+  handleModalConfirm = () => {
+    this.closeModal();
+    this.handleValueChange();
+  }
+
+  handleTempValueChange = (value) => { this.setState({ tempValue: value }); }
+
+  renderPickerItems = () => {
+    if (this.props.items.length === 0) {
+      return (<CheckBox title={'No Options'} />);
     }
+    return (
+      this.props.items.map((item, index) => (
+        <CheckBox
+          key={`pickerItem-${index}`}
+          title={item.label.toString()}
+          checkedIcon={'dot-circle-o'}
+          uncheckedIcon={'circle-o'}
+          checked={_.isEqual(this.state.tempValue, item.value)}
+          onPress={() => { this.handleTempValueChange(item.value); }}
+        />
+      ))
+    );
   }
 
-  androidHandleValueChange = (value) => {
-    this.setState({ selectedValue: value }, this.handleValueChange);
-  }
-
-  iosHandleValueChange = () => {
-    this.setState({ selectedValue: this.state.iosTempValue }, this.handleValueChange);
-  }
-
-  iosOpenModal = () => { this.setState({ iosModalVisible: true }); }
-
-  iosCloseModal = () => { this.setState({ iosModalVisible: false }); }
-
-  iosHandleModalCancel = () => {
-    this.iosCloseModal();
-    this.setState({ iosTempValue: this.state.selectedValue });
-  }
-
-  iosHandleModalConfirm = () => {
-    this.iosCloseModal();
-    this.iosHandleValueChange();
-  }
-
-  iosHandleTempValueChange = (value) => { this.setState({ iosTempValue: value }); }
-
-  iosRenderModal = visible => (
+  renderModal = visible => (
     <ModalContainer
       visible={visible}
       cancelBtnText={this.props.cancelBtnText}
       confirmBtnText={this.props.confirmBtnText}
-      onCancel={this.iosHandleModalCancel}
-      onConfirm={this.iosHandleModalConfirm}
+      onCancel={this.handleModalCancel}
+      onConfirm={this.handleModalConfirm}
       controlBarHeight={this.props.controlBarHeight}
       modalHeight={this.props.modalHeight}
       fullScreen={this.props.fullScreen}
     >
-      <Picker
-        {...this.props}
-        selectedValue={this.state.iosTempValue}
-        onValueChange={this.iosHandleTempValueChange}
-      >
-        {this.renderPickerItems()}
-      </Picker>
+      <ScrollView>{this.renderPickerItems()}</ScrollView>
     </ModalContainer>
   )
 
-  iosRenderDisplayText = () => {
+  renderDisplayText = () => {
     if (this.valueIsEmpty(this.state.selectedValue)) {
       return this.props.placeholder;
     }
     return this.itemsDictionary[this.state.selectedValue];
   }
 
-  iosRenderTouchable = () => (
-    <TouchableOpacity
-      style={[this.props.containerStyle]}
-      onPress={this.iosOpenModal}
-    >
-      <Text style={[this.props.inputStyle]}>
-        {this.iosRenderDisplayText()}
-      </Text>
-      {this.iosRenderModal(this.state.iosModalVisible)}
-    </TouchableOpacity>
-  )
-
-  androidRenderPicker = () => (
-    <View style={[this.props.containerStyle]}>
-      <Picker
-        {...this.props}
-        // As of react-native 0.44, there is no propper way to style the text of Android Picker.
-        style={[this.props.inputStyle]}
-        selectedValue={this.state.selectedValue}
-        onValueChange={this.androidHandleValueChange}
-        mode={'dialog'}
-      >
-        {this.renderPickerItems()}
-      </Picker>
-    </View>
-  )
-
-  renderPickerItems = () => {
-    if (this.props.items.length === 0) {
-      return (<Picker.Item label={'No Options'} value={null} />);
-    }
-    return (
-      this.props.items.map((item, index) => (
-        <Picker.Item key={`pickerItem-${index}`} label={item.label} value={item.value} />
-      ))
-    );
-  }
-
-  renderPicker = () => {
-    if (this.platformIOS) {
-      return this.iosRenderTouchable();
-    }
-    return this.androidRenderPicker();
-  }
-
   render() {
-    return this.renderPicker();
+    return (
+      <TouchableOpacity
+        style={[this.props.containerStyle]}
+        onPress={this.openModal}
+      >
+        <Text style={[this.props.inputStyle]} ellipsizeMode={'tail'} numberOfLines={1}>
+          {this.renderDisplayText()}
+        </Text>
+        {this.renderModal(this.state.modalVisible)}
+      </TouchableOpacity>
+    );
   }
 }
 

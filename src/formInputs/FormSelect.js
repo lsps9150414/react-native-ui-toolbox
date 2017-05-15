@@ -82,16 +82,6 @@ export default class FormSelect extends Component {
     });
   }
 
-  handleTempValueChange = (value) => {
-    const newTempValues = [...this.state.tempValues];
-    if (newTempValues.indexOf(value) === -1) {
-      newTempValues.push(value);
-    } else {
-      _.remove(newTempValues, n => (n === value));
-    }
-    this.setState({ tempValues: newTempValues });
-  }
-
   openModal = () => { this.setState({ modalVisible: true }); }
 
   closeModal = () => { this.setState({ modalVisible: false }); }
@@ -104,6 +94,16 @@ export default class FormSelect extends Component {
   handleModalConfirm = () => {
     this.closeModal();
     this.handleValueChange();
+  }
+
+  handleTempValueChange = (value) => {
+    const newTempValues = [...this.state.tempValues];
+    if (newTempValues.indexOf(value) === -1) {
+      newTempValues.push(value);
+    } else {
+      _.remove(newTempValues, n => (n === value));
+    }
+    this.setState({ tempValues: newTempValues });
   }
 
   renderCheckboxItems = () => {

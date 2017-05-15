@@ -8,11 +8,6 @@ Just another collection of **cross platform** React Native UI components.
 ## 0.0.18 Todo
 - [ ] Make demoApp
 - [ ] demoApp Tutorial
-- [x] Refactor ModalContainer to render content directly with children
-- [x] Refactor FormPicker to use pure RN implementation
-- [x] FormInput components: accept custom touchable component
-- [x] FormInput components: accept icon
-- [x] `Modal`: props to config controlBar position
 - [ ] `FormDatePicker` with timePicker option
 
 ## Components Included

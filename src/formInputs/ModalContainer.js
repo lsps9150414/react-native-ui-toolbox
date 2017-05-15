@@ -39,8 +39,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'stretch',
     justifyContent: 'space-between',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderTopWidth: StyleSheet.hairlineWidth,
     borderColor: '#ccc',
   },
   contentContainer: {
@@ -138,12 +136,14 @@ export default class ModalContainer extends Component {
     );
   }
 
-  renderControlBar = () => (
+  renderControlBar = (isOnTop = false) => (
     <View
       style={[
         styles.controlBar,
         this.props.controlBarStyle,
         { height: this.props.controlBarHeight },
+        isOnTop && { borderBottomWidth: StyleSheet.hairlineWidth },
+        !isOnTop && { borderTopWidth: StyleSheet.hairlineWidth },
       ]}
     >
       {this.renderControlButton('CANCEL', this.props.onCancel)}
@@ -161,7 +161,7 @@ export default class ModalContainer extends Component {
     if (this.props.controlBarPosition === 'top') {
       return (
         <View style={{ flex: 1 }}>
-          {this.renderControlBar()}
+          {this.renderControlBar(true)}
           {this.renderContent()}
         </View>
       );
@@ -169,7 +169,7 @@ export default class ModalContainer extends Component {
     return (
       <View style={{ flex: 1 }}>
         {this.renderContent()}
-        {this.renderControlBar()}
+        {this.renderControlBar(false)}
       </View>
     );
   }

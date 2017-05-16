@@ -32,7 +32,7 @@ const propTypes = {
   avatarContainerProps: PropTypes.object,
   avatarContainerStyle: View.propTypes.style,
 
-  source: PropTypes.object,
+  source: Image.propTypes.source,
   imageStyle: Image.propTypes.style,
 
   icon: PropTypes.shape({

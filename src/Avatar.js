@@ -1,16 +1,16 @@
 import _ from 'lodash';
-import { Icon } from 'react-native-elements';
 import React, {
   PropTypes,
 } from 'react';
+import { Icon } from 'react-native-elements';
 import {
-  Text,
   Image,
   Platform,
   StyleSheet,
-  TouchableOpacity,
+  Text,
   TouchableHighlight,
   TouchableNativeFeedback,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -121,7 +121,7 @@ const defaultProps = {
 
 const styles = StyleSheet.create({
   container: {
-    alignSelf: 'center',
+    alignItems: 'flex-start',
   },
   avatarContainer: {
     backgroundColor: DEFAULT_COLORS[5].toHexString(),
@@ -273,13 +273,21 @@ const Avatar = (props) => {
 
   return (
     <View style={[styles.container, props.containerStyle]}>
-      <Component
-        style={[styles.avatarContainer, avatarSize, avatarRoundedStyle, props.avatarContainerStyle]}
-        {...props.avatarContainerProps}
-      >
-        {renderContent()}
-      </Component>
-      {renderUtils()}
+      {/* This layer of View is for container to alignItems: flex-start */}
+      <View>
+        <Component
+          {...props.avatarContainerProps}
+          style={[
+            styles.avatarContainer,
+            avatarSize,
+            avatarRoundedStyle,
+            props.avatarContainerStyle,
+          ]}
+        >
+          {renderContent()}
+        </Component>
+        {renderUtils()}
+      </View>
     </View>
   );
 };

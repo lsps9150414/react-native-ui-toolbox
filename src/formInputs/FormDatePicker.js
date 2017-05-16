@@ -11,6 +11,7 @@ import {
   DatePickerIOS,
   Platform,
   Text,
+  TimePickerAndroid,
   View,
 } from 'react-native';
 
@@ -23,11 +24,14 @@ import {
   stylePropTypes,
 } from './proptypes';
 
+const ACCEPT_MODE_TYPES = ['date', 'time', 'datetime'];
 const propTypes = {
+  mode: PropTypes.oneOf(ACCEPT_MODE_TYPES),
   date: PropTypes.instanceOf(Date),
   maxDate: PropTypes.instanceOf(Date),
   minDate: PropTypes.instanceOf(Date),
-  format: PropTypes.string,
+  dateFormat: PropTypes.string,
+  timeFormat: PropTypes.string,
   locale: PropTypes.string,
   ...inputFieldPropTypes,
   ...stylePropTypes,
@@ -39,7 +43,8 @@ const defaultProps = {
   date: undefined,
   maxDate: undefined, // DatePickerAndroid don't take null.
   minDate: undefined, // DatePickerAndroid don't take null.
-  format: 'Y-M-D (dd)',
+  dateFormat: 'Y-M-D (dd)',
+  timeFormat: 'hh:mm A',
   locale: 'en',
   placeholder: 'Select a date...',
   ...defaultInputFieldProps,
@@ -100,17 +105,32 @@ export default class FormDatePicker extends Component {
   }
 
   androidShowPicker = async () => {
-    try {
-      const { action, year, month, day } = await DatePickerAndroid.open({
-        date: this.getDateInUse(),
-        minDate: this.props.minDate,
-        maxDate: this.props.maxDate,
-      });
-      if (action === DatePickerAndroid.dateSetAction) {
-        this.handleValueChange(new Date(year, month, day));
+    if (this.props.mode === ACCEPT_MODE_TYPES[0]) {
+      try {
+        const { action, year, month, day } = await DatePickerAndroid.open({
+          date: this.getDateInUse(),
+          minDate: this.props.minDate,
+          maxDate: this.props.maxDate,
+        });
+        if (action === DatePickerAndroid.dateSetAction) {
+          this.handleValueChange(new Date(year, month, day));
+        }
+      } catch ({ message }) {
+        console.warn('Cannot open date picker:', message); // eslint-disable-line no-console
       }
-    } catch ({ message }) {
-      console.warn('Error:', message);
+    } else {
+      try {
+        const { action, hour, minute } = await TimePickerAndroid.open({
+          hour: moment(this.getDateInUse()).hour(),
+          minute: moment(this.getDateInUse()).minute(),
+          is24Hour: false,
+        });
+        if (action === TimePickerAndroid.timeSetAction) {
+          this.handleValueChange(moment().set({ hour, minute, second: 0 }).toDate());
+        }
+      } catch ({ message }) {
+        console.warn('Cannot open time picker', message); // eslint-disable-line no-console
+      }
     }
   }
 
@@ -138,7 +158,7 @@ export default class FormDatePicker extends Component {
       {...this.props.modal}
     >
       <DatePickerIOS
-        mode={'date'}
+        mode={this.props.mode}
         date={this.state.iosTempDate}
         onDateChange={this.iosHandleTempDateChange}
         minimumDate={this.props.minDate}
@@ -147,11 +167,14 @@ export default class FormDatePicker extends Component {
     </ModalContainer>
   )
 
-  renderDisplayText = () => {
+  renderDisplayText = (mode) => {
     if (!(this.props.date instanceof Date) && !(this.state.internalDate instanceof Date)) {
       return this.props.placeholder;
     }
-    return moment(this.getDateInUse()).locale(this.props.locale).format(this.props.format);
+    if (mode === ACCEPT_MODE_TYPES[0]) {
+      return moment(this.getDateInUse()).locale(this.props.locale).format(this.props.dateFormat);
+    }
+    return moment(this.getDateInUse()).locale(this.props.locale).format(this.props.timeFormat);
   }
 
   renderInputDisplay = () => (

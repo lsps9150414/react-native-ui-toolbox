@@ -305,7 +305,8 @@ const propTypes = {
   date: PropTypes.instanceOf(Date),
   maxDate: PropTypes.instanceOf(Date),
   minDate: PropTypes.instanceOf(Date),
-  format: PropTypes.string,
+  dateFormat: PropTypes.string,
+  timeFormat: PropTypes.string,
   locale: PropTypes.string,
 };
 ```
@@ -317,7 +318,8 @@ const defaultProps = {
   date: undefined,
   maxDate: undefined, // DatePickerAndroid don't take null.
   minDate: undefined, // DatePickerAndroid don't take null.
-  format: 'Y-M-D (dd)',
+  dateFormat: 'Y-M-D (dd)',
+  timeFormat: 'hh:mm:ss A',
   locale: 'en',
   placeholder: 'Select a date...',
 };

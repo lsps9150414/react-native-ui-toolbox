@@ -179,7 +179,7 @@ export default class FormDatePicker extends Component {
 
   renderInputDisplay = () => (
     <Text style={[this.props.inputStyle]}>
-      {this.renderDisplayText()}
+      {this.renderDisplayText(this.props.mode)}
     </Text>
   )
 

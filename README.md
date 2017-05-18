@@ -8,7 +8,9 @@ Just another collection of **cross platform** React Native UI components.
 ## 0.0.18 Todo
 - [ ] Make demoApp
 - [ ] demoApp Tutorial
-- [ ] `FormDatePicker` with timePicker option
+- [ ] Fix Bug: FormSelect null selectedValues prop causes error.
+- [ ] ? Refactor: `FormDate` sync internalDate with date props.
+- [ ] ? Refactor: Rename `selectedValue` to `pickedValue` for `FormPicker`
 
 ## Components Included
 - [x] Avatar
@@ -24,12 +26,13 @@ Just another collection of **cross platform** React Native UI components.
 
 ## Change logs
 - 0.0.18:
-  - [x] FormInput components: API breaking changes. See the API docs.
+  - [x] FormInput components: API breaking changes. See the API docs below.
   - [x] FormInput components: accept custom component as touchable
   - [x] FormInput components: add icon
   - [x] Refactor `FormPicker` to use pure RN implementation, Create `FormPickerNative` for native implementation
   - [x] Refactor ModalContainer to render content directly with children
   - [x] `Modal`: add props to config controlBar position
+  - [x] `FormDatePicker`: add `mode` prop for picking time
 
 - 0.0.17: Update `Avatar` API.
 - 0.0.16: Add `FormSelect`

@@ -64,11 +64,11 @@ export default class FormDatePicker extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!_.isEqual(nextProps.date, this.props.date)) {
-      this.updateDateState(nextProps.date);
+      this.updateDateState(this.getValidDate(nextProps.date));
     }
   }
 
-  getValidDate = date => (date instanceof Date ? date : new Date())
+  getValidDate = date => (_.isDate(date) ? date : new Date())
 
   /*
   If props.date is not provided use state.internalDate.
@@ -84,7 +84,7 @@ export default class FormDatePicker extends Component {
   }
 
   updateDateState = (date) => {
-    this.setState({ internalDate: date, iosTempDate: this.getValidDate(date) });
+    this.setState({ internalDate: date, iosTempDate: date });
   }
 
   handleValueChange = (newDate) => {

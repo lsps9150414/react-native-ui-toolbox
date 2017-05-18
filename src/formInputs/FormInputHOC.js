@@ -66,6 +66,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   input: {
+    flex: 1,
     color: DEFAULT_COLORS[3].toHexString(),
     fontSize: 16,
   },

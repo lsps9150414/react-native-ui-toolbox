@@ -47,8 +47,8 @@ export default class FormSelect extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedValues: props.selectedValues,
-      tempValues: props.selectedValues,
+      selectedValues: this.getValidSelectedValues(props.selectedValues),
+      tempValues: this.getValidSelectedValues(props.selectedValues),
       modalVisible: false,
     };
     this.updateItemsDictionary(props.items);
@@ -57,23 +57,17 @@ export default class FormSelect extends Component {
   componentWillReceiveProps(nextProps) {
     if (!_.isEqual(nextProps.items, this.props.items)) {
       this.updateItemsDictionary(nextProps.items);
-      this.updateSelectedValues(nextProps.selectedValues);
     }
-    if (nextProps.selectedValues &&
-      !_.isEqual(nextProps.selectedValues, this.props.selectedValues)
-    ) {
-      this.updateSelectedValues(nextProps.selectedValues);
+    if (!_.isEqual(nextProps.selectedValues, this.props.selectedValues)) {
+      this.updateSelectedValues(this.getValidSelectedValues(nextProps.selectedValues));
     }
   }
 
-  noneSelected = (selectedValues) => {
-    let includesValue = false;
-    _.forEach(selectedValues, (value) => {
-      if (value !== undefined) {
-        includesValue = true;
-      }
-    });
-    return !includesValue;
+  getValidSelectedValues = selectedValues => (_.isArray(selectedValues) ? selectedValues : [])
+
+  valueIsEmpty = (selectedValues) => {
+    const filteredValues = _.filter(selectedValues, value => (value !== undefined));
+    return _.isEmpty(filteredValues);
   }
 
   isSelected = (selectedValues, value) => _.includes(selectedValues, value)
@@ -148,7 +142,7 @@ export default class FormSelect extends Component {
   )
 
   renderDisplayText = () => {
-    if (this.noneSelected(this.state.selectedValues)) {
+    if (this.valueIsEmpty(this.state.selectedValues)) {
       return this.props.placeholder;
     }
     const displayArray = this.state.selectedValues

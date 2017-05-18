@@ -48,8 +48,7 @@ export default class FormPicker extends Component {
     super(props);
     this.state = {
       selectedValue: props.selectedValue,
-      tempValue: this.valueIsEmpty(props.selectedValue) ?
-        props.items[0].value : props.selectedValue,
+      tempValue: props.selectedValue,
       modalVisible: false,
     };
     this.updateItemsDictionary(props.items);
@@ -58,21 +57,19 @@ export default class FormPicker extends Component {
   componentWillReceiveProps(nextProps) {
     if (!_.isEqual(nextProps.items, this.props.items)) {
       this.updateItemsDictionary(nextProps.items);
-      this.updateSelectedValue(nextProps.selectedValue);
     }
-    if (nextProps.selectedValue &&
-      !_.isEqual(nextProps.selectedValue, this.props.selectedValue)
-    ) {
+    if (!_.isEqual(nextProps.selectedValue, this.props.selectedValue)) {
       this.updateSelectedValue(nextProps.selectedValue);
     }
   }
 
-  valueIsEmpty = (value) => {
-    if (typeof value === 'number' || typeof value === 'boolean') {
+  valueIsEmpty = (selectedValue) => {
+    // Note: number 0 and false are not empty.
+    if (typeof selectedValue === 'number' || typeof selectedValue === 'boolean') {
       return false;
     }
     // Note: empty = undefined, null, NaN, ''(empty string)
-    return !value;
+    return !selectedValue;
   }
 
   updateItemsDictionary = (items) => {

@@ -38,7 +38,7 @@ const defaultProps = {
     { label: 'item 1', value: 'item 1 value' },
     { label: 'item 2', value: 'item 2 value' },
   ],
-  selectedValues: undefined,
+  selectedValues: [],
   placeholder: 'Select...',
   ...defaultInputFieldProps,
 };
@@ -66,7 +66,15 @@ export default class FormSelect extends Component {
     }
   }
 
-  noneSelected = selectedValues => _.isEmpty(selectedValues)
+  noneSelected = (selectedValues) => {
+    let includesValue = false;
+    _.forEach(selectedValues, (value) => {
+      if (value !== undefined) {
+        includesValue = true;
+      }
+    });
+    return !includesValue;
+  }
 
   isSelected = (selectedValues, value) => _.includes(selectedValues, value)
 
@@ -102,12 +110,12 @@ export default class FormSelect extends Component {
     this.handleValueChange();
   }
 
-  handleTempValueChange = (value) => {
+  handleTempValueChange = (value, index) => {
     const newTempValues = [...this.state.tempValues];
-    if (newTempValues.indexOf(value) === -1) {
-      newTempValues.push(value);
+    if (_.includes(newTempValues, value)) {
+      newTempValues[index] = undefined;
     } else {
-      _.remove(newTempValues, n => (n === value));
+      newTempValues[index] = value;
     }
     this.setState({ tempValues: newTempValues });
   }
@@ -122,7 +130,7 @@ export default class FormSelect extends Component {
           key={`pickerItem-${index}`}
           title={item.label.toString()}
           checked={this.isSelected(this.state.tempValues, item.value)}
-          onPress={() => { this.handleTempValueChange(item.value); }}
+          onPress={() => { this.handleTempValueChange(item.value, index); }}
         />
       ))
     );
@@ -143,15 +151,11 @@ export default class FormSelect extends Component {
     if (this.noneSelected(this.state.selectedValues)) {
       return this.props.placeholder;
     }
-    return (
-      this.state.selectedValues.map((item, index) => {
-        let seperator = '';
-        if ((index + 1) !== this.state.selectedValues.length) {
-          seperator = ', ';
-        }
-        return (`${this.itemsDictionary[item]}${seperator}`);
-      })
-    );
+    const displayArray = this.state.selectedValues
+      .filter(value => value !== undefined)
+      .map(value => this.itemsDictionary[value]);
+
+    return _.join(displayArray, ', ');
   }
 
   renderInputDisplay = () => (

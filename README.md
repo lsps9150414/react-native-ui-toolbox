@@ -8,6 +8,8 @@ Just another collection of **cross platform** React Native UI components.
 3. Search for: `exp.host/@czphilip/demoapp`.
 4. BOOM!
 
+Demo App [source code](https://github.com/lsps9150414/react-native-ui-toolbox-demo/blob/master/App.js)
+
 ## Components Included
 - [x] Avatar
 - [x] Heading

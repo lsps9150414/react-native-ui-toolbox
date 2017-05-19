@@ -54,9 +54,7 @@ Demo App [source code](https://github.com/lsps9150414/react-native-ui-toolbox-de
 
 ## Installation
 
-This is still under development!
-
-~~Inside your project:~~
+Inside your project:
 ```bash
 npm install react-native-ui-toolbox --save
 ```

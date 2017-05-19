@@ -22,7 +22,7 @@ import {
 const ACCEPT_VALUE_TYPES = [PropTypes.string, PropTypes.number, PropTypes.bool];
 const ACCEPT_LABEL_TYPES = [PropTypes.string, PropTypes.number];
 const propTypes = {
-  selectedValue: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
+  pickedValue: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
   items: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
     label: PropTypes.oneOfType(ACCEPT_LABEL_TYPES),
@@ -38,7 +38,7 @@ const defaultProps = {
     { label: 'item 1', value: 'item 1 value' },
     { label: 'item 2', value: 'item 2 value' },
   ],
-  selectedValue: undefined,
+  pickedValue: undefined,
   placeholder: 'Pick...',
   ...defaultInputFieldProps,
 };
@@ -47,8 +47,8 @@ export default class FormPicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedValue: props.selectedValue,
-      tempValue: props.selectedValue,
+      pickedValue: props.pickedValue,
+      tempValue: props.pickedValue,
       modalVisible: false,
     };
     this.updateItemsDictionary(props.items);
@@ -58,18 +58,18 @@ export default class FormPicker extends Component {
     if (!_.isEqual(nextProps.items, this.props.items)) {
       this.updateItemsDictionary(nextProps.items);
     }
-    if (!_.isEqual(nextProps.selectedValue, this.props.selectedValue)) {
-      this.updateSelectedValue(nextProps.selectedValue);
+    if (!_.isEqual(nextProps.pickedValue, this.props.pickedValue)) {
+      this.updateSelectedValue(nextProps.pickedValue);
     }
   }
 
-  valueIsEmpty = (selectedValue) => {
+  valueIsEmpty = (pickedValue) => {
     // Note: number 0 and false are not empty.
-    if (typeof selectedValue === 'number' || typeof selectedValue === 'boolean') {
+    if (typeof pickedValue === 'number' || typeof pickedValue === 'boolean') {
       return false;
     }
     // Note: empty = undefined, null, NaN, ''(empty string)
-    return !selectedValue;
+    return !pickedValue;
   }
 
   updateItemsDictionary = (items) => {
@@ -77,15 +77,15 @@ export default class FormPicker extends Component {
     items.forEach((item) => { this.itemsDictionary[item.value] = item.label; });
   }
 
-  updateSelectedValue = (selectedValue) => {
-    this.setState({ selectedValue, tempValue: selectedValue });
+  updateSelectedValue = (pickedValue) => {
+    this.setState({ pickedValue, tempValue: pickedValue });
   }
 
   handleValueChange = () => {
-    this.setState({ selectedValue: this.state.tempValue }, () => {
+    this.setState({ pickedValue: this.state.tempValue }, () => {
       if (typeof this.props.onValueChange === 'function') {
         this.props.onTouched(); // For the HOC to manage touch state.
-        this.props.onValueChange(this.state.selectedValue);
+        this.props.onValueChange(this.state.pickedValue);
       }
     });
   }
@@ -96,7 +96,7 @@ export default class FormPicker extends Component {
 
   handleModalCancel = () => {
     this.closeModal();
-    this.setState({ tempValue: this.state.selectedValue });
+    this.setState({ tempValue: this.state.pickedValue });
   }
 
   handleModalConfirm = () => {
@@ -136,10 +136,10 @@ export default class FormPicker extends Component {
   )
 
   renderDisplayText = () => {
-    if (this.valueIsEmpty(this.state.selectedValue)) {
+    if (this.valueIsEmpty(this.state.pickedValue)) {
       return this.props.placeholder;
     }
-    return this.itemsDictionary[this.state.selectedValue];
+    return this.itemsDictionary[this.state.pickedValue];
   }
 
   renderInputDisplay = () => (

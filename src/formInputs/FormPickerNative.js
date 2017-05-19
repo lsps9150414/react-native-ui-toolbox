@@ -22,7 +22,7 @@ import {
 const ACCEPT_VALUE_TYPES = [PropTypes.string, PropTypes.number, PropTypes.bool];
 const ACCEPT_LABEL_TYPES = [PropTypes.string, PropTypes.number];
 const propTypes = {
-  selectedValue: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
+  pickedValue: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
   items: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
     label: PropTypes.oneOfType(ACCEPT_LABEL_TYPES),
@@ -38,7 +38,7 @@ const defaultProps = {
     { label: 'item 1', value: 'item 1 value' },
     { label: 'item 2', value: 'item 2 value' },
   ],
-  selectedValue: undefined,
+  pickedValue: undefined,
   onValueChange: undefined,
   placeholder: 'Pick...',
 };
@@ -47,9 +47,9 @@ export default class FormPicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedValue: props.selectedValue,
-      iosTempValue: this.valueIsEmpty(props.selectedValue) ?
-        props.items[0].value : props.selectedValue,
+      pickedValue: props.pickedValue,
+      iosTempValue: this.valueIsEmpty(props.pickedValue) ?
+        props.items[0].value : props.pickedValue,
       iosModalVisible: false,
     };
     this.platformIOS = Platform.OS === 'ios';
@@ -59,10 +59,10 @@ export default class FormPicker extends Component {
   componentWillReceiveProps(nextProps) {
     if (!_.isEqual(nextProps.items, this.props.items)) {
       this.updateItemsDictionary(nextProps.items);
-      this.updateSelectedValue(nextProps.selectedValue);
+      this.updateSelectedValue(nextProps.pickedValue);
     }
-    if (nextProps.selectedValue && nextProps.selectedValue !== this.props.selectedValue) {
-      this.updateSelectedValue(nextProps.selectedValue);
+    if (nextProps.pickedValue && nextProps.pickedValue !== this.props.pickedValue) {
+      this.updateSelectedValue(nextProps.pickedValue);
     }
   }
 
@@ -79,23 +79,23 @@ export default class FormPicker extends Component {
     items.forEach((item) => { this.itemsDictionary[item.value] = item.label; });
   }
 
-  updateSelectedValue = (selectedValue) => {
-    this.setState({ selectedValue, iosTempValue: selectedValue });
+  updateSelectedValue = (pickedValue) => {
+    this.setState({ pickedValue, iosTempValue: pickedValue });
   }
 
   handleValueChange = () => {
     if (typeof this.props.onValueChange === 'function') {
       this.props.onTouched(); // For the HOC to manage touch state.
-      this.props.onValueChange(this.state.selectedValue);
+      this.props.onValueChange(this.state.pickedValue);
     }
   }
 
   androidHandleValueChange = (value) => {
-    this.setState({ selectedValue: value }, this.handleValueChange);
+    this.setState({ pickedValue: value }, this.handleValueChange);
   }
 
   iosHandleValueChange = () => {
-    this.setState({ selectedValue: this.state.iosTempValue }, this.handleValueChange);
+    this.setState({ pickedValue: this.state.iosTempValue }, this.handleValueChange);
   }
 
   iosOpenModal = () => { this.setState({ iosModalVisible: true }); }
@@ -104,7 +104,7 @@ export default class FormPicker extends Component {
 
   iosHandleModalCancel = () => {
     this.iosCloseModal();
-    this.setState({ iosTempValue: this.state.selectedValue });
+    this.setState({ iosTempValue: this.state.pickedValue });
   }
 
   iosHandleModalConfirm = () => {
@@ -123,7 +123,7 @@ export default class FormPicker extends Component {
     >
       <Picker
         {...this.props}
-        selectedValue={this.state.iosTempValue}
+        pickedValue={this.state.iosTempValue}
         onValueChange={this.iosHandleTempValueChange}
       >
         {this.renderPickerItems()}
@@ -132,10 +132,10 @@ export default class FormPicker extends Component {
   )
 
   iosRenderDisplayText = () => {
-    if (this.valueIsEmpty(this.state.selectedValue)) {
+    if (this.valueIsEmpty(this.state.pickedValue)) {
       return this.props.placeholder;
     }
-    return this.itemsDictionary[this.state.selectedValue];
+    return this.itemsDictionary[this.state.pickedValue];
   }
 
   iosRenderInputDisplay = () => (
@@ -165,7 +165,7 @@ export default class FormPicker extends Component {
           {...this.props}
           // As of react-native 0.44, there is no propper way to style the text of Android Picker.
           style={[{ flex: 1 }, this.props.inputStyle]}
-          selectedValue={this.state.selectedValue}
+          pickedValue={this.state.pickedValue}
           onValueChange={this.androidHandleValueChange}
           mode={'dialog'}
         >

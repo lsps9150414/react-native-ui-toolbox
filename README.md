@@ -8,9 +8,9 @@ Just another collection of **cross platform** React Native UI components.
 ## 0.0.18 Todo
 - [ ] Make demoApp
 - [ ] demoApp Tutorial
-- [ ] Fix Bug: FormSelect null selectedValues prop causes error.
-- [ ] ? Refactor: `FormDate` sync internalDate with date props.
-- [ ] ? Refactor: Rename `selectedValue` to `pickedValue` for `FormPicker`
+- [x] Fix Bug: FormSelect null selectedValues prop causes error.
+- [x] Refactor: Rename `selectedValue` to `pickedValue` for `FormPicker`
+- [x] Refactor: `FormDatePicker` allow clear value, sync internalDate with date props.
 
 ## Components Included
 - [x] Avatar
@@ -336,7 +336,7 @@ const ACCEPT_VALUE_TYPES = [PropTypes.string, PropTypes.number, PropTypes.bool];
 const ACCEPT_LABEL_TYPES = [PropTypes.string, PropTypes.number];
 
 const propTypes = {
-  selectedValue: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
+  pickedValue: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
   items: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
     label: PropTypes.oneOfType(ACCEPT_LABEL_TYPES),
@@ -351,7 +351,7 @@ const defaultProps = {
     { label: 'item 1', value: 'item 1 value' },
     { label: 'item 2', value: 'item 2 value' },
   ],
-  selectedValue: undefined,
+  pickedValue: undefined,
   placeholder: 'Pick...',
 };
 ```
@@ -364,7 +364,7 @@ const ACCEPT_VALUE_TYPES = [PropTypes.string, PropTypes.number, PropTypes.bool];
 const ACCEPT_LABEL_TYPES = [PropTypes.string, PropTypes.number];
 
 const propTypes = {
-  selectedValue: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
+  pickedValue: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
   items: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.oneOfType(ACCEPT_VALUE_TYPES),
     label: PropTypes.oneOfType(ACCEPT_LABEL_TYPES),
@@ -380,7 +380,7 @@ const defaultProps = {
     { label: 'item 1', value: 'item 1 value' },
     { label: 'item 2', value: 'item 2 value' },
   ],
-  selectedValue: undefined,
+  pickedValue: undefined,
   placeholder: 'Pick...',
 };
 ```
@@ -408,7 +408,7 @@ const defaultProps = {
     { label: 'item 1', value: 'item 1 value' },
     { label: 'item 2', value: 'item 2 value' },
   ],
-  selectedValues: undefined,
+  selectedValues: [],
   placeholder: 'Select...',
 };
 ```

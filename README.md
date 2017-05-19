@@ -3,7 +3,10 @@ Just another collection of **cross platform** React Native UI components.
 > Extended from react-native-community's [`react-native-elements`](https://github.com/react-native-community/react-native-elements)
 
 ## Demo
-[React Native UI Toolbox Demo App]()
+1. Get the [Expo app](https://expo.io/)
+2. Open the Expo app, go to the "Explore" tab.
+3. Search for: `exp.host/@czphilip/demoapp`.
+4. BOOM!
 
 ## Components Included
 - [x] Avatar

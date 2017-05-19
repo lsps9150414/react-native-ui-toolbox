@@ -6,13 +6,17 @@ import {
   Animated,
   Modal,
   Platform,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 
-import { defaultModalProps } from './proptypes';
+import {
+  defaultModalProps,
+  modalPropTypes,
+} from './proptypes';
 
 const DEFAULT_CONTROL_BAR_HEIGHT = 50;
 
@@ -41,11 +45,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderColor: '#ccc',
   },
-  contentContainer: {
-    flex: 1,
+  bodyContentContainer: {
     alignItems: 'stretch',
-    justifyContent: 'center',
-    overflow: 'hidden',
   },
   controlButton: {
     justifyContent: 'center',
@@ -58,23 +59,11 @@ const propTypes = {
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
   onCancel: PropTypes.func,
   onConfirm: PropTypes.func,
-  cancelBtnText: PropTypes.string,
-  confirmBtnText: PropTypes.string,
-  controlBarHeight: PropTypes.number,
-  controlBarPosition: PropTypes.oneOf(['top', 'bottom']),
-  height: PropTypes.number,
-  fullScreen: PropTypes.bool,
-  containerStyle: View.propTypes.style,
-  contentContainerStyle: View.propTypes.style,
-  controlBarStyle: View.propTypes.style,
-  cancelBtnStyle: View.propTypes.style,
-  confirmBtnStyle: View.propTypes.style,
-  cancelBtnTextStyle: Text.propTypes.style,
-  confirmBtnTextStyle: Text.propTypes.style,
+  ...modalPropTypes,
 };
 
 const defaultProps = {
-  ...defaultModalProps.modal,
+  ...defaultModalProps,
   children: undefined,
   onCancel: undefined,
   onConfirm: undefined,
@@ -151,54 +140,54 @@ export default class ModalContainer extends Component {
     </View>
   )
 
-  renderContent = () => (
-    <View style={[styles.contentContainer, this.props.contentContainerStyle]}>
+  renderBody = () => (
+    <ScrollView
+      style={[this.props.bodyContainerStyle]}
+      contentContainerStyle={[styles.bodyContentContainer, this.props.bodyContentContainerStyle]}
+    >
       {this.props.children}
-    </View>
+    </ScrollView>
   )
 
-  renderModalBody = () => {
-    if (this.props.controlBarPosition === 'top') {
+  renderModalChildContent = (controlBarPosition) => {
+    const controlBarOnTop = controlBarPosition === 'top';
+    if (controlBarOnTop) {
       return (
         <View style={{ flex: 1 }}>
-          {this.renderControlBar(true)}
-          {this.renderContent()}
+          {this.renderControlBar(controlBarOnTop)}
+          {this.renderBody()}
         </View>
       );
     }
     return (
       <View style={{ flex: 1 }}>
-        {this.renderContent()}
-        {this.renderControlBar(false)}
+        {this.renderBody()}
+        {this.renderControlBar(controlBarOnTop)}
       </View>
     );
   }
 
-  renderAnimatedModalContent = () => (
-    <View style={[styles.modalContainer]}>
-      <Animated.View
-        style={[
-          styles.animatedContainer,
-          this.props.containerStyle,
-          { height: this.state.modalAnimatedHeight },
-        ]}
-      >
-        {this.renderModalBody()}
-      </Animated.View>
-    </View>
-  )
-
-  renderFullScreenModalContent = () => (
-    <View style={[styles.fullScreenModalContainer, this.props.containerStyle]}>
-      {this.renderModalBody()}
-    </View>
-  )
-
-  renderModalContent = (fullScreen) => {
+  renderModalChild = (fullScreen) => {
     if (fullScreen) {
-      return this.renderFullScreenModalContent();
+      return (
+        <View style={[styles.fullScreenModalContainer, this.props.containerStyle]}>
+          {this.renderModalChildContent(this.props.controlBarPosition)}
+        </View>
+      );
     }
-    return this.renderAnimatedModalContent();
+    return (
+      <View style={[styles.modalContainer]}>
+        <Animated.View
+          style={[
+            styles.animatedContainer,
+            this.props.containerStyle,
+            { height: this.state.modalAnimatedHeight },
+          ]}
+        >
+          {this.renderModalChildContent(this.props.controlBarPosition)}
+        </Animated.View>
+      </View>
+    );
   }
 
   render() {
@@ -212,7 +201,7 @@ export default class ModalContainer extends Component {
         animationType={modalAnimationType}
         onRequestClose={() => { this.props.onCancel(); }}
       >
-        {this.renderModalContent(this.props.fullScreen)}
+        {this.renderModalChild(this.props.fullScreen)}
       </Modal>
     );
   }

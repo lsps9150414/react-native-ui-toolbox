@@ -35,8 +35,10 @@ const propTypes = {
   locale: PropTypes.string,
   ...inputFieldPropTypes,
   ...stylePropTypes,
-  ...modalPropTypes,
   ...iconPropTypes,
+  modal: PropTypes.shape({
+    ...modalPropTypes,
+  }),
 };
 
 const defaultProps = {

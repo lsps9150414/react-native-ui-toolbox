@@ -46,9 +46,8 @@ Just another collection of **cross platform** React Native UI components.
 - Feature
   - [ ] Error icon & customizable error block
   - [ ] `Modal`: props to config view mode (dialog/slide in)
-  - [ ] `FormPicker`: accept more list item props
-  - [ ] `FormSelect`: accept more list item props
-  - [ ] Add language config prop for ios DatePickerIOS of `FormDatePicker`
+  - [ ] `FormPicker`: accept more list item props (e.g. styles, custom component)
+  - [ ] `FormSelect`: accept more list item props (e.g. styles, custom component)
 
 
 - Style
@@ -225,7 +224,8 @@ const modalPropTypes = {
     height: PropTypes.number,
     fullScreen: PropTypes.bool,
     containerStyle: View.propTypes.style,
-    contentContainerStyle: View.propTypes.style,
+    bodyContainerStyle: View.propTypes.style,
+    bodyContentContainerStyle: View.propTypes.style,
     controlBarStyle: View.propTypes.style,
     cancelBtnStyle: View.propTypes.style,
     confirmBtnStyle: View.propTypes.style,
@@ -263,7 +263,8 @@ const defaultModalProps = {
     height: undefined,
     fullScreen: false,
     containerStyle: undefined,
-    contentContainerStyle: undefined,
+    bodyContainerStyle: undefined,
+    bodyContentContainerStyle: undefined,
     controlBarStyle: undefined,
     cancelBtnStyle: undefined,
     confirmBtnStyle: undefined,

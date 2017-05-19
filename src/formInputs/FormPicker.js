@@ -29,8 +29,10 @@ const propTypes = {
   })).isRequired,
   ...inputFieldPropTypes,
   ...stylePropTypes,
-  ...modalPropTypes,
   ...iconPropTypes,
+  modal: PropTypes.shape({
+    ...modalPropTypes,
+  }),
 };
 
 const defaultProps = {
@@ -131,7 +133,7 @@ export default class FormPicker extends Component {
       onConfirm={this.handleModalConfirm}
       {...this.props.modal}
     >
-      <ScrollView>{this.renderItems()}</ScrollView>
+      {this.renderItems()}
     </ModalContainer>
   )
 

@@ -41,12 +41,17 @@ const propTypes = {
   errorContainerStyle: View.propTypes.style,
   errorTextStyle: View.propTypes.style,
   errorText: PropTypes.string,
-  ...modalPropTypes,
+
   ...iconPropTypes,
+  modal: PropTypes.shape({
+    ...modalPropTypes,
+  }),
 };
 
 const defaultProps = {
-  ...defaultModalProps,
+  modal: {
+    ...defaultModalProps,
+  },
   ...defaultIconProps,
 };
 

@@ -140,10 +140,10 @@ export default class ModalContainer extends Component {
     <View
       style={[
         styles.controlBar,
-        this.props.controlBarStyle,
-        { height: this.props.controlBarHeight },
         isOnTop && { borderBottomWidth: StyleSheet.hairlineWidth },
         !isOnTop && { borderTopWidth: StyleSheet.hairlineWidth },
+        this.props.controlBarStyle,
+        { height: this.props.controlBarHeight },
       ]}
     >
       {this.renderControlButton('CANCEL', this.props.onCancel)}

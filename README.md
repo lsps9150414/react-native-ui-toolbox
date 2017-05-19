@@ -5,13 +5,6 @@ Just another collection of **cross platform** React Native UI components.
 ## Demo
 [React Native UI Toolbox Demo App]()
 
-## 0.0.18 Todo
-- [ ] Make demoApp
-- [ ] demoApp Tutorial
-- [x] Fix Bug: FormSelect null selectedValues prop causes error.
-- [x] Refactor: Rename `selectedValue` to `pickedValue` for `FormPicker`
-- [x] Refactor: `FormDatePicker` allow clear value, sync internalDate with date props.
-
 ## Components Included
 - [x] Avatar
 - [x] Heading

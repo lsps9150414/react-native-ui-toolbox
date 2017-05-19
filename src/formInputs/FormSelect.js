@@ -59,7 +59,7 @@ export default class FormSelect extends Component {
       this.updateItemsDictionary(nextProps.items);
     }
     if (!_.isEqual(nextProps.selectedValues, this.props.selectedValues)) {
-      this.updateSelectedValues(this.getValidSelectedValues(nextProps.selectedValues));
+      this.updateSelectedValues(nextProps.selectedValues);
     }
   }
 
@@ -78,7 +78,8 @@ export default class FormSelect extends Component {
   }
 
   updateSelectedValues = (selectedValues) => {
-    this.setState({ selectedValues, tempValues: selectedValues });
+    const validSelectedValuesProp = this.getValidSelectedValues(selectedValues);
+    this.setState({ selectedValues: validSelectedValuesProp, tempValues: validSelectedValuesProp });
   }
 
   handleValueChange = () => {

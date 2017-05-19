@@ -188,9 +188,9 @@ const defaultProps = {
 ## Form Inputs
 - FormTextInput
 - FormDatePicker
-- FormPicker
-- FormPickerNative
-- FormSelect
+- FormPicker (single selection)
+- FormPickerNative (single selection implemented with android/iOS's native components)
+- FormSelect (multiple selection)
 
 *Insert gif screenshot here*
 

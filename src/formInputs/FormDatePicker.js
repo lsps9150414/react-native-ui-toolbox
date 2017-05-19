@@ -54,9 +54,8 @@ export default class FormDatePicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // internalDate is only used when date prop is not provided.
-      internalDate: props.date instanceof Date ? props.date : null,
-      iosTempDate: this.getValidDate(props.date),
+      date: this.getValidDateProp(props.date),
+      iosTempDate: this.getValidDateProp(props.date),
       iosModalVisible: false,
     };
     this.platformIOS = Platform.OS === 'ios';
@@ -64,31 +63,27 @@ export default class FormDatePicker extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!_.isEqual(nextProps.date, this.props.date)) {
-      this.updateDateState(this.getValidDate(nextProps.date));
+      this.updateDateState(nextProps.date);
     }
   }
+
+  /*
+  NOTE: Date prop accept instance of Date or null.
+  Any other datatype will be deemed as null.
+  */
+  getValidDateProp = date => (_.isDate(date) ? date : null)
 
   getValidDate = date => (_.isDate(date) ? date : new Date())
 
-  /*
-  If props.date is not provided use state.internalDate.
-  When state.internalDate is not yet init, use today.
-  */
-  getDateInUse = () => {
-    if (this.props.date instanceof Date) {
-      return this.props.date;
-    } else if (this.state.internalDate instanceof Date) {
-      return this.state.internalDate;
-    }
-    return new Date();
-  }
+  valueIsEmpty = date => (!_.isDate(date))
 
   updateDateState = (date) => {
-    this.setState({ internalDate: date, iosTempDate: date });
+    const validDateProp = this.getValidDateProp(date);
+    this.setState({ date: validDateProp, iosTempDate: validDateProp });
   }
 
   handleValueChange = (newDate) => {
-    this.setState({ internalDate: newDate }, () => {
+    this.setState({ date: newDate }, () => {
       if (typeof this.props.onValueChange === 'function') {
         this.props.onTouched(); // For the HOC to manage touch state.
         this.props.onValueChange(newDate);
@@ -108,7 +103,7 @@ export default class FormDatePicker extends Component {
     if (this.props.mode === ACCEPT_MODE_TYPES[0]) {
       try {
         const { action, year, month, day } = await DatePickerAndroid.open({
-          date: this.getDateInUse(),
+          date: this.getValidDate(this.state.date),
           minDate: this.props.minDate,
           maxDate: this.props.maxDate,
         });
@@ -121,8 +116,8 @@ export default class FormDatePicker extends Component {
     } else {
       try {
         const { action, hour, minute } = await TimePickerAndroid.open({
-          hour: moment(this.getDateInUse()).hour(),
-          minute: moment(this.getDateInUse()).minute(),
+          hour: moment(this.getValidDate(this.state.date)).hour(),
+          minute: moment(this.getValidDate(this.state.date)).minute(),
           is24Hour: false,
         });
         if (action === TimePickerAndroid.timeSetAction) {
@@ -140,12 +135,12 @@ export default class FormDatePicker extends Component {
 
   iosHandleCancel = () => {
     this.iosCloseModal();
-    this.setState({ iosTempDate: this.getDateInUse() });
+    this.setState({ iosTempDate: this.state.date });
   }
 
   iosHandleConfirm = () => {
     this.iosCloseModal();
-    this.handleValueChange(this.state.iosTempDate);
+    this.handleValueChange(this.getValidDate(this.state.iosTempDate));
   }
 
   iosHandleTempDateChange = (date) => { this.setState({ iosTempDate: date }); }
@@ -159,7 +154,7 @@ export default class FormDatePicker extends Component {
     >
       <DatePickerIOS
         mode={this.props.mode}
-        date={this.state.iosTempDate}
+        date={this.getValidDate(this.state.iosTempDate)}
         onDateChange={this.iosHandleTempDateChange}
         minimumDate={this.props.minDate}
         maximumDate={this.props.maxDate}
@@ -168,13 +163,21 @@ export default class FormDatePicker extends Component {
   )
 
   renderDisplayText = (mode) => {
-    if (!(this.props.date instanceof Date) && !(this.state.internalDate instanceof Date)) {
+    if (this.valueIsEmpty(this.state.date)) {
       return this.props.placeholder;
     }
     if (mode === ACCEPT_MODE_TYPES[0]) {
-      return moment(this.getDateInUse()).locale(this.props.locale).format(this.props.dateFormat);
+      return (
+        moment(this.getValidDate(this.state.date))
+          .locale(this.props.locale)
+          .format(this.props.dateFormat)
+      );
     }
-    return moment(this.getDateInUse()).locale(this.props.locale).format(this.props.timeFormat);
+    return (
+      moment(this.getValidDate(this.state.date))
+        .locale(this.props.locale)
+        .format(this.props.timeFormat)
+    );
   }
 
   renderInputDisplay = () => (

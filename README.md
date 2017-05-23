@@ -39,6 +39,7 @@ Demo App [source code](https://github.com/lsps9150414/react-native-ui-toolbox-de
 - component
   - [ ] `FormTextBox`
   - [ ] Refactor typography components into a single `Text` with type props
+  - [ ] `Hyperlink` that takes a url and tries to open it when pressed. https://facebook.github.io/react-native/docs/linking.html
 
 
 - Feature

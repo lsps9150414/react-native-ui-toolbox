@@ -144,7 +144,7 @@ export default class FormSelect extends Component {
     </ModalContainer>
   )
 
-  renderDisplayText = () => {
+  getDisplayText = () => {
     if (this.valueIsEmpty(this.state.selectedValues)) {
       return this.props.placeholder;
     }
@@ -154,12 +154,6 @@ export default class FormSelect extends Component {
 
     return _.join(displayArray, ', ');
   }
-
-  renderInputDisplay = () => (
-    <Text style={[this.props.inputStyle]} ellipsizeMode={'tail'} numberOfLines={1}>
-      {this.renderDisplayText()}
-    </Text>
-  )
 
   render() {
     const CustomComponent = this.props.component;
@@ -171,7 +165,7 @@ export default class FormSelect extends Component {
       >
         <View style={[this.props.contentContainerStyle]}>
           {this.props.showIcon && this.props.renderIcon()}
-          {this.renderInputDisplay()}
+          {this.props.renderInputDisplay(this.getDisplayText())}
           {this.renderModal(this.state.modalVisible)}
         </View>
       </CustomComponent>

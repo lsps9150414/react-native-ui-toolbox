@@ -19,6 +19,7 @@ import {
   defaultModalProps,
   iconPropTypes,
   modalPropTypes,
+  stylePropTypes,
 } from './proptypes';
 
 const propTypes = {
@@ -27,14 +28,11 @@ const propTypes = {
 
   // For the wrapper component around the input field and the error.
   wrapperStyle: View.propTypes.style,
+  ...stylePropTypes,
   // For the touchable component.
-  containerStyle: View.propTypes.style,
   validContainerStyle: View.propTypes.style,
   invalidContainerStyle: View.propTypes.style,
-  // For the touchable content component.
-  contentContainerStyle: View.propTypes.style,
   // For the value display text.
-  inputStyle: Text.propTypes.style,
   validInputStyle: Text.propTypes.style,
   invalidInputStyle: Text.propTypes.style,
 
@@ -56,22 +54,28 @@ const defaultProps = {
 };
 
 const styles = StyleSheet.create({
+  wrapper: {
+  },
+  // correspond to props.containerStyle, styles for the touchable
   innerComponentContainer: {
     justifyContent: 'center', // Vertical align contentContainer
     borderBottomColor: DEFAULT_COLORS[3].toHexString(),
     borderBottomWidth: 1,
     height: 48,
   },
+  // correspond to props.contentContainerStyle, containing iconContainer and inputContainer
   contentContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center', // Vertical align icon & input display
-    justifyContent: 'flex-start',
-    paddingHorizontal: 8,
-    paddingVertical: 8,
+    justifyContent: 'flex-start', // Horizontal align icon & input display
+    padding: 8,
   },
+  // correspond to props.inputContainerStyle
+  inputContainer: {
+  },
+  // correspond to props.inputStyle
   input: {
-    flex: 1,
     color: DEFAULT_COLORS[3].toHexString(),
     fontSize: 16,
   },
@@ -156,14 +160,29 @@ export default (InnerComponent) => {
       );
     }
 
-    render() {
-      const {
-        containerStyle,
-        inputStyle,
-      } = this.getValidationStyles(this.state.touched, this.props.validator, this.props.value);
+    renderInputDisplay = (displayText) => {
+      const { inputStyle } =
+        this.getValidationStyles(this.state.touched, this.props.validator, this.props.value);
 
       return (
-        <View style={[this.props.wrapperStyle]}>
+        <View style={[styles.inputContainer, this.props.inputContainerStyle]}>
+          <Text
+            style={[styles.input, inputStyle.default, inputStyle.specified]}
+            ellipsizeMode={'tail'}
+            numberOfLines={1}
+          >
+            {displayText}
+          </Text>
+        </View>
+      );
+    }
+
+    render() {
+      const { containerStyle } =
+        this.getValidationStyles(this.state.touched, this.props.validator, this.props.value);
+
+      return (
+        <View style={[styles.wrapper, this.props.wrapperStyle]}>
           <InnerComponent
             {...this.props}
             containerStyle={[
@@ -172,12 +191,12 @@ export default (InnerComponent) => {
               containerStyle.specified,
             ]}
             contentContainerStyle={[styles.contentContainer, this.props.contentContainerStyle]}
-            inputStyle={[styles.input, inputStyle.default, inputStyle.specified]}
             modal={this.props.modal}
             icon={this.props.icon}
             // HOC inner props
             onTouched={this.handleOnTouched}
             renderIcon={this.renderIcon}
+            renderInputDisplay={this.renderInputDisplay}
           />
           {this.renderError()}
         </View>

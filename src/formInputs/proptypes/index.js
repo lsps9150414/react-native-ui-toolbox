@@ -31,6 +31,7 @@ export const defaultInputFieldProps = {
 export const stylePropTypes = {
   containerStyle: View.propTypes.style,
   contentContainerStyle: View.propTypes.style,
+  inputContainerStyle: View.propTypes.style,
   inputStyle: Text.propTypes.style,
 };
 
@@ -88,6 +89,6 @@ export const defaultIconProps = {
     type: 'material',
     size: 28,
     color: DEFAULT_COLORS[2].toHexString(),
-    containerStyle: { marginRight: 8 },
+    containerStyle: { marginRight: 8, marginLeft: 0 },
   },
 };

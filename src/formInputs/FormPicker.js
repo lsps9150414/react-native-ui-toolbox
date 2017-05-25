@@ -137,18 +137,12 @@ export default class FormPicker extends Component {
     </ModalContainer>
   )
 
-  renderDisplayText = () => {
+  getDisplayText = () => {
     if (this.valueIsEmpty(this.state.pickedValue)) {
       return this.props.placeholder;
     }
     return this.itemsDictionary[this.state.pickedValue];
   }
-
-  renderInputDisplay = () => (
-    <Text style={[this.props.inputStyle]} ellipsizeMode={'tail'} numberOfLines={1}>
-      {this.renderDisplayText()}
-    </Text>
-  )
 
   render() {
     const CustomComponent = this.props.component;
@@ -160,7 +154,7 @@ export default class FormPicker extends Component {
       >
         <View style={[this.props.contentContainerStyle]}>
           {this.props.showIcon && this.props.renderIcon()}
-          {this.renderInputDisplay()}
+          {this.props.renderInputDisplay(this.getDisplayText())}
           {this.renderModal(this.state.modalVisible)}
         </View>
       </CustomComponent>

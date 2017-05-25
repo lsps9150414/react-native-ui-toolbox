@@ -42,6 +42,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  mode: ACCEPT_MODE_TYPES[0],
   date: undefined,
   maxDate: undefined, // DatePickerAndroid don't take null.
   minDate: undefined, // DatePickerAndroid don't take null.
@@ -164,7 +165,7 @@ export default class FormDatePicker extends Component {
     </ModalContainer>
   )
 
-  renderDisplayText = (mode) => {
+  getDisplayText = (mode) => {
     if (this.valueIsEmpty(this.state.date)) {
       return this.props.placeholder;
     }
@@ -182,12 +183,6 @@ export default class FormDatePicker extends Component {
     );
   }
 
-  renderInputDisplay = () => (
-    <Text style={[this.props.inputStyle]}>
-      {this.renderDisplayText(this.props.mode)}
-    </Text>
-  )
-
   render() {
     const CustomComponent = this.props.component;
     return (
@@ -198,7 +193,7 @@ export default class FormDatePicker extends Component {
       >
         <View style={[this.props.contentContainerStyle]}>
           {this.props.showIcon && this.props.renderIcon()}
-          {this.renderInputDisplay()}
+          {this.props.renderInputDisplay(this.getDisplayText(this.props.mode))}
           {this.platformIOS && this.iosRenderModal(this.state.iosModalVisible)}
         </View>
       </CustomComponent>

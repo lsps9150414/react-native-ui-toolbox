@@ -146,7 +146,11 @@ export default (InnerComponent) => {
     }
 
     renderIcon = () => {
-      const iconProps = { ...defaultProps.icon, ...this.props.icon };
+      const iconProps = {
+        ...defaultProps.icon,
+        ...this.props.icon,
+        containerStyle: { ...defaultProps.icon.containerStyle, ...this.props.icon.containerStyle },
+      };
 
       return (
         <View style={[iconProps.containerStyle]}>

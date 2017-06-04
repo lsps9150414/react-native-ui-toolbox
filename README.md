@@ -2,6 +2,9 @@
 Just another collection of **cross platform** React Native UI components.
 > Extended from react-native-community's [`react-native-elements`](https://github.com/react-native-community/react-native-elements)
 
+## Todo
+- [ ] Add default styles to doc
+
 ## Demo
 1. Get the [Expo app](https://expo.io/)
 2. Open the Expo app, go to the "Explore" tab.
@@ -23,6 +26,10 @@ Demo App [source code](https://github.com/lsps9150414/react-native-ui-toolbox-de
 - [x] FormSelect
 
 ## Change logs
+- 0.0.19:
+  - [x] Give `FormDatePicker`'s `mode` prop a default value of `'date'`.
+  - [x] Add `inputContainerStyle` prop to FormInputs.
+
 - 0.0.18:
   - [x] FormInput components: API breaking changes. See the API docs below.
   - [x] FormInput components: accept custom component as touchable
@@ -209,6 +216,7 @@ const inputFieldPropTypes = {
 const stylePropTypes = {
   containerStyle: View.propTypes.style,
   contentContainerStyle: View.propTypes.style,
+  inputContainerStyle: View.propTypes.style,
   inputStyle: Text.propTypes.style,
 };
 
@@ -238,7 +246,7 @@ const iconPropTypes = {
     type: PropTypes.string,
     color: PropTypes.string,
     size: PropTypes.number,
-    style: View.propTypes.style,
+    containerStyle: View.propTypes.style,
   }),
 };
 ```
@@ -277,7 +285,7 @@ const defaultIconProps = {
     type: 'material',
     size: 28,
     color: DEFAULT_COLORS[2].toHexString(),
-    containerStyle: { marginRight: 8 },
+    containerStyle: { marginRight: 8, marginLeft: 0 },
   },
 };
 ```

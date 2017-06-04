@@ -15,6 +15,10 @@ import {
 
 import { DEFAULT_COLORS } from '../constants/colors';
 import {
+  FORM_INPUT_HEIGHT,
+  FORM_INPUT_PADDING,
+} from '../constants/layouts';
+import {
   defaultIconProps,
   defaultModalProps,
   iconPropTypes,
@@ -61,7 +65,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center', // Vertical align contentContainer
     borderBottomColor: DEFAULT_COLORS[3].toHexString(),
     borderBottomWidth: 1,
-    height: 48,
+    height: FORM_INPUT_HEIGHT,
   },
   // correspond to props.contentContainerStyle, containing iconContainer and inputContainer
   contentContainer: {
@@ -69,7 +73,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center', // Vertical align icon & input display
     justifyContent: 'flex-start', // Horizontal align icon & input display
-    padding: 8,
+    padding: FORM_INPUT_PADDING,
   },
   // correspond to props.inputContainerStyle
   inputContainer: {
@@ -80,8 +84,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   errorContainer: {
-    paddingHorizontal: 8,
-    paddingBottom: 8,
+    paddingHorizontal: FORM_INPUT_PADDING,
+    paddingBottom: FORM_INPUT_PADDING,
   },
   errorText: {
     color: '#ff0000',
@@ -182,8 +186,10 @@ export default (InnerComponent) => {
     }
 
     render() {
-      const { containerStyle } =
-        this.getValidationStyles(this.state.touched, this.props.validator, this.props.value);
+      const {
+        containerStyle,
+        inputStyle,
+      } = this.getValidationStyles(this.state.touched, this.props.validator, this.props.value);
 
       return (
         <View style={[styles.wrapper, this.props.wrapperStyle]}>
@@ -195,6 +201,7 @@ export default (InnerComponent) => {
               containerStyle.specified,
             ]}
             contentContainerStyle={[styles.contentContainer, this.props.contentContainerStyle]}
+            inputStyle={[styles.input, inputStyle.default, inputStyle.specified]}
             modal={this.props.modal}
             icon={this.props.icon}
             // HOC inner props

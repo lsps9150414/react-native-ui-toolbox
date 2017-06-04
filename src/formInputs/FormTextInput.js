@@ -46,7 +46,11 @@ export default class FormTextInput extends Component {
             underlineColorAndroid={'transparent'}
             {...this.props}
             value={this.props.value}
-            style={[{ flex: 1 }, this.props.inputStyle]}
+            style={[
+              { flex: 1, alignSelf: 'stretch', textAlignVertical: 'center' },
+              this.props.multiline && { textAlignVertical: 'top' },
+              this.props.inputStyle,
+            ]}
             onChangeText={this.handleValueChange}
           />
         </View>

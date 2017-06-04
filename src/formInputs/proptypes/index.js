@@ -78,7 +78,7 @@ export const iconPropTypes = {
     type: PropTypes.string,
     color: PropTypes.string,
     size: PropTypes.number,
-    style: View.propTypes.style,
+    containerStyle: View.propTypes.style,
   }),
 };
 

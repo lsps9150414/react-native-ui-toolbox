@@ -29,6 +29,9 @@ Demo App [source code](https://github.com/lsps9150414/react-native-ui-toolbox-de
 - 0.0.19:
   - [x] Give `FormDatePicker`'s `mode` prop a default value of `'date'`.
   - [x] Add `inputContainerStyle` prop to FormInputs.
+  - [x] Fix `FormInput`s icon default style being override.
+  - [x] Fix `FormTextInput` multiline style bug.
+  - [x] Fix `FormTextInput` validation style.
 
 - 0.0.18:
   - [x] FormInput components: API breaking changes. See the API docs below.

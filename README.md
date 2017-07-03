@@ -4,6 +4,7 @@ Just another collection of **cross platform** React Native UI components.
 
 ## Todo
 - [ ] Add default styles to doc
+- [ ] Add timeZoneOffset prop support to `FormDatePicker`
 
 ## Demo
 1. Get the [Expo app](https://expo.io/)
@@ -299,6 +300,7 @@ const defaultIconProps = {
 ```javascript
 const propTypes = {
   value: PropTypes.string,
+  multiline: PropTypes.bool,
 };
 ```
 > Also accepts all react native `TextInput` props except `onChangeText`, use `onValueChange` instead.
@@ -307,6 +309,7 @@ const propTypes = {
 ```javascript
 const defaultProps = {
   value: undefined,
+  multiline: undefined,
 };
 ```
 

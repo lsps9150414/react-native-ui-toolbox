@@ -12,4 +12,4 @@ export const FormPickerNative = _FormInputHOC(_FormPickerNative);
 export const FormSelect = _FormInputHOC(_FormSelect);
 export const FormTextInput = _FormInputHOC(_FormTextInput);
 
-export WrappedTouchableNativeFeedback from './WrappedTouchableNativeFeedback';
+export { default as WrappedTouchableNativeFeedback } from './WrappedTouchableNativeFeedback';

@@ -76,7 +76,7 @@ export default class FormDatePicker extends Component {
   */
   getValidDateProp = date => (_.isDate(date) ? date : null)
 
-  getValidDate = date => {
+  getValidDate = (date) => {
     if (_.isDate(date)) {
       return date;
     } else if (_.isDate(this.props.minDate)) {

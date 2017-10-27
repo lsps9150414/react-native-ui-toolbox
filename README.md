@@ -210,6 +210,23 @@ const defaultProps = {
 
 ### Common Prop Types
 ```javascript
+const FormInputHOCPropTypes = {
+  // For the wrapper component around the input field and the error.
+  wrapperStyle: View.propTypes.style,
+  // For the touchable component.
+  validContainerStyle: View.propTypes.style,
+  invalidContainerStyle: View.propTypes.style,
+  // For the value display text.
+  validInputStyle: Text.propTypes.style,
+  invalidInputStyle: Text.propTypes.style,
+
+  errorContainerStyle: View.propTypes.style,
+  errorTextStyle: View.propTypes.style,
+  errorText: PropTypes.string,
+
+  validator: PropTypes.func,
+}
+
 const inputFieldPropTypes = {
   component: PropTypes.any,
   componentProps: PropTypes.object,

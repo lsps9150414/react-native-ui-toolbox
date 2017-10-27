@@ -73,8 +73,6 @@ export default class FormSelect extends Component {
     return _.isEmpty(filteredValues);
   }
 
-  isSelected = (selectedValues, value) => _.includes(selectedValues, value)
-
   updateItemsDictionary = (items) => {
     this.itemsDictionary = {};
     items.forEach((item) => { this.itemsDictionary[item.value] = item.label; });
@@ -108,12 +106,12 @@ export default class FormSelect extends Component {
     this.handleValueChange();
   }
 
-  handleTempValueChange = (value, index) => {
+  handleTempValueChange = (value) => {
     const newTempValues = [...this.state.tempValues];
     if (_.includes(newTempValues, value)) {
-      newTempValues[index] = undefined;
+      _.pull(newTempValues, value);
     } else {
-      newTempValues[index] = value;
+      newTempValues.push(value);
     }
     this.setState({ tempValues: newTempValues });
   }
@@ -123,12 +121,12 @@ export default class FormSelect extends Component {
       return (<CheckBox title={'No Options'} />);
     }
     return (
-      this.props.items.map((item, index) => (
+      this.props.items.map(item => (
         <CheckBox
-          key={`pickerItem-${index}`}
+          key={item.value}
           title={item.label.toString()}
-          checked={this.isSelected(this.state.tempValues, item.value)}
-          onPress={() => { this.handleTempValueChange(item.value, index); }}
+          checked={_.includes(this.state.tempValues, item.value)}
+          onPress={() => { this.handleTempValueChange(item.value); }}
           {...this.props.checkBox}
         />
       ))
@@ -150,7 +148,12 @@ export default class FormSelect extends Component {
     if (this.valueIsEmpty(this.state.selectedValues)) {
       return this.props.placeholder;
     }
-    const displayArray = this.state.selectedValues
+    const itemValueOrder = this.props.items.map(item => (item.value));
+    const sortedSelectedValues = _.sortBy(this.state.selectedValues, item => (
+      itemValueOrder.indexOf(item)
+    ));
+
+    const displayArray = sortedSelectedValues
       .filter(value => value !== undefined)
       .map(value => this.itemsDictionary[value]);
 

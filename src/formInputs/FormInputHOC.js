@@ -109,8 +109,8 @@ export default (InnerComponent) => {
       const validContainerStyle = this.props.validContainerStyle;
       const validInputStyle = this.props.validInputStyle;
 
-      if (touched) {
-        if (typeof validator === 'function' && validator(value)) {
+      if (typeof validator === 'function' && touched) {
+        if (validator(value)) {
           return {
             // Note: Cannot use spread assign here b.c. style prop may be array.
             containerStyle: { default: defaultContainerStyle, specified: validContainerStyle },

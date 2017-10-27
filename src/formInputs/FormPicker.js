@@ -33,6 +33,7 @@ const propTypes = {
   modal: PropTypes.shape({
     ...modalPropTypes,
   }),
+  checkBox: PropTypes.object,
 };
 
 const defaultProps = {
@@ -121,6 +122,7 @@ export default class FormPicker extends Component {
           uncheckedIcon={'circle-o'}
           checked={_.isEqual(this.state.tempValue, item.value)}
           onPress={() => { this.handleTempValueChange(item.value); }}
+          {...this.props.checkBox}
         />
       ))
     );

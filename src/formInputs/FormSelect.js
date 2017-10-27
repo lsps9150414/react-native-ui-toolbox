@@ -33,6 +33,7 @@ const propTypes = {
   modal: PropTypes.shape({
     ...modalPropTypes,
   }),
+  checkBox: PropTypes.object,
 };
 
 const defaultProps = {
@@ -128,6 +129,7 @@ export default class FormSelect extends Component {
           title={item.label.toString()}
           checked={this.isSelected(this.state.tempValues, item.value)}
           onPress={() => { this.handleTempValueChange(item.value, index); }}
+          {...this.props.checkBox}
         />
       ))
     );

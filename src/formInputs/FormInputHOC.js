@@ -48,6 +48,7 @@ const propTypes = {
   modal: PropTypes.shape({
     ...modalPropTypes,
   }),
+  checkBox: PropTypes.object,
 };
 
 const defaultProps = {
@@ -203,6 +204,7 @@ export default (InnerComponent) => {
             contentContainerStyle={[styles.contentContainer, this.props.contentContainerStyle]}
             inputStyle={[styles.input, inputStyle.default, inputStyle.specified]}
             modal={this.props.modal}
+            checkBox={this.props.checkBox}
             icon={this.props.icon}
             // HOC inner props
             onTouched={this.handleOnTouched}

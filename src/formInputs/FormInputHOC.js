@@ -28,11 +28,9 @@ import {
 
 const propTypes = {
   value: PropTypes.any,
-  validator: PropTypes.func,
 
   // For the wrapper component around the input field and the error.
   wrapperStyle: View.propTypes.style,
-  ...stylePropTypes,
   // For the touchable component.
   validContainerStyle: View.propTypes.style,
   invalidContainerStyle: View.propTypes.style,
@@ -44,7 +42,12 @@ const propTypes = {
   errorTextStyle: View.propTypes.style,
   errorText: PropTypes.string,
 
+  validator: PropTypes.func,
+
+  // For the inner component.
+  ...stylePropTypes,
   ...iconPropTypes,
+  // For FormPicker & FormSelect.
   modal: PropTypes.shape({
     ...modalPropTypes,
   }),
@@ -191,11 +194,15 @@ export default (InnerComponent) => {
         containerStyle,
         inputStyle,
       } = this.getValidationStyles(this.state.touched, this.props.validator, this.props.value);
+      const {
+        wrapperStyle,
+        ...innerComponentProps,
+      } = this.props;
 
       return (
         <View style={[styles.wrapper, this.props.wrapperStyle]}>
           <InnerComponent
-            {...this.props}
+            {...innerComponentProps}
             containerStyle={[
               styles.innerComponentContainer,
               containerStyle.default,

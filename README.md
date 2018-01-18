@@ -27,7 +27,7 @@ Demo App [source code](https://github.com/lsps9150414/react-native-ui-toolbox-de
 - [x] FormSelect
 
 ## Change logs
-- 1.0.3:
+- 1.0.4:
   - [x] Update dependencies.
 
 - 0.0.19:

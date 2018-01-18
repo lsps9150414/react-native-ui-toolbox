@@ -1,4 +1,4 @@
-import { PropTypes } from 'react';
+import { PropTypes } from 'prop-types';
 
 /* eslint-disable max-len */
 const fontStylePropTypes = PropTypes.oneOf(['normal', 'italic']);

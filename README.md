@@ -27,6 +27,9 @@ Demo App [source code](https://github.com/lsps9150414/react-native-ui-toolbox-de
 - [x] FormSelect
 
 ## Change logs
+- 1.0.3:
+  - [x] Update dependencies.
+
 - 0.0.19:
   - [x] Give `FormDatePicker`'s `mode` prop a default value of `'date'`.
   - [x] Add `inputContainerStyle` prop to FormInputs.

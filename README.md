@@ -5,6 +5,8 @@ Just another collection of **cross platform** React Native UI components.
 ## Todo
 - [ ] Add default styles to doc
 - [ ] Add timeZoneOffset prop support to `FormDatePicker`
+- [ ] Make input a stand alone library
+- [ ] Make typography a stand alone library (or deprecate it)
 
 ## Demo
 1. Get the [Expo app](https://expo.io/)

@@ -3,10 +3,10 @@ Just another collection of **cross platform** React Native UI components.
 > Extended from react-native-community's [`react-native-elements`](https://github.com/react-native-community/react-native-elements)
 
 ## Todo
+- [ ] Make formInputs a stand alone library and deprecate typography (since https://github.com/hectahertz/react-native-typography)
 - [ ] Add default styles to doc
 - [ ] Add timeZoneOffset prop support to `FormDatePicker`
-- [ ] Make input a stand alone library
-- [ ] Deprecate typography (since https://github.com/hectahertz/react-native-typography)
+- [ ] Allow formInputs to take children/rendererFunction for rendering the touchable result display button.
 
 ## Demo
 1. Get the [Expo app](https://expo.io/)

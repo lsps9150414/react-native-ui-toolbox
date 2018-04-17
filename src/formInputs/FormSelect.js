@@ -4,11 +4,7 @@ import React, {
   Component,
 } from 'react';
 import { CheckBox } from 'react-native-elements';
-import {
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
+import { View } from 'react-native';
 
 import ModalContainer from './ModalContainer';
 import {

@@ -5,8 +5,6 @@ import React, {
 } from 'react';
 import { CheckBox } from 'react-native-elements';
 import {
-  ScrollView,
-  Text,
   View,
 } from 'react-native';
 
@@ -64,6 +62,13 @@ export default class FormPicker extends Component {
     if (!_.isEqual(nextProps.pickedValue, this.props.pickedValue)) {
       this.updateSelectedValue(nextProps.pickedValue);
     }
+  }
+
+  getDisplayText = () => {
+    if (this.valueIsEmpty(this.state.pickedValue)) {
+      return this.props.placeholder;
+    }
+    return this.itemsDictionary[this.state.pickedValue];
   }
 
   valueIsEmpty = (pickedValue) => {
@@ -138,13 +143,6 @@ export default class FormPicker extends Component {
       {this.renderItems()}
     </ModalContainer>
   )
-
-  getDisplayText = () => {
-    if (this.valueIsEmpty(this.state.pickedValue)) {
-      return this.props.placeholder;
-    }
-    return this.itemsDictionary[this.state.pickedValue];
-  }
 
   render() {
     const CustomComponent = this.props.component;

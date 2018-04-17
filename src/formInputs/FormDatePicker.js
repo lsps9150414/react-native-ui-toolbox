@@ -10,7 +10,6 @@ import {
   DatePickerAndroid,
   DatePickerIOS,
   Platform,
-  Text,
   TimePickerAndroid,
   View,
 } from 'react-native';
@@ -83,6 +82,24 @@ export default class FormDatePicker extends Component {
       return this.props.minDate;
     }
     return new Date();
+  }
+
+  getDisplayText = (mode) => {
+    if (this.valueIsEmpty(this.state.date)) {
+      return this.props.placeholder;
+    }
+    if (mode === ACCEPT_MODE_TYPES[0]) {
+      return (
+        moment(this.getValidDate(this.state.date))
+          .locale(this.props.locale)
+          .format(this.props.dateFormat)
+      );
+    }
+    return (
+      moment(this.getValidDate(this.state.date))
+        .locale(this.props.locale)
+        .format(this.props.timeFormat)
+    );
   }
 
   valueIsEmpty = date => (!_.isDate(date))
@@ -171,24 +188,6 @@ export default class FormDatePicker extends Component {
       />
     </ModalContainer>
   )
-
-  getDisplayText = (mode) => {
-    if (this.valueIsEmpty(this.state.date)) {
-      return this.props.placeholder;
-    }
-    if (mode === ACCEPT_MODE_TYPES[0]) {
-      return (
-        moment(this.getValidDate(this.state.date))
-          .locale(this.props.locale)
-          .format(this.props.dateFormat)
-      );
-    }
-    return (
-      moment(this.getValidDate(this.state.date))
-        .locale(this.props.locale)
-        .format(this.props.timeFormat)
-    );
-  }
 
   render() {
     const CustomComponent = this.props.component;

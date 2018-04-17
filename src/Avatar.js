@@ -163,40 +163,56 @@ const styles = StyleSheet.create({
   },
 });
 
-const Avatar = (props) => {
+const Avatar = ({
+  avatarContainerProps,
+  avatarContainerStyle,
+  component,
+  containerStyle,
+  editButton,
+  icon,
+  imageStyle,
+  indicator,
+  onEditPress,
+  rounded,
+  showEditButton,
+  showIndicator,
+  size,
+  source,
+  title,
+}) => {
   const renderContent = () => {
-    if (props.source) {
-      const defaultImageSize = props.size;
+    if (source) {
+      const defaultImageSize = size;
       const imageSizeStyle = { width: defaultImageSize, height: defaultImageSize };
 
       /*
       Note: imageRoundedStyle is a temp fix due to `overflow: hidden` not working on android:
       https://github.com/facebook/react-native/issues/3198
       */
-      const imageRoundedStyle = props.rounded ? { borderRadius: defaultImageSize / 2 } : null;
+      const imageRoundedStyle = rounded ? { borderRadius: defaultImageSize / 2 } : null;
 
       return (
         <Image
-          source={props.source}
-          style={[styles.image, imageSizeStyle, imageRoundedStyle, props.imageStyle]}
+          source={source}
+          style={[styles.image, imageSizeStyle, imageRoundedStyle, imageStyle]}
           resizeMode={'cover'}
         />
       );
-    } else if (props.icon.name) {
-      const iconProps = { ...defaultProps.icon, ...props.icon };
+    } else if (icon.name) {
+      const iconProps = { ...defaultProps.icon, ...icon };
 
       return (
         <Icon
           style={[styles.icon, iconProps.style]}
           name={iconProps.name}
           type={iconProps.type}
-          size={props.size * 0.8}
+          size={size * 0.8}
           color={iconProps.color}
         />
       );
-    } else if (props.title.text) {
-      const titleProps = { ...defaultProps.title, ...props.title };
-      const titleSizeStyle = { fontSize: props.size / 3 };
+    } else if (title.text) {
+      const titleProps = { ...defaultProps.title, ...title };
+      const titleSizeStyle = { fontSize: size / 3 };
       const titleColorStyle = { color: titleProps.color };
 
       return (
@@ -208,17 +224,17 @@ const Avatar = (props) => {
     return (
       <Icon
         style={styles.icon}
-        name={'person'} size={props.size * 0.8} color={'#fff'}
+        name={'person'} size={size * 0.8} color={'#fff'}
       />
     );
   };
 
   const renderUtils = () => {
-    if (props.showEditButton) {
-      const editButonProps = { ...defaultProps.editButton, ...props.editButton };
+    if (showEditButton) {
+      const editButonProps = { ...defaultProps.editButton, ...editButton };
 
-      const defaultEditButtonSize = props.size / 3;
-      const editButtonSize = props.editButton.size || defaultEditButtonSize;
+      const defaultEditButtonSize = size / 3;
+      const editButtonSize = editButton.size || defaultEditButtonSize;
       const editButtonSizeStyle = {
         width: editButtonSize,
         height: editButtonSize,
@@ -230,7 +246,7 @@ const Avatar = (props) => {
         <TouchableHighlight
           style={[styles.editButton, editButtonSizeStyle, editButonProps.style]}
           underlayColor={editButonProps.underlayColor}
-          onPress={props.onEditPress}
+          onPress={onEditPress}
         >
           <View>
             <Icon
@@ -242,11 +258,11 @@ const Avatar = (props) => {
           </View>
         </TouchableHighlight>
       );
-    } else if (props.showIndicator) {
-      const indicatorProps = { ...defaultProps.indicator, ...props.indicator };
+    } else if (showIndicator) {
+      const indicatorProps = { ...defaultProps.indicator, ...indicator };
 
-      const defaultIndicatorSize = props.size / 4;
-      const indicatorSize = props.indicator.size || defaultIndicatorSize;
+      const defaultIndicatorSize = size / 4;
+      const indicatorSize = indicator.size || defaultIndicatorSize;
       const indicatorSizeStyle = {
         width: indicatorSize,
         height: indicatorSize,
@@ -266,21 +282,21 @@ const Avatar = (props) => {
     return null;
   };
 
-  const Component = props.component;
-  const avatarSize = { width: props.size, height: props.size };
-  const avatarRoundedStyle = props.rounded ? { borderRadius: props.size / 2 } : null;
+  const Component = component;
+  const avatarSize = { width: size, height: size };
+  const avatarRoundedStyle = rounded ? { borderRadius: size / 2 } : null;
 
   return (
-    <View style={[styles.container, props.containerStyle]}>
+    <View style={[styles.container, containerStyle]}>
       {/* This layer of View is for container to alignItems: flex-start */}
       <View>
         <Component
-          {...props.avatarContainerProps}
+          {...avatarContainerProps}
           style={[
             styles.avatarContainer,
             avatarSize,
             avatarRoundedStyle,
-            props.avatarContainerStyle,
+            avatarContainerStyle,
           ]}
         >
           {renderContent()}

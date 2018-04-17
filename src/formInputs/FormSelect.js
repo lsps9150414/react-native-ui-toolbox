@@ -4,7 +4,9 @@ import React, {
   Component,
 } from 'react';
 import { CheckBox } from 'react-native-elements';
-import { View } from 'react-native';
+import {
+  View,
+} from 'react-native';
 
 import ModalContainer from './ModalContainer';
 import {
@@ -60,6 +62,22 @@ export default class FormSelect extends Component {
     if (!_.isEqual(nextProps.selectedValues, this.props.selectedValues)) {
       this.updateSelectedValues(nextProps.selectedValues);
     }
+  }
+
+  getDisplayText = () => {
+    if (this.valueIsEmpty(this.state.selectedValues)) {
+      return this.props.placeholder;
+    }
+    const itemValueOrder = this.props.items.map(item => (item.value));
+    const sortedSelectedValues = _.sortBy(this.state.selectedValues, item => (
+      itemValueOrder.indexOf(item)
+    ));
+
+    const displayArray = sortedSelectedValues
+      .filter(value => value !== undefined)
+      .map(value => this.itemsDictionary[value]);
+
+    return _.join(displayArray, ', ');
   }
 
   getValidSelectedValues = selectedValues => (_.isArray(selectedValues) ? selectedValues : [])
@@ -139,22 +157,6 @@ export default class FormSelect extends Component {
       {this.renderItems()}
     </ModalContainer>
   )
-
-  getDisplayText = () => {
-    if (this.valueIsEmpty(this.state.selectedValues)) {
-      return this.props.placeholder;
-    }
-    const itemValueOrder = this.props.items.map(item => (item.value));
-    const sortedSelectedValues = _.sortBy(this.state.selectedValues, item => (
-      itemValueOrder.indexOf(item)
-    ));
-
-    const displayArray = sortedSelectedValues
-      .filter(value => value !== undefined)
-      .map(value => this.itemsDictionary[value]);
-
-    return _.join(displayArray, ', ');
-  }
 
   render() {
     const CustomComponent = this.props.component;

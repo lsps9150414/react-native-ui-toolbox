@@ -1,6 +1,6 @@
 {
-    "extends": "airbnb",
     "parser": "babel-eslint",
+    "extends": "airbnb",
     "installedESLint": true,
     "plugins": [
         "react",
@@ -8,6 +8,22 @@
         "import"
     ],
     "rules": {
+      "comma-dangle": [
+        "error",
+        {
+          "arrays": "always-multiline",
+          "objects": "always-multiline",
+          "imports": "always-multiline",
+          "exports": "always-multiline",
+          "functions": "ignore"
+        }
+      ],
+      "no-trailing-spaces": [
+        "error",
+        {
+          "skipBlankLines": false
+        }
+      ],
       "import/no-extraneous-dependencies": [
         "error",
         {

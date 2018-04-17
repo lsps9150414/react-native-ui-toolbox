@@ -1,7 +1,7 @@
 import {
   Text,
   TouchableOpacity,
-  View,
+  ViewPropTypes,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -29,9 +29,9 @@ export const defaultInputFieldProps = {
 
 // Styles
 export const stylePropTypes = {
-  containerStyle: View.propTypes.style,
-  contentContainerStyle: View.propTypes.style,
-  inputContainerStyle: View.propTypes.style,
+  containerStyle: ViewPropTypes.style,
+  contentContainerStyle: ViewPropTypes.style,
+  inputContainerStyle: ViewPropTypes.style,
   inputStyle: Text.propTypes.style,
 };
 
@@ -43,12 +43,12 @@ export const modalPropTypes = {
   controlBarPosition: PropTypes.oneOf(['top', 'bottom']),
   height: PropTypes.number,
   fullScreen: PropTypes.bool,
-  containerStyle: View.propTypes.style,
-  bodyContainerStyle: View.propTypes.style,
-  bodyContentContainerStyle: View.propTypes.style,
-  controlBarStyle: View.propTypes.style,
-  cancelBtnStyle: View.propTypes.style,
-  confirmBtnStyle: View.propTypes.style,
+  containerStyle: ViewPropTypes.style,
+  bodyContainerStyle: ViewPropTypes.style,
+  bodyContentContainerStyle: ViewPropTypes.style,
+  controlBarStyle: ViewPropTypes.style,
+  cancelBtnStyle: ViewPropTypes.style,
+  confirmBtnStyle: ViewPropTypes.style,
   cancelBtnTextStyle: Text.propTypes.style,
   confirmBtnTextStyle: Text.propTypes.style,
 };
@@ -78,7 +78,7 @@ export const iconPropTypes = {
     type: PropTypes.string,
     color: PropTypes.string,
     size: PropTypes.number,
-    containerStyle: View.propTypes.style,
+    containerStyle: ViewPropTypes.style,
   }),
 };
 

@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  ViewPropTypes,
 } from 'react-native';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
@@ -26,10 +27,10 @@ const propTypes = {
   ]),
   size: PropTypes.number,
   rounded: PropTypes.bool,
-  containerStyle: View.propTypes.style,
+  containerStyle: ViewPropTypes.style,
 
   avatarContainerProps: PropTypes.object,
-  avatarContainerStyle: View.propTypes.style,
+  avatarContainerStyle: ViewPropTypes.style,
 
   source: Image.propTypes.source,
   imageStyle: Image.propTypes.style,
@@ -38,7 +39,7 @@ const propTypes = {
     name: PropTypes.string,
     type: PropTypes.string,
     color: PropTypes.string,
-    style: View.propTypes.style,
+    style: ViewPropTypes.style,
   }),
 
   title: PropTypes.shape({
@@ -55,7 +56,7 @@ const propTypes = {
     iconType: PropTypes.string,
     iconColor: PropTypes.string,
     underlayColor: PropTypes.string,
-    style: View.propTypes.style,
+    style: ViewPropTypes.style,
   }),
 
   showIndicator: PropTypes.bool,
@@ -66,7 +67,7 @@ const propTypes = {
       color: PropTypes.string,
     })),
     status: PropTypes.string,
-    style: View.propTypes.style,
+    style: ViewPropTypes.style,
   }),
 };
 

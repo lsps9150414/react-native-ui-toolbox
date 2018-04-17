@@ -1,11 +1,12 @@
-import PropTypes from 'prop-types';
-import React from 'react';
 import {
   Platform,
   TouchableNativeFeedback,
   TouchableOpacity,
   View,
+  ViewPropTypes,
 } from 'react-native';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import { DEFAULT_COLORS } from '../constants/colors';
 
@@ -14,7 +15,7 @@ const propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
   onPress: PropTypes.func,
   rippleColor: PropTypes.string,
 };

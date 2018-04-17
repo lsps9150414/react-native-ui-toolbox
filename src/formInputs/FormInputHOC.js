@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Text,
   View,
+  ViewPropTypes,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -28,16 +29,16 @@ const propTypes = {
   value: PropTypes.any,
 
   // For the wrapper component around the input field and the error.
-  wrapperStyle: View.propTypes.style,
+  wrapperStyle: ViewPropTypes.style,
   // For the touchable component.
-  validContainerStyle: View.propTypes.style,
-  invalidContainerStyle: View.propTypes.style,
+  validContainerStyle: ViewPropTypes.style,
+  invalidContainerStyle: ViewPropTypes.style,
   // For the value display text.
   validInputStyle: Text.propTypes.style,
   invalidInputStyle: Text.propTypes.style,
 
-  errorContainerStyle: View.propTypes.style,
-  errorTextStyle: View.propTypes.style,
+  errorContainerStyle: ViewPropTypes.style,
+  errorTextStyle: ViewPropTypes.style,
   errorText: PropTypes.string,
 
   validator: PropTypes.func,

@@ -196,7 +196,7 @@ export default (InnerComponent) => {
       } = this.getValidationStyles(this.state.touched, this.props.validator, this.props.value);
       const {
         wrapperStyle,
-        ...innerComponentProps,
+        ...innerComponentProps
       } = this.props;
 
       return (

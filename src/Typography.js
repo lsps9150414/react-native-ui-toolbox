@@ -1,15 +1,19 @@
+/* eslint-disable react/no-multi-comp */
+
 import React, { Component } from 'react';
 import { Text } from 'react-native';
 
-import themeProptypes from './constants/themeProptypes';
 import { DEFAULT_COLORS } from './constants/colors';
+import themeProptypes from './constants/themeProptypes';
 
 const propTypes = {
   ...Text.propTypes,
   theme: themeProptypes,
 };
 
-const defaultProps = {};
+const defaultProps = {
+  theme: {},
+};
 
 const defaultTheme = {
   fontSizeBase: 12,
@@ -21,7 +25,7 @@ const defaultTheme = {
 // Heading
 export class Heading extends Component {
   render() {
-    const theme = this.props.theme;
+    const { theme } = this.props;
     return (
       <Text
         {...this.props}
@@ -71,7 +75,7 @@ Heading.defaultProps = defaultProps;
 // Title
 export class Title extends Component {
   render() {
-    const theme = this.props.theme;
+    const { theme } = this.props;
     return (
       <Text
         {...this.props}
@@ -121,7 +125,7 @@ Title.defaultProps = defaultProps;
 // Subtitle
 export class Subtitle extends Component {
   render() {
-    const theme = this.props.theme;
+    const { theme } = this.props;
     return (
       <Text
         {...this.props}
@@ -171,7 +175,7 @@ Subtitle.defaultProps = defaultProps;
 // BodyText
 export class BodyText extends Component {
   render() {
-    const theme = this.props.theme;
+    const { theme } = this.props;
     return (
       <Text
         {...this.props}

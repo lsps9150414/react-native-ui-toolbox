@@ -1,12 +1,8 @@
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import React, {
-  Component,
-} from 'react';
+import React, { Component } from 'react';
 import { CheckBox } from 'react-native-elements';
-import {
-  View,
-} from 'react-native';
+import { View } from 'react-native';
 
 import ModalContainer from './ModalContainer';
 import {
@@ -132,7 +128,7 @@ export default class FormSelect extends Component {
 
   renderItems = () => {
     if (this.props.items.length === 0) {
-      return (<CheckBox title={'No Options'} />);
+      return (<CheckBox title="No Options" />);
     }
     return (
       this.props.items.map(item => (

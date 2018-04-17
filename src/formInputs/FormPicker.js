@@ -1,12 +1,8 @@
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import React, {
-  Component,
-} from 'react';
+import React, { Component } from 'react';
 import { CheckBox } from 'react-native-elements';
-import {
-  View,
-} from 'react-native';
+import { View } from 'react-native';
 
 import ModalContainer from './ModalContainer';
 import {
@@ -116,15 +112,15 @@ export default class FormPicker extends Component {
 
   renderItems = () => {
     if (this.props.items.length === 0) {
-      return (<CheckBox title={'No Options'} />);
+      return (<CheckBox title="No Options" />);
     }
     return (
       this.props.items.map((item, index) => (
         <CheckBox
           key={`pickerItem-${index}`}
           title={item.label.toString()}
-          checkedIcon={'dot-circle-o'}
-          uncheckedIcon={'circle-o'}
+          checkedIcon="dot-circle-o"
+          uncheckedIcon="circle-o"
           checked={_.isEqual(this.state.tempValue, item.value)}
           onPress={() => { this.handleTempValueChange(item.value); }}
           {...this.props.checkBox}

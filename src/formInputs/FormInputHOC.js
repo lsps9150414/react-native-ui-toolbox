@@ -3,9 +3,7 @@ Add validation, icon rendering to InnerComponent
 */
 
 import PropTypes from 'prop-types';
-import React, {
-  Component,
-} from 'react';
+import React, { Component } from 'react';
 import { Icon } from 'react-native-elements';
 import {
   StyleSheet,
@@ -180,7 +178,7 @@ export default (InnerComponent) => {
         <View style={[styles.inputContainer, this.props.inputContainerStyle]}>
           <Text
             style={[styles.input, inputStyle.default, inputStyle.specified]}
-            ellipsizeMode={'tail'}
+            ellipsizeMode="tail"
             numberOfLines={1}
           >
             {displayText}

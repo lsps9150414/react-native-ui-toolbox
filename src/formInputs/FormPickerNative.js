@@ -1,8 +1,6 @@
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import React, {
-  Component,
-} from 'react';
+import React, { Component } from 'react';
 import {
   Picker,
   Platform,
@@ -167,7 +165,7 @@ export default class FormPicker extends Component {
           style={[{ flex: 1 }, this.props.inputStyle]}
           pickedValue={this.state.pickedValue}
           onValueChange={this.androidHandleValueChange}
-          mode={'dialog'}
+          mode="dialog"
         >
           {this.renderPickerItems()}
         </Picker>
@@ -177,7 +175,7 @@ export default class FormPicker extends Component {
 
   renderPickerItems = () => {
     if (this.props.items.length === 0) {
-      return (<Picker.Item label={'No Options'} value={null} />);
+      return (<Picker.Item label="No Options" value={null} />);
     }
     return (
       this.props.items.map((item, index) => (

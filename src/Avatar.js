@@ -1,6 +1,3 @@
-import _ from 'lodash';
-import PropTypes from 'prop-types';
-import React from 'react';
 import { Icon } from 'react-native-elements';
 import {
   Image,
@@ -13,6 +10,9 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
+import _ from 'lodash';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import { DEFAULT_COLORS } from './constants/colors';
 
@@ -195,7 +195,7 @@ const Avatar = ({
         <Image
           source={source}
           style={[styles.image, imageSizeStyle, imageRoundedStyle, imageStyle]}
-          resizeMode={'cover'}
+          resizeMode="cover"
         />
       );
     } else if (icon.name) {
@@ -224,7 +224,9 @@ const Avatar = ({
     return (
       <Icon
         style={styles.icon}
-        name={'person'} size={size * 0.8} color={'#fff'}
+        name="person"
+        size={size * 0.8}
+        color="#fff"
       />
     );
   };

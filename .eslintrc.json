@@ -1,7 +1,6 @@
 {
     "parser": "babel-eslint",
     "extends": "airbnb",
-    "installedESLint": true,
     "plugins": [
         "react",
         "jsx-a11y",
@@ -33,6 +32,10 @@
         }
       ],
       "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-      "react/prefer-stateless-function": ["off"]
+      "react/prefer-stateless-function": ["off"],
+      "react/forbid-prop-types": [
+        "off",
+        "allow object proptype"
+      ]
     }
 }

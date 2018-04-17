@@ -3,9 +3,7 @@ import 'moment/min/locales';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import React, {
-  Component,
-} from 'react';
+import React, { Component } from 'react';
 import {
   DatePickerAndroid,
   DatePickerIOS,
@@ -129,7 +127,9 @@ export default class FormDatePicker extends Component {
   androidShowPicker = async () => {
     if (this.props.mode === ACCEPT_MODE_TYPES[0]) {
       try {
-        const { action, year, month, day } = await DatePickerAndroid.open({
+        const {
+          action, year, month, day,
+        } = await DatePickerAndroid.open({
           date: this.getValidDate(this.state.date),
           minDate: this.props.minDate,
           maxDate: this.props.maxDate,

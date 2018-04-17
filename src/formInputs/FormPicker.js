@@ -1,10 +1,9 @@
-import _ from 'lodash';
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { CheckBox } from 'react-native-elements';
 import { View } from 'react-native';
+import _ from 'lodash';
+import PropTypes from 'prop-types';
 
-import ModalContainer from './ModalContainer';
 import {
   defaultInputFieldProps,
   iconPropTypes,
@@ -12,6 +11,7 @@ import {
   modalPropTypes,
   stylePropTypes,
 } from './proptypes';
+import ModalContainer from './ModalContainer';
 
 const ACCEPT_VALUE_TYPES = [PropTypes.string, PropTypes.number, PropTypes.bool];
 const ACCEPT_LABEL_TYPES = [PropTypes.string, PropTypes.number];
@@ -115,9 +115,9 @@ export default class FormPicker extends Component {
       return (<CheckBox title="No Options" />);
     }
     return (
-      this.props.items.map((item, index) => (
+      this.props.items.map(item => (
         <CheckBox
-          key={`pickerItem-${index}`}
+          key={`pickerItem-${item.value}`}
           title={item.label.toString()}
           checkedIcon="dot-circle-o"
           uncheckedIcon="circle-o"

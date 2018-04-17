@@ -1,5 +1,3 @@
-import _ from 'lodash';
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
   Picker,
@@ -8,14 +6,16 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import _ from 'lodash';
+import PropTypes from 'prop-types';
 
-import ModalContainer from './ModalContainer';
 import {
   iconPropTypes,
   inputFieldPropTypes,
   modalPropTypes,
   stylePropTypes,
 } from './proptypes';
+import ModalContainer from './ModalContainer';
 
 const ACCEPT_VALUE_TYPES = [PropTypes.string, PropTypes.number, PropTypes.bool];
 const ACCEPT_LABEL_TYPES = [PropTypes.string, PropTypes.number];
@@ -178,8 +178,8 @@ export default class FormPicker extends Component {
       return (<Picker.Item label="No Options" value={null} />);
     }
     return (
-      this.props.items.map((item, index) => (
-        <Picker.Item key={`pickerItem-${index}`} label={item.label} value={item.value} />
+      this.props.items.map(item => (
+        <Picker.Item key={`pickerItem-${item.value}`} label={item.label} value={item.value} />
       ))
     );
   }

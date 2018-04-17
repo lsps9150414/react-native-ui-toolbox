@@ -2,7 +2,6 @@
 Add validation, icon rendering to InnerComponent
 */
 
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Icon } from 'react-native-elements';
 import {
@@ -10,6 +9,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import PropTypes from 'prop-types';
 
 import { DEFAULT_COLORS } from '../constants/colors';
 import {
@@ -104,12 +104,14 @@ export default (InnerComponent) => {
     }
 
     getValidationStyles(touched, validator, value) {
-      const defaultContainerStyle = this.props.containerStyle;
-      const defaultInputStyle = this.props.inputStyle;
-      const invalidContainerStyle = this.props.invalidContainerStyle;
-      const invalidInputStyle = this.props.invalidInputStyle;
-      const validContainerStyle = this.props.validContainerStyle;
-      const validInputStyle = this.props.validInputStyle;
+      const {
+        containerStyle: defaultContainerStyle,
+        inputStyle: defaultInputStyle,
+        invalidContainerStyle,
+        invalidInputStyle,
+        validContainerStyle,
+        validInputStyle,
+      } = this.props;
 
       if (typeof validator === 'function' && touched) {
         if (validator(value)) {

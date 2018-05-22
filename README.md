@@ -3,12 +3,14 @@ Just another collection of **cross platform** React Native UI components.
 > Extended from react-native-community's [`react-native-elements`](https://github.com/react-native-community/react-native-elements)
 
 ## Demo
-![Imgur](https://i.imgur.com/xhvVmsX.gif)
+![app screenshot](https://i.imgur.com/xhvVmsX.gif)
+
+### Expo:
+![expo demo link](https://i.imgur.com/GNd4hyJ.png)
 
 1. Get the [Expo app](https://expo.io/)
-2. Open the Expo app, go to the "Explore" tab.
-3. Search for: `exp.host/@czphilip/demoapp`.
-4. BOOM!
+2. Open the Expo app, scan the QR code above or go to the "Explore" tab and search for: `exp.host/@czphilip/react-native-ui-toolbox-demo`.
+3. BOOM!
 
 Demo App [source code](https://github.com/lsps9150414/react-native-ui-toolbox-demo/blob/master/App.js)
 

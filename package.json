@@ -1,6 +1,6 @@
 {
   "name": "react-native-ui-toolbox",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Just another collection of react native ui components.",
   "main": "src/index.js",
   "scripts": {
@@ -37,7 +37,7 @@
     "react-native": "^0.55.2",
     "react-native-elements": "^0.19.1"
   },
-  "peerDependeincies": {
+  "peerDependencies": {
     "prop-types": "*",
     "react": "^16.0.0-alpha.6",
     "react-native": "^0.44.0",

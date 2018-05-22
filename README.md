@@ -5,7 +5,7 @@ Just another collection of **cross platform** React Native UI components.
 ## Demo
 ![app screenshot](https://i.imgur.com/xhvVmsX.gif)
 
-### Expo:
+### Expo (Android only):
 ![expo demo link](https://i.imgur.com/GNd4hyJ.png)
 
 1. Get the [Expo app](https://expo.io/)

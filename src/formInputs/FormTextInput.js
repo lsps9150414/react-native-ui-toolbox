@@ -15,6 +15,7 @@ import {
 
 const propTypes = {
   value: PropTypes.string,
+  getRef: PropTypes.func,
   ...stylePropTypes,
   ...inputFieldPropTypes,
   ...stylePropTypes,
@@ -41,6 +42,7 @@ export default class FormTextInput extends Component {
         <View style={[this.props.contentContainerStyle]}>
           {this.props.showIcon && this.props.renderIcon()}
           <TextInput
+            ref={this.props.getRef}
             underlineColorAndroid="transparent"
             {...this.props}
             value={this.props.value}

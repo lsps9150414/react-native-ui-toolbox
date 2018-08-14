@@ -327,6 +327,7 @@ const defaultIconProps = {
 const propTypes = {
   value: PropTypes.string,
   multiline: PropTypes.bool,
+  getRef: PropTypes.func,
 };
 ```
 > Also accepts all react native `TextInput` props except `onChangeText`, use `onValueChange` instead.

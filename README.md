@@ -33,6 +33,9 @@ Demo App [source code](https://github.com/lsps9150414/react-native-ui-toolbox-de
 - [x] FormSelect
 
 ## Change logs
+- 1.1.4:
+  - [x] add `getRef` for `FormTextInput`.
+
 - 1.0.4:
   - [x] Update dependencies.
 

@@ -38,7 +38,7 @@ const propTypes = {
   invalidInputStyle: Text.propTypes.style,
 
   errorContainerStyle: ViewPropTypes.style,
-  errorTextStyle: ViewPropTypes.style,
+  errorTextStyle: Text.propTypes.style,
   errorText: PropTypes.string,
 
   validator: PropTypes.func,
